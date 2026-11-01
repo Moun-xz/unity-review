@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>设计题速查表 · 课设 20 题</title>
+<style>
+  :root{
+    --ink:#22282f; --sub:#5d6673; --line:#e2e7ee; --soft:#fbf8f2;
+    --accent:#b4530a; --tech:#0f6e56; --paper:#fff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:18px 20px 28px; background:#f4f5f7; color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC",-apple-system,sans-serif;
+    font-size:14px; line-height:1.6;
+  }
+  .sheet{max-width:820px; margin:0 auto; background:var(--paper); padding:20px 22px 24px;
+    border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  header{border-bottom:2px solid var(--accent); padding-bottom:8px; margin-bottom:10px}
+  h1{margin:0; font-size:18px; font-weight:600; letter-spacing:.3px}
+  h1 small{font-weight:400; font-size:12px; color:var(--sub); margin-left:8px; letter-spacing:0}
+  .meta{margin:4px 0 0; font-size:11.5px; color:var(--sub)}
+  .tip{margin:8px 0 12px; padding:6px 10px; background:var(--soft); border-left:3px solid var(--accent);
+    border-radius:0 5px 5px 0; font-size:11.5px; color:#6a4a2a; line-height:1.55}
+
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:7px}
+  .card{border:1px solid var(--line); border-radius:6px; padding:6px 8px 7px; break-inside:avoid}
+  .card h3{margin:0 0 3px; font-size:11.5px; font-weight:600; line-height:1.35}
+  .card .n{color:var(--accent); margin-right:4px; font-variant-numeric:tabular-nums}
+  .card p{margin:0; font-size:10.5px; line-height:1.45; color:#39414c}
+  .card .lbl{color:#9aa3ad; font-size:10px; margin-right:2px}
+  .card .k{color:var(--tech); font-weight:600}
+  .card .s{color:#646d79}
+  .card .d{color:var(--accent); font-weight:600}
+  .card p+p{margin-top:2px}
+
+  .pb{break-before:page; page-break-before:always; margin-top:22px}
+
+  h2{font-size:14px; font-weight:600; margin:0 0 8px; padding-left:8px; border-left:3px solid var(--accent)}
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  table{width:100%; border-collapse:collapse; font-size:10.5px}
+  th,td{text-align:left; padding:3px 6px; border-bottom:1px solid var(--line); vertical-align:top}
+  th{color:var(--sub); font-weight:500; background:var(--soft)}
+  td.k{color:var(--tech); font-weight:600; white-space:nowrap}
+  ol,ul{margin:0; padding-left:18px; font-size:10.5px; line-height:1.6}
+  li{margin-bottom:2px}
+  .box{border:1px solid var(--line); border-radius:6px; padding:8px 10px; margin-bottom:12px; break-inside:avoid}
+  .box p{margin:0 0 4px; font-size:10.5px; line-height:1.55}
+  .box p:last-child{margin-bottom:0}
+  .hl{background:#fef3e2; color:#8a4a08; padding:0 2px; border-radius:2px}
+  .step{font-size:10.5px; color:#39414c}
+  .step b{color:var(--accent); font-weight:600}
+
+  @media print{
+    body{padding:0; background:#fff; font-size:12px}
+    .sheet{max-width:none; padding:0; box-shadow:none; border-radius:0}
+    @page{size:A4; margin:10mm 9mm}
+    .grid{gap:5px}
+    .card{padding:4px 6px 5px}
+    .card p{font-size:9px; line-height:1.35}
+    .card h3{font-size:10px}
+    .tip{font-size:9.5px; margin:6px 0 8px; padding:4px 8px}
+    h1{font-size:15px}
+    .meta{font-size:9.5px}
+    table,ol,ul,.box p,.step{font-size:9px}
+    .two{gap:10px}
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header>
+  <h1>设计题速查表 · 课程设计 20 题<small>第三大题 40 分备用</small></h1>
+  <p class="meta">来源：《游戏开发技术课程设计执行计划书》授课教师 · 每题三行 = 功能要点 / 必写技术词（绿） / 实现四步</p>
+</header>
+
+<div class="tip"><b>用法：</b>先看题目属于哪一类，把「技术」那行的词挑 3 个写进答案，再用「步骤」那行当第一二三步。绿色词是老师的评分关键词，一个都别漏；橙色数字是现成的、能让答案显得具体的数字。</div>
+
+<div class="grid">
+
+<div class="card"><h3><span class="n">01</span>赛博朋克 2D 太空射击</h3>
+<p><span class="lbl">功能</span>玩家控船射击｜<span class="d">≥3</span> 种敌人（冲锋/弹幕/追踪）｜<span class="d">≥2</span> 种子弹（激光/散射）｜射击特效｜<span class="d">≥2</span> 关卡 + Boss</p>
+<p><span class="lbl">技术</span><span class="k">Rigidbody2D</span> / <span class="k">碰撞检测</span> · <span class="k">对象池</span> · <span class="k">FSM 状态机</span> · <span class="k">Particle</span> · <span class="k">AudioSource</span></p>
+<p><span class="lbl">步骤</span><span class="s">搭场景 + 平滑移动与边界 → 子弹与对象池（降实例化开销）→ 敌人类派生 + 协程/状态机做攻击模式 → UI（血条/得分/切关）+ 特效音频</span></p></div>
+
+<div class="card"><h3><span class="n">02</span>传统中国风五子棋</h3>
+<p><span class="lbl">功能</span>本地双人｜落子音效与动画｜实时判胜负（横竖斜 <span class="d">5</span> 连）｜悔棋/认输/重开｜界面典雅</p>
+<p><span class="lbl">技术</span><span class="k">二维数组</span>或哈希表存棋盘 · <span class="k">射线检测 Raycasting</span> 取点击位 · <span class="k">UI Layout</span> · <span class="k">委托与事件</span></p>
+<p><span class="lbl">步骤</span><span class="s">棋盘 UI / 3D 网格 + 逻辑坐标系 → 鼠标射线或 UI 点击转逻辑坐标 → 四方向（横/竖/两斜）计数判胜 → 历史步骤栈做悔棋 + 菜单</span></p></div>
+
+<div class="card"><h3><span class="n">03</span>地牢探险回合制 RPG</h3>
+<p><span class="lbl">功能</span>剧情引导与对话｜网格/多层地图地形｜技能动画 + 受击特效｜属性成长 + 背包 + 装备</p>
+<p><span class="lbl">技术</span><span class="k">ScriptableObject</span>（物品与属性）· <span class="k">UI Canvas + TextMeshPro</span> · <span class="k">Animator</span> 状态切换 · 寻路/格子移动</p>
+<p><span class="lbl">步骤</span><span class="s">SO 定义敌人与道具（数据逻辑解耦）→ 地图 + 网格移动 / 回合指令菜单 → Battle Manager 管行动顺序、伤害、技能、UI 反馈 → 剧情触发器 + 过渡场景</span></p></div>
+
+<div class="card"><h3><span class="n">04</span>奇幻风塔防</h3>
+<p><span class="lbl">功能</span>带路径地图｜<span class="d">≥2</span> 种塔（单体箭塔/范围魔法塔）｜<span class="d">≥2</span> 种敌（血量速度不同）｜波次管理 + 金币经济</p>
+<p><span class="lbl">技术</span><span class="k">NavMesh</span> 或 <span class="k">Waypoint</span> 移动 · <span class="k">Physics2D.OverlapCircle</span> 或 <span class="k">Trigger</span> 判范围 · <span class="k">对象池</span> · <span class="k">UI 动态生成</span></p>
+<p><span class="lbl">步骤</span><span class="s">Waypoint 数组规划路线 → 建造系统：点格子扣金币生成塔 → 塔持续检测范围内敌人、攻击并生成子弹特效 → 波次管理器 + 全灭或基地归零判胜负</span></p></div>
+
+<div class="card"><h3><span class="n">05</span>3D 横版跑酷</h3>
+<p><span class="lbl">功能</span>动态生成障碍地图｜小地图预览｜滑铲/跳跃/冲刺特效动画｜<span class="d">≥2</span> 种药水特技（加速/无敌/磁铁）</p>
+<p><span class="lbl">技术</span><span class="k">CharacterController</span> 或 Rigidbody · <span class="k">Render Texture</span>（小地图）· <span class="k">Blend Tree</span> 动画过渡 · <span class="k">对象池</span></p>
+<p><span class="lbl">步骤</span><span class="s">角色自动前跑 + 输入响应跳跃变道滑铲 → 轨道生成器随机组合路块障碍金币 → 副相机 + RT 在主界面右上角渲染小地图 → buff 系统用计时协程控时长</span></p></div>
+
+<div class="card"><h3><span class="n">06</span>拟真物理台球</h3>
+<p><span class="lbl">功能</span>球房场景｜斯诺克规则（计分、红彩交替）｜击球动画 + 进球音效｜真实物理（弹性碰撞/摩擦/加塞）</p>
+<p><span class="lbl">技术</span><span class="k">Physics 2D/3D 刚体</span> · <span class="k">Physics Material</span>（摩擦与弹力）· <span class="k">LineRenderer</span> 瞄准线 · <span class="k">射线检测</span>控力度</p>
+<p><span class="lbl">步骤</span><span class="s">摆桌摆球 + 配物理材质 → 鼠标拖拽改角度、LineRenderer 画动态瞄准线 → 按拉伸距离算冲量（Impulse）给白球 → 裁判脚本判进球/犯规/计分</span></p></div>
+
+<div class="card"><h3><span class="n">07</span>低多边形 3D 赛车</h3>
+<p><span class="lbl">功能</span><span class="d">≥2</span> 条赛道（森林/城市）｜<span class="d">≥2</span> 种性能不同赛车｜弯道 + 加速带｜漂移与氮气特效 + UI 速度表盘</p>
+<p><span class="lbl">技术</span><span class="k">WheelCollider</span> · <span class="k">Cinemachine</span> 虚拟相机（平滑追尾 + 震动）· <span class="k">Particle</span> · <span class="k">UI Slider</span></p>
+<p><span class="lbl">步骤</span><span class="s">WheelCollider 搭车辆 + 调悬挂驱动摩擦 → Cinemachine 追踪、过弯动态偏移 → Checkpoint 记圈数与排名 → 氮气加速屏幕模糊或粒子加速特效</span></p></div>
+
+<div class="card"><h3><span class="n">08</span>经典图标连连看</h3>
+<p><span class="lbl">功能</span><span class="d">≥4</span> 种图标｜实时计时计分｜连线特效 + 消除音效｜洗牌与提示</p>
+<p><span class="lbl">技术</span><span class="k">二维数组</span>存面板 · <span class="k">BFS</span> 或 <span class="k">A*</span> 检测转折 <span class="d">≤2</span> · <span class="k">GridLayoutGroup</span></p>
+<p><span class="lbl">步骤</span><span class="s">二维数组随机初始化 + UI 动态生成格子 → 点两个图标，寻路判断两点间折线拐弯是否 ≤2 → 满足则 LineRenderer 连线特效、消除加分 → 死局检测 + 自动重排</span></p></div>
+
+<div class="card"><h3><span class="n">09</span>2D 街机格斗</h3>
+<p><span class="lbl">功能</span><span class="d">≥4</span> 种独特招式角色｜血量计时计分｜界面合理｜多回合、<span class="d">三局两胜</span></p>
+<p><span class="lbl">技术</span><span class="k">Animator</span> 状态机（帧事件触发攻击判定）· <span class="k">BoxCollider2D</span> 攻击盒与受击盒分离 · <span class="k">Input Buffer</span> 输入缓冲</p>
+<p><span class="lbl">步骤</span><span class="s">动画帧序列划分站立/移动/攻击/受击/倒地 → 攻击动画特定帧用 <span class="k">Animation Event</span> 开判定框，检测与对方受击盒重叠 → 血量与回合胜负判定 → UI 倒计时 + 结算</span></p></div>
+
+<div class="card"><h3><span class="n">10</span>四人国标麻将</h3>
+<p><span class="lbl">功能</span>主流规则（四川血战/立直）｜1 玩家 + <span class="d">3</span> AI｜界面清晰｜实时计分 + 碰杠胡音效</p>
+<p><span class="lbl">技术</span><span class="k">List/Dictionary</span> 管牌堆手牌 · <span class="k">状态机</span>管出牌轮次 · 简单 <span class="k">AI 决策</span> · UI 动态交互</p>
+<p><span class="lbl">步骤</span><span class="s">定义牌结构（万条筒字共 <span class="d">136</span> 张）+ 洗牌发牌 → 出牌摸牌与吃碰杠胡判定 → 3 个 AI 基础决策（先打单张、试凑顺子刻子）→ 结算面板 + 音效</span></p></div>
+
+<div class="card"><h3><span class="n">11</span>海岛荒野生存探险</h3>
+<p><span class="lbl">功能</span>3D 海岛（沙滩/森林）｜<span class="d">≥3</span> 种敌人（野猪/野人/毒蛇）｜生存 UI（血量饥饿）｜音效与环境特效（天气、草木摇曳）</p>
+<p><span class="lbl">技术</span><span class="k">Terrain</span> 地形系统 · <span class="k">NavMesh</span> 寻路 · <span class="k">第一/第三人称控制器</span> · <span class="k">Audio Mixer</span> 混音</p>
+<p><span class="lbl">步骤</span><span class="s">Terrain 雕刻海岛 + 加树草水体 → 玩家移动、视角转动、攻击采集 → 敌人巡逻、发现玩家、攻击的 AI → 昼夜循环 + 基础环境音</span></p></div>
+
+<div class="card"><h3><span class="n">12</span>经典三消</h3>
+<p><span class="lbl">功能</span>经典消除规则｜<span class="d">≥5</span> 种宝石图标｜关卡界面｜连锁消除 + 全屏炸弹特效 + 音效</p>
+<p><span class="lbl">技术</span><span class="k">二维矩阵</span>坐标计算 · <span class="k">协程 Coroutine</span> 控下落与补充动画 · <span class="k">递归</span>检查全盘可消除项</p>
+<p><span class="lbl">步骤</span><span class="s">生成 <span class="d">8×8</span> 矩阵并保证开局无天然连线 → 鼠标交换相邻宝石，不成三连则弹回 → 横竖三连及以上检测、消除、上方下落补全 → 连击（Combo）积分 + 粒子特效</span></p></div>
+
+<div class="card"><h3><span class="n">13</span>益智连线迷宫 / 练练看</h3>
+<p><span class="lbl">功能</span>特定连接规则关卡｜<span class="d">≥5</span> 种颜色节点｜操作简单友好｜连线音效特效 + 实时计分</p>
+<p><span class="lbl">技术</span><span class="k">LineRenderer</span> 实时绘平滑曲线 · <span class="k">UI 坐标转换</span> · <span class="k">网格连线逻辑</span>判断</p>
+<p><span class="lbl">步骤</span><span class="s">网格上随机生成配对同色终点 → 鼠标拖拽从起点连线、LineRenderer 实时更新轨迹 → 限制线条不能相交、松手判连线是否有效 → 全部配对正确则通关结算</span></p></div>
+
+<div class="card"><h3><span class="n">14</span>2D 平台跳跃闯关</h3>
+<p><span class="lbl">功能</span><span class="d">≥2</span> 个风格迥异关卡（地下城/天空之城）｜跳跃二段跳冲刺｜金币收集 + 踩头攻击｜UI 血量与结算</p>
+<p><span class="lbl">技术</span><span class="k">Rigidbody2D</span> 跳跃控制 · <span class="k">Tilemap</span> 瓦片地图 · <span class="k">Sprite Animation</span></p>
+<p><span class="lbl">步骤</span><span class="s">Tilemap 绘制平台地形与障碍 → 精确跳跃控制器（重力、地面检测、跳跃高度）→ 巡逻小怪 + 从上方踩中消灭判定 → 终点传送门 + 金币计数</span></p></div>
+
+<div class="card"><h3><span class="n">15</span>模拟经营农场</h3>
+<p><span class="lbl">功能</span>农田网格地图｜<span class="d">≥3</span> 种作物种植/浇水/成熟收获｜金币买卖商店｜清爽界面 + 背景音乐</p>
+<p><span class="lbl">技术</span><span class="k">ScriptableObject</span> 管生长周期（种子→幼苗→成熟）· <span class="k">UI 状态切换</span> · 网格交互</p>
+<p><span class="lbl">步骤</span><span class="s">做农田地块，按当前手持工具（锄头/种子/水壶）改地块状态 → 计时协程或 Update 累计推进生长阶段换 Sprite → 收获得金币、商店买新种 → 田园 UI + 轻快配乐</span></p></div>
+
+<div class="card"><h3><span class="n">16</span>无尽下落 / 弹球打砖块</h3>
+<p><span class="lbl">功能</span>经典打砖块关卡｜<span class="d">≥2</span> 种道具（挡板变长/多球分裂）｜击打特效 + 弹射音效｜计分与生命值</p>
+<p><span class="lbl">技术</span><span class="k">Rigidbody2D</span> · <span class="k">Physics Material 2D</span>（弹性系数 <span class="d">1.0</span>）· <span class="k">射线反射</span>原理</p>
+<p><span class="lbl">步骤</span><span class="s">底部挡板左右移动 + 顶部两侧布砖 → 发球靠物理弹性碰撞自动反弹 → 撞砖销毁加分、概率掉道具 → 小球落到底部下方扣一条命</span></p></div>
+
+<div class="card"><h3><span class="n">17</span>3D 密室逃脱解谜</h3>
+<p><span class="lbl">功能</span>精细 3D 房间｜<span class="d">≥3</span> 个环环相扣机关（密码锁/物品组合）｜第一人称交互｜音效提示 + UI 提示面板</p>
+<p><span class="lbl">技术</span><span class="k">Raycast</span> 拾取交互 · <span class="k">Cinemachine</span> 镜头聚焦 · <span class="k">UI Inventory</span> 物品栏</p>
+<p><span class="lbl">步骤</span><span class="s">搭 3D 室内 + 可交互抽屉门密码箱 → 第一人称控制器，准星对准点击交互 → 物品拾取入背包、背包中组合道具 → 解谜触发开门动画 + 胜利条件</span></p></div>
+
+<div class="card"><h3><span class="n">18</span>节奏打击音乐游戏</h3>
+<p><span class="lbl">功能</span><span class="d">4 键或 5 键</span>下落轨道｜<span class="d">≥2</span> 首曲目｜判定精准（Perfect/Great/Miss）｜Combo 特效 + 评分界面</p>
+<p><span class="lbl">技术</span><span class="k">AudioSource</span> 音乐同步 · <span class="k">List</span> 存音符时间戳 · UI 动态生成</p>
+<p><span class="lbl">步骤</span><span class="s">谱面解析器读音符时间与轨道 → 播放时按 <span class="k">audio.timeSamples</span> 算音符下落位置 → 按键与判定线算时间差判精度 → 实时得分 Combo 与结算评价</span></p></div>
+
+<div class="card"><h3><span class="n">19</span>物理抛物线攻城</h3>
+<p><span class="lbl">功能</span>关卡地形与掩体｜弹弓发射 / 力度调节｜<span class="d">≥2</span> 种不同特性投掷物｜物理破坏特效与音效</p>
+<p><span class="lbl">技术</span><span class="k">LineRenderer</span>（预测抛物线）· <span class="k">Rigidbody2D</span> · <span class="k">Joint2D</span>（可破坏木块石块结构）</p>
+<p><span class="lbl">步骤</span><span class="s">拖拽弹弓算发射向量、实时渲染抛物线预览 → 松手实例化投掷物并施加初速度 → Joint2D + 刚体碰撞实现真实倒塌破坏 → 敌人全灭通关</span></p></div>
+
+<div class="card"><h3><span class="n">20</span>钓鱼休闲模拟</h3>
+<p><span class="lbl">功能</span>湖泊/海洋场景｜<span class="d">≥3</span> 种稀有度鱼｜抛竿—咬钩—搏斗拉扯完整流程｜计分与图鉴</p>
+<p><span class="lbl">技术</span><span class="k">UI Slider</span>（拉扯力度条）· <span class="k">状态机</span>管流程（等待/咬钩/拉扯/上钩）· <span class="k">粒子水花</span></p>
+<p><span class="lbl">步骤</span><span class="s">按住鼠标蓄力抛竿，浮漂入水进等待态 → 随机时间触发咬钩、浮漂下沉配音效 → 拉扯阶段控力度条使指针保持在安全区直至拉起 → 弹窗展示鱼种、记图鉴与积分</span></p></div>
+
+</div>
+
+<div class="pb"></div>
+
+<h2>一、这 8 个技术词在 20 题里反复出现（答题必带）</h2>
+<div class="box" style="padding:0;border:none;margin-bottom:14px">
+<table>
+<thead><tr><th style="width:22%">技术词</th><th style="width:20%">出现题目</th><th>一句话用在哪</th></tr></thead>
+<tbody>
+<tr><td class="k">UI（Canvas / 布局 / 动态生成 / Slider）</td><td>几乎全部</td><td>界面上有什么、怎么跟着数据变</td></tr>
+<tr><td class="k">对象池 Object Pooling</td><td>01 · 04 · 05 · 12 · 16</td><td>高频生成销毁 → 复用，避免 GC 卡顿</td></tr>
+<tr><td class="k">Rigidbody / 物理</td><td>01 · 06 · 14 · 16 · 19</td><td>会动的东西为什么要交给物理引擎而不是手写位移</td></tr>
+<tr><td class="k">Particle System</td><td>01 · 05 · 07 · 12 · 20</td><td>爆炸、拖尾、水花、环境氛围</td></tr>
+<tr><td class="k">状态机 FSM</td><td>01 · 10 · 18 · 20</td><td>一个对象有多种行为，怎么组织不打架</td></tr>
+<tr><td class="k">二维数组 / 集合</td><td>02 · 08 · 10 · 12 · 13</td><td>棋盘、宝石矩阵、牌堆、网格</td></tr>
+<tr><td class="k">LineRenderer</td><td>06 · 08 · 13 · 19</td><td>瞄准线、连线、抛物线预览</td></tr>
+<tr><td class="k">射线检测 Raycast</td><td>02 · 06 · 17</td><td>把屏幕点击翻译成场景里的那个物体</td></tr>
+<tr><td class="k">ScriptableObject</td><td>03 · 15</td><td>数值配置与代码分离，改数据不碰逻辑</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="two">
+<div>
+  <h2>二、答题骨架（40 分通用）</h2>
+  <div class="box">
+    <p><b>第一层 · 规则</b>（占答案一半）<br>这游戏玩家在玩什么？怎么算赢、怎么算输？资源从哪来到哪去？</p>
+    <p><b>第二层 · 机制</b>（技术词直接搬）<br>用什么组件、什么系统实现：对象池、状态机、Trigger、Animator……</p>
+    <p><b>第三层 · 数值</b>（显得真做过）<br>给具体数字：半径 3、弹性 1.0、8×8、136 张、三局两胜、每波涨 15%。</p>
+  </div>
+
+  <h2>三、三个开头句式（照抄就起笔）</h2>
+  <div class="box">
+    <p><span class="hl">①</span>「这个玩法的本质是<b>〇〇</b>，我用<b>△△</b>来实现，不自己写 ✕✕。」</p>
+    <p><span class="hl">②</span>「首先要解决的是<b>〇〇</b>——如果直接 ✕✕ 会 ✕✕，所以改成用 <b>△△</b>。」</p>
+    <p><span class="hl">③</span>「如果数量再大一个数量级，我会把 <b>〇〇</b> 抽成配置 / 放进对象池，避免 ✕✕。」</p>
+  </div>
+</div>
+
+<div>
+  <h2>四、能直接写进答案的具体数字</h2>
+  <div class="box">
+    <ul>
+      <li>台球：弹性系数 <b>1.0</b>，冲量用 <b>Impulse</b> 施加，白球沿拉伸方向</li>
+      <li>三消：<b>8×8</b> 矩阵，开局必须无天然三连</li>
+      <li>麻将：万条筒字共 <b>136</b> 张，1 玩家 + <b>3</b> AI</li>
+      <li>连连看：折线拐弯 <b>≤2</b> 次才可连</li>
+      <li>格斗：<b>三局两胜</b>，攻击盒与受击盒分离</li>
+      <li>节奏：<b>4 键或 5 键</b>，判定用 <b>audio.timeSamples</b></li>
+      <li>跑酷：小地图用 <b>副相机 + Render Texture</b></li>
+      <li>塔防：范围判定 <b>Physics2D.OverlapCircle</b> 或 Trigger</li>
+      <li>太空射击：敌人 <b>≥3</b> 种、子弹 <b>≥2</b> 种、关卡 <b>≥2</b> 关</li>
+    </ul>
+  </div>
+
+  <h2>五、别人的题怎么答（用课设当素材）</h2>
+  <div class="box">
+    <p>做的是<b>题目 01</b>，但要让它在任何题上都能用——把项目经验<b>翻译成通用说法</b>：</p>
+    <p>问塔防 → 「我在自己项目里做过<b>波次管理</b>：每波敌人数量递增、强度涨 15%，玩家靠击杀回收资源」</p>
+    <p>问跑酷 → 「<b>相机跟随</b>我放在 LateUpdate，保证同帧跟上车身不抖」</p>
+    <p>问打砖块 → 「<b>受击反馈</b>我做的是粒子 + 屏震 + 短暂顿帧」</p>
+    <p>问密室 → 「<b>UI 面板</b>我做过分层：HUD、说明、暂停、结算，各自不抢焦点」</p>
+    <p style="color:#8a4a08">关键：说「我在项目里怎么处理 ○○」，不说「我的游戏长什么样」。</p>
+  </div>
+</div>
+</div>
+
+</div>
+</body>
+</html>

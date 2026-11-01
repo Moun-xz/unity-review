@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>游戏开发技术 · 课件与实验代码全解</title>
+<style>
+:root{
+  --bg:#fbfaf6; --panel:#fff; --ink:#20242a; --sub:#5c6673; --line:#e4e0d6;
+  --accent:#1f5f8b; --accent-soft:#eaf1f7; --warm:#b4530a; --warm-soft:#fdf3e7;
+  --red:#b3352b; --red-soft:#fbeceb; --green:#1c6f4a; --green-soft:#eef6ea;
+  --code:#f4f2ea; --code-line:#ded9cc; --purple:#6b4b8a; --purple-soft:#f2ecf7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",system-ui,sans-serif;
+  font-size:15px;line-height:1.8}
+main{max-width:960px;margin:0 auto;padding:34px 40px 120px}
+header{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:10px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+h1{font-size:24px;margin:0;letter-spacing:.5px}
+header .meta{font-size:12.5px;color:var(--sub);text-align:right;line-height:1.6}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:9px 14px;margin:14px 0 6px;font-size:13px;color:var(--sub);
+  position:sticky;top:0;z-index:9}
+.toolbar button{font-family:inherit;font-size:13px;padding:5px 12px;border-radius:6px;
+  border:1px solid var(--line);background:#fff;color:#2a333d;cursor:pointer}
+.toolbar button:hover{border-color:var(--accent);color:var(--accent)}
+.toolbar button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+h2{font-size:19px;margin:40px 0 6px;padding:6px 0 7px;border-bottom:2px solid var(--accent);
+  color:var(--accent)}
+h2 .cnt{float:right;font-size:12px;color:var(--sub);font-weight:400;padding-top:6px}
+h3{font-size:15px;margin:26px 0 6px;color:#2a333d;padding-left:9px;border-left:3px solid var(--line)}
+p{margin:6px 0}
+ul,ol{padding-left:22px;margin:6px 0}
+li{margin:4px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:#fff;margin:12px 0;padding:11px 16px}
+.card.hot{border-left:3px solid var(--warm)}
+.card.miss{border-left:3px solid var(--red)}
+.card.star{border-left:3px solid var(--purple);background:#fdfcff}
+.q{font-weight:600;font-size:14.5px;margin-bottom:7px;color:#1b2027;line-height:1.6}
+.tag{display:inline-block;font-size:11px;padding:0 6px;border-radius:3px;margin-left:6px;
+  vertical-align:1.5px;font-weight:400;white-space:nowrap}
+.tag.src{background:#f1efe8;color:#5c6673;border:1px solid var(--line)}
+.tag.hot{background:var(--warm-soft);color:var(--warm);border:1px solid #e8d3b3}
+.tag.miss{background:var(--red-soft);color:var(--red);border:1px solid #e6c4c2}
+.tag.ex{background:var(--purple-soft);color:var(--purple);border:1px solid #d9cbe8}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13.5px;background:#fff}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-weight:600;white-space:nowrap;font-size:13px}
+td.f{font-family:Consolas,"Courier New",monospace;font-size:12.6px;
+  background:#faf8f2;color:#1f3b57;width:36%;word-break:break-word;overflow-wrap:anywhere}
+code{background:var(--code);border:1px solid var(--code-line);border-radius:4px;
+  padding:1px 5px;font-family:Consolas,"Courier New",monospace;font-size:12.8px;color:#2c3138}
+pre{background:var(--code);border:1px solid var(--code-line);border-radius:7px;
+  padding:11px 14px;overflow-x:auto;font-family:Consolas,"Courier New",monospace;
+  font-size:12.8px;line-height:1.65;margin:8px 0;color:#2c3138}
+pre code{background:none;border:none;padding:0}
+.tip{background:var(--accent-soft);border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;padding:9px 14px;margin:12px 0;font-size:13.5px}
+.warn{background:var(--red-soft);border-left:3px solid var(--red);
+  border-radius:0 6px 6px 0;padding:9px 14px;margin:12px 0;font-size:13.5px}
+.ok{background:var(--green-soft);border-left:3px solid var(--green);
+  border-radius:0 6px 6px 0;padding:9px 14px;margin:12px 0;font-size:13.5px}
+.exp{transition:background .1s;border-radius:4px}
+.exp.hide{background:#e9e5da;box-shadow:0 0 0 5px #e9e5da}
+.exp.hide th,.exp.hide td{background:transparent !important;border-color:transparent !important;
+  color:transparent !important}
+.exp.hide code{background:transparent !important;border-color:transparent !important;
+  color:transparent !important}
+.exp.hide .tip,.exp.hide .ok,.exp.hide .warn{background:transparent !important;
+  border-color:transparent !important;color:transparent !important}
+.exp.hide b,.exp.hide em,.exp.hide span{color:transparent !important}
+.bad{color:var(--red);font-weight:600}
+.good{color:var(--green);font-weight:600}
+.mono{font-family:Consolas,"Courier New",monospace;font-size:13px}
+.toc{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 18px;font-size:13.5px;
+  display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+.toc a{color:var(--accent);text-decoration:none;display:block;padding:2px 0;
+  border-bottom:1px dotted #eee;line-height:1.5}
+.toc a:hover{text-decoration:underline;color:var(--warm)}
+.toc a.grp{font-weight:600;color:#20242a;border-bottom:1px solid var(--line);
+  margin-top:8px;padding-top:4px}
+.toc a.grp:first-child{margin-top:0}
+@page{size:A4;margin:10mm 9mm}
+@media print{
+  .toolbar{display:none}
+  main{max-width:none;padding:0}
+  body{background:#fff;font-size:8.8pt;line-height:1.5}
+  .exp{background:none !important;box-shadow:none !important}
+  .exp.hide th,.exp.hide td,.exp.hide code,.exp.hide b,.exp.hide span{color:#333 !important}
+  .exp.hide th,.exp.hide td{border-color:var(--line) !important}
+  h1{font-size:15pt}
+  h2{font-size:12pt;margin:13px 0 4px;padding:4px 0}
+  h3{font-size:10pt;margin:11px 0 3px}
+  p{margin:3px 0}
+  .card{margin:5px 0;padding:6px 10px;border-radius:5px}
+  .q{font-size:9.5pt;margin-bottom:4px;page-break-after:avoid}
+  pre{font-size:7.9pt;line-height:1.42;padding:7px 9px;margin:5px 0;page-break-inside:avoid}
+  table{font-size:8.1pt;margin:4px 0;page-break-inside:avoid}
+  th,td{padding:3px 6px}
+  td.f{font-size:7.5pt;width:40%;word-break:normal}
+  .tip,.warn,.ok{padding:6px 10px;margin:6px 0;font-size:8.4pt;page-break-inside:avoid}
+  .toc{font-size:8.6pt;padding:8px 12px;page-break-inside:avoid}
+  .toc a{padding:0}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>游戏开发技术 · 课件与实验代码全解</h1>
+<div class="meta">来源：<b>课件PPT/</b> 8 份 + <b>实验资源/</b> 4 份实验内容.doc<br>安徽理工大学 数媒24-1 伊全智<br>考试 2026-10-30（周五）10:00 ~ 12:00 · 天宫 102 · 闭卷</div>
+</header>
+<div class="toolbar">
+<button class="primary" id="toggleAll">🔒 遮住全部解释</button>
+<span>点任意一段解释也能单独遮住 / 显示 —— 用于默写自测</span>
+</div>
+<div class="warn"><b>按 10-26 老师录音更正：编程选择题的重心在这四块</b><br>
+「主要是用于考察我们同学对于<b>玩家的控制、声音、刚体、动画</b>等等……包括地形有没有代码，<b>没有</b>；包括界面有没有代码呢？<b>我们也很少讲到代码</b>。」<br>
+<b>所以第二题（15 空 × 2 分 = 30 分）最可能从这些段落出：A1、A6、A7、A10、A11、A12、A13~A16、A20、A21~A24、A25~A27、B1~B12。</b>
+<b>但要注意老师原话是「主要是……等等」——「等等」是开放词，不能理解成「只考这四块」。</b>第 3 章地形（A8 之外的 Terrain 部分）与第 8 章 UI 代码（A28、A29）可以<b>降优先级、只扫一遍</b>，不建议完全跳过——万一大题借地形的场景当壳，里面考的仍是 <code>Resources.Load</code>、<code>Find</code>、<code>SetActive</code> 这些通用 API。<br>
+还有个官方提示：老师原话「有些你一看就能知道是错的」「通过上下文对比」——<b>所以重点背附一、附二那两张表，不用默写整段代码。</b></div>
+
+<div class="tip"><b>这份文档是干什么的</b>：把老师 8 份课件里出现的每一段代码、以及四份实验指导文档里的每一段代码，全部原样抽出来，逐句解释 + 标考点。<b>代码一个字没改</b>（包括老师的拼写错误，见标注），因为考题大概率就照这个风格出。<br>用法：<b>遮住解释，只看代码，自己说一遍每行在干什么</b>；说不出来的那一段，就是你要重点背的。</div>
+
+<h2 id="guide">导读 · 41 段不是平等的<span class="cnt">按考试用途分三层</span></h2>
+
+<div class="tip"><b>为什么不能从头顺读</b>：41 段平均用力，第二遍都过不完。<b>要按三大题反推用途</b>再分配时间——编程选择题只考「认得出哪一行是错的」，综合设计题考「这段在干什么业务」，案例分析题考「哪个组件没接上」。同一段代码，三种题要的深度完全不同。</div>
+
+<table>
+<colgroup><col style="width:11%"><col style="width:45%"><col style="width:44%"></colgroup>
+<tr><th>层</th><th>段目</th><th>为什么在这一层</th></tr>
+<tr>
+<td><b>第一层</b><br>必过 3 遍<br><b>22 段</b></td>
+<td><b>B1 ~ B12 全部</b>（12 段实验）<br>+ <b>A5</b> 碰撞销毁、<b>A6</b> 协程、<b>A9</b> MouseLook、<b>A10</b> 相机跟随、<b>A11</b> 吃道具、<b>A12</b> 音频、<b>A16</b> 平滑转向★、<b>A25</b> Animator 参数、<b>A26</b> 融合树</td>
+<td>实验代码是你亲手敲过的，捡回来最快，老师也明说题源在实验。这 22 段<b>覆盖玩家控制 / 声音 / 刚体 / 动画的全部</b>，选择题 15 空基本从这里出</td>
+</tr>
+<tr>
+<td><b>第二层</b><br>过 1 遍<br><b>10 段</b></td>
+<td><b>A1</b> 自转公转、<b>A2</b> as 强转、<b>A13</b> 本地 / 世界方向、<b>A14</b> 点乘、<b>A15</b> 叉乘、<b>A20</b> 感应门、<b>A21</b> 粒子双色、<b>A24</b> 粒子开关、<b>A27</b> 动画层权重、<b>A28</b> Slider / Toggle</td>
+<td>能出选择题，但多半只占 1 空。数学三连（A13~A15）真正的价值是案例题和分析题的<b>说理工具</b>——不难，但必须能开口说出来</td>
+</tr>
+<tr>
+<td><b>第三层</b><br>只扫标题<br><b>10 段</b></td>
+<td><b>A3</b> List、<b>A4</b> ArrayList、<b>A7</b> 飘字、<b>A8</b> Skybox、<b>A17</b> 网格合并、<b>A18</b> 六面材质、<b>A19</b> VideoPlayer、<b>A22</b> 粒子渐变、<b>A23</b> 粒子独立色、<b>A29</b> 登录切场景</td>
+<td>知道「有这么回事」就够。出了顶多 1 空，投入产出比最低，<b>放到考前一天再看</b></td>
+</tr>
+</table>
+
+<div class="ok"><b>每段只问三个问题（这就是「理解代码」的落点）</b><br>
+<b>① 业务是什么</b>——用一句不用术语的话说清（「球进洞后要放回起点，而且速度得清掉」）<br>
+<b>② 哪个 API 是关键、换掉它会怎样</b>——把 <code>AddForce</code> 换成 <code>velocity</code>、把 <code>FixedUpdate</code> 换成 <code>Update</code>，后果分别是什么<br>
+<b>③ 如果改成选择题，错的选项会长什么样</b>——<b>选择题是靠「认得出错的」得分的，不是靠「记得住对的」</b></div>
+
+<h3>三问法示范：B7 台球主球</h3>
+<table>
+<colgroup><col style="width:20%"><col style="width:80%"></colgroup>
+<tr><th>三问</th><th>答案</th></tr>
+<tr><td><b>① 业务</b></td><td>按方向键给主球一个力，球滚出去；进洞后把速度清掉、放回起点</td></tr>
+<tr><td><b>② 关键 API</b></td><td><code>rg.AddForce(dir * force)</code> 施加力 · <code>rg.Sleep()</code> 清速度 · <b>改 <code>position</code> 之前必须先 <code>Sleep()</code></b></td></tr>
+<tr><td><b>③ 错误选项</b></td><td>Ⅰ 把这段写在 <code>Update</code> 里（物理相关必须写 <code>FixedUpdate</code>）<br>Ⅱ 不 <code>Sleep()</code> 直接 <code>transform.position = start</code> → 瞬移回起点但速度还在，球自己又滚出去<br>Ⅲ 用 <code>rg.velocity = Vector3.zero</code> 代替 <code>Sleep()</code> → 速度清了，但刚体状态没冻结</td></tr>
+</table>
+
+<div class="warn"><b>为什么要做第 ③ 问</b>：老师原话「有些你一看就能知道是错的」「通过上下文对比」。第五轮那道 <code>Player</code> 只有 2/6，错的就是第 ② 问（<code>AddForce</code> 不会写）和第 ③ 问（把 <code>OnCollisionEnter</code> 记成了 <code>EnterCollision</code>）。<b>能自己造出错项，就说明这段真的过了。</b></div>
+
+<div class="tip"><b>过的时候先 B 后 A，不要按编号顺序</b>：B 组是实验课上你亲手敲过的，捡回来最快，也最贴近老师的出题语感；A 组里只在 PPT 上扫过一眼的那些片段（A3、A4、A8、A17~A19）放到最后。顺序反了容易一上来就卡住，把时间耗在性价比最低的地方。</div>
+
+<div class="toc" style="grid-template-rows:repeat(17,auto);grid-auto-flow:column">
+<a href="#a" class="grp">A 组 · 课件代码（29 段）</a>
+<a href="#a1">A1　自转 sr 与公转 ra</a>
+<a href="#a2">A2　as 与强制转换</a>
+<a href="#a3">A3　foreach 与 List</a>
+<a href="#a4">A4　ArrayList 动态数组</a>
+<a href="#a5">A5　枚举 + 碰撞销毁</a>
+<a href="#a6">A6　协程的启停</a>
+<a href="#a7">A7　TextMesh 伤害飘字</a>
+<a href="#a8">A8　Skybox 两种脚本赋值</a>
+<a href="#a9">A9　MouseLook 鼠标视角</a>
+<a href="#a10">A10　相机跟随（offset）</a>
+<a href="#a11">A11　小球吃道具三脚本</a>
+<a href="#a12">A12　音频控制</a>
+<a href="#a13">A13　本地 / 世界方向转换</a>
+<a href="#a14">A14　点乘判断前后</a>
+<a href="#a15">A15　叉乘求平面法线</a>
+<a href="#a16">A16　跟随 + 平滑转向 ★</a>
+<a href="#a17">A17　网格合并与材质合并</a>
+<a href="#a18">A18　Cube 六面独立材质</a>
+<a href="#a19">A19　视频贴图 VideoPlayer</a>
+<a href="#a20">A20　隐形感应门</a>
+<a href="#a21">A21　粒子·随机双色</a>
+<a href="#a22">A22　粒子·渐变动态色</a>
+<a href="#a23">A23　粒子·每颗粒子独立色</a>
+<a href="#a24">A24　粒子开启 / 关闭</a>
+<a href="#a25">A25　Animator 参数控制</a>
+<a href="#a26">A26　BlendTree 融合树脚本</a>
+<a href="#a27">A27　动画层权重</a>
+<a href="#a28">A28　Slider / Toggle 取值</a>
+<a href="#a29">A29　登录窗口切场景</a>
+<a href="#b" class="grp">B 组 · 实验代码（12 段）</a>
+<a href="#c" class="grp">附一 · API 签名速查</a>
+<a href="#d" class="grp">附二 · 拼写坑对照表</a>
+<a href="#e" class="grp">附三 · 十个可套用骨架</a>
+</div>
+<h2 id="a">A 组 · 课件代码<span class="cnt">29 段 · 按章排序</span></h2>
+<div class="tip">为什么课件代码比 PPT 文字更重要：考题的<b>变量命名、API 选择、写法习惯</b>都来自这里。比如老师习惯用 <code>other.gameObject.tag.Equals("food")</code> 而不用 <code>CompareTag</code>，习惯写 <code>GetComponent&lt;XX&gt;().enabled</code> 而不是 <code>SetActive</code>。看到熟悉的写法，读题速度会快一半。</div>
+<h3>第 1 章　概述（简单案例）</h3>
+<div class="card hot">
+<div class="q">A1 · 自转 sr.cs 与公转 ra.cs<span class="tag src">课件 01 · slide 50</span></div>
+<pre><code>public class sr : MonoBehaviour {
+    public float frs = 1f;
+    void Start () {
+    }    
+    void Update () {
+        this.transform.Rotate(Vector3.up* frs, Space.World);
+    }
+}
+
+public class ra : MonoBehaviour {
+    public float frs = 1f;
+    public Transform trans;
+    void Start () {
+    }    
+    void Update () {
+        this.transform.RotateAround(trans.position, Vector3.up,frs);
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">Rotate(Vector3.​up* frs,​ Space.​World)</td><td>绕 <b>Y 轴</b>每帧转 <code>frs</code> 度。这里 <code>Vector3.up* frs</code> 被当作<b>欧拉角</b>解释（第二个参数是 Space 时，第一个参数是欧拉角）。</td></tr>
+<tr><td class="f">Space.​World</td><td>按<b>世界坐标系</b>的 Y 轴转；写 <code>Space.Self</code> 就是按自身 Y 轴转。物体没倾斜时两者结果一样，一旦父物体歪了两者就不同。</td></tr>
+<tr><td class="f">RotateAround(trans.​position,​ Vector3.​up,​ frs)</td><td><b>公转</b>：绕 <code>trans</code> 这个点、以 <code>Vector3.up</code> 为轴、转 <code>frs</code> 度。<b>三个参数依次是「点、轴、角度」</b>，顺序不能乱。</td></tr>
+<tr><td class="f">public Transform trans</td><td>在 Inspector 里把「太阳」拖进来。<b>没有赋值就会空引用报错</b>，所以必须先在面板上拖。</td></tr>
+<tr><td class="f">public float frs = 1f</td><td>public 变量会显示在 Inspector，<b>运行时改的值不会保存</b>（停 Play 就打回原值）。</td></tr>
+</table></div>
+<div class="tip"><b>这道题的考点：Rotate 和 RotateAround 的区别</b>。<code>Rotate</code> 只改 <code>rotation</code>，物体位置不动，所以是<b>自转</b>；<code>RotateAround</code> 要绕别的点转，所以<b>同时改 position 和 rotation</b>，是<b>公转</b>。试卷上问「哪个会改变 position」——答案是 RotateAround。</div>
+<div class="warn"><b>课件这里的签名不严谨</b>：PPT 第 3 章写的是 <code>Rotate(Vector3 eulerAngles, float relativeTo)</code>，第二个参数写成了 float，实际应该是 <code>Space</code>。Unity 真正的两个重载是：<br><code>Rotate(Vector3 eulerAngles, Space relativeTo)</code><br><code>Rotate(Vector3 axis, float angle, Space relativeTo)</code>。考试如果按 PPT 出，你写 PPT 那版；如果考严格的 API，你写后面这版。</div>
+</div>
+<h3>第 2 章　C# 与 Unity 脚本基础</h3>
+<div class="card ">
+<div class="q">A2 · as 与强制类型转换<span class="tag src">课件 02 · slide 14</span></div>
+<pre><code>Object o = new Object();
+GameObject go = new GameObject();
+
+go = (GameObject)o;   // Error：编译期就报错
+o = (Object)go;       // OK：子类 → 父类，向上转型
+o = go as Object;     // OK：as 也能转，且不需要强转
+print(o);</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">go = (GameObject)o;</td><td><b>错</b>。<code>o</code> 声明成 <code>Object</code>，编译器不允许把父类直接强转成子类，除非你先确定它真是那个子类（用 <code>as</code> 或先 <code>is</code> 判断）。</td></tr>
+<tr><td class="f">o = (Object)go;</td><td><b>对</b>。子类转父类叫<b>向上转型</b>，永远安全，甚至不写 <code>(Object)</code> 也行（隐式转换）。</td></tr>
+<tr><td class="f">o = go as Object;</td><td><b>对</b>。<code>as</code> 是「转换运算符」，转不成功会返回 <code>null</code> 而不是抛异常。</td></tr>
+<tr><td class="f">print(o)</td><td><code>print()</code> 是 <code>MonoBehaviour</code> 提供的方法，等价于 <code>Debug.Log()</code>，输出到 Console。</td></tr>
+</table></div>
+<div class="tip"><b>考点：<code>as</code> 和 <code>()</code> 的三条差别</b><br>① 强转 <code>()</code> 失败会<b>抛异常</b>；<code>as</code> 失败返回 <code>null</code>。<br>② <code>as</code> 只能用于<b>引用类型</b>（和可空类型），不能用于 <code>int</code> 这种值类型。<br>③ 强转能<b>双向</b>转（配合 is 判断）；<code>as</code> 一般只用于<b>向下</b>转。<br>实验一的 <code>GameObject.Find("Game").GetComponent&lt;Game&gt;() as Game</code> 就是 <code>as</code> 的典型用法。</div>
+</div>
+<div class="card ">
+<div class="q">A3 · foreach 与 List<span class="tag src">课件 02 · slide 16</span></div>
+<pre><code>foreach (var item in arr) { ..... }
+
+int[] fibarray = new int[] { 1, 1, 2, 3, 5, 8, 13 };
+foreach (int i in fibarray) {
+    print(i);
+}
+
+List&lt;string&gt; names = new List&lt;string&gt;();
+names.Add(&quot;张三&quot;);
+names.Add(&quot;李四&quot;);
+names.Add(&quot;王五&quot;);
+foreach (string name in names) {
+    print(name);
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">foreach (var item in arr)</td><td><b>只读遍历</b>。循环里不能给 <code>item</code> 赋值，它是当前元素的副本。要改元素必须用 <code>for</code> 加下标。</td></tr>
+<tr><td class="f">List​&lt;string&gt; names = new List​&lt;string&gt;()</td><td>泛型动态数组，<b>长度可变</b>。注意尖括号里写元素类型。<code>List</code> 属于 <code>System.Collections.Generic</code>。</td></tr>
+<tr><td class="f">names.​Add(&quot;张三&quot;)</td><td>追加到末尾。别的常用方法：<code>Insert(i, v)</code> 插到指定位置、<code>Remove(v)</code> 删值、<code>RemoveAt(i)</code> 删下标、<code>Count</code> 取长度（注意是属性不是方法）。</td></tr>
+<tr><td class="f">foreach (string name in names)</td><td>遍历 List 时元素类型写 <code>string</code>，因为 List 里装的就是 string。</td></tr>
+</table></div>
+<div class="tip"><b>考点：List 和数组的区别</b>。数组长度<b>固定</b>，一旦 <code>new int[5]</code> 就不可变；List 长度<b>动态</b>，可以一直 Add。取长度：数组用 <code>arr.Length</code>，List 用 <code>names.Count</code>。<b>Length 和 Count 用混是常见扣分点。</b><br>实验一的 <code>using System.Linq;</code> + <code>tail.Last()</code> 就是用 Linq 对 List 做查询，<b>不写 using 那句，<code>Last()</code> 用不了</b>。</div>
+</div>
+<div class="card ">
+<div class="q">A4 · ArrayList 动态数组<span class="tag src">课件 02 · slide 18</span></div>
+<pre><code>ArrayList al = new ArrayList();
+al.Add(&quot;test&quot;);
+al.Add(5);
+al.Add(new GameObject());
+
+al.Insert(1, 6);
+int index = al.IndexOf(&quot;test&quot;);
+al.Remove(&quot;test&quot;);
+al.RemoveAt(1);
+al.Reverse();
+
+for (int i = 0; i &lt; al.Count; i++)
+    print(al[i]);</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">ArrayList al = new ArrayList()</td><td><b>非泛型</b>动态数组，什么类型都能塞（string、int、GameObject 混装）。</td></tr>
+<tr><td class="f">al.​Add(5)</td><td>注意 <code>5</code> 是 int，塞进去时会被<b>装箱</b>成 object。取值时要拆箱。<b>这就是 ArrayList 慢的原因</b>。</td></tr>
+<tr><td class="f">al.​Insert(1,​ 6)</td><td>在下标 1 处插入 6，原来下标 1 及之后的元素全部后移一位。<b>不是替换。</b></td></tr>
+<tr><td class="f">al.​IndexOf(&quot;test&quot;)</td><td>返回<b>第一次</b>出现的下标，找不到返回 <b>-1</b>。<b>找不到返回 -1 而不是 0，这是考点。</b></td></tr>
+<tr><td class="f">al.​Reverse()</td><td><b>原地反转</b>，直接改 ArrayList 自己的顺序，不返回新数组。</td></tr>
+<tr><td class="f">for (int i = 0; i ​&lt; al.​Count; i++)</td><td>注意 ArrayList 用 <code>Count</code> 不是 <code>Length</code>。</td></tr>
+</table></div>
+<div class="warn"><b>ArrayList 是“老古董”，现代 C# 推荐 List&lt;T&gt;</b>。但课件还留着它，所以考试可能问「ArrayList 和 List 的区别」。标准答法：<br>① ArrayList <b>非泛型</b>，存 object，有<b>装箱拆箱</b>开销；List&lt;T&gt; <b>泛型</b>，无装箱。<br>② ArrayList 类型不安全（能混装）；List 编译期就有类型检查。<br>③ 两者都用 <code>Count</code> 取长度。</div>
+</div>
+<div class="card ">
+<div class="q">A5 · 枚举 + 碰撞销毁<span class="tag src">课件 02 · slide 21</span></div>
+<pre><code>// ① 定义枚举（写在类外或类内）
+public enum PlayerType { Soldier, Doctor, Monster };
+
+// ② 在类里声明一个枚举类型字段
+public PlayerType player;
+
+// ③ switch 使用
+switch (player) {
+    case PlayerType.Soldier:
+        ……
+        break;
+    ……
+}
+
+// ④ 完整脚本：撞到 Monster 类型的东西就自我销毁
+public class Test : MonoBehaviour {
+    public PlayerType player;
+    void Start () {    }
+    void Update () { }
+    void OnCollisionEnter(Collision collisionInfo) {
+        Test other = collisionInfo.gameObject.GetComponent&lt;Test&gt;();
+        if (other &amp;&amp; other.player == PlayerType.Monster) {
+            Destroy(this.gameObject);
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">public enum PlayerType { Soldier,​ Doctor,​ Monster };</td><td>枚举 = 一组<b>有名字的常量</b>。默认 Soldier=0、Doctor=1、Monster=2，依次加一。写在类<b>外面</b>是全局枚举，写在类里面是嵌套枚举。</td></tr>
+<tr><td class="f">public PlayerType player;</td><td>声明一个枚举字段。<b>因为 public，Inspector 里会变成一个下拉框</b>——这就是课件标题说的「Unity 中可选择枚举值」。</td></tr>
+<tr><td class="f">collisionInfo.​gameObject.​GetComponent​&lt;Test&gt;()</td><td>从<b>撞到的那个物体</b>上取 <code>Test</code> 组件。注意是 <code>collisionInfo.gameObject</code>，<b>不是</b> <code>this.gameObject</code>。</td></tr>
+<tr><td class="f">if (other &amp;&amp; other.​player == PlayerType.​Monster)</td><td><b>两个判断合成一句</b>：<code>other</code> 非空（取不到组件时返回 null，不判空就直接 <code>other.player</code> 会崩），且它是 Monster 类型。<br><b>Unity 的 Object 支持隐式转 bool</b>，所以能直接写 <code>if (other)</code>，等价于 <code>if (other != null)</code>。</td></tr>
+<tr><td class="f">Destroy(this.​gameObject)</td><td>销毁<b>当前物体</b>。<code>this.gameObject</code> 和 <code>gameObject</code> 等价。</td></tr>
+</table></div>
+<div class="hot"><b>考点：为什么能写 <code>if (other)</code></b>。这来自 <code>UnityEngine.Object</code> 重载了 <code>operator bool</code> 和 <code>operator ==</code>。<b>Unity 的对象“已销毁”和“null”是两回事</b>：销毁后的对象引用不为 null，但 <code>== null</code> 会返回 true。这就是为什么推荐 <code>if (obj)</code> 而不是 <code>if (obj != null)</code>。</div>
+</div>
+<div class="card hot">
+<div class="q">A6 · 协程的启动与停止<span class="tag src">课件 02 · slide 35-36</span></div>
+<pre><code>public class MyTest : MonoBehaviour {
+
+    private Coroutine m_Coroutine = null;
+
+    IEnumerator CreateCube() {
+        for (int i = 0; i &lt; 10; i++) {
+            GameObject.CreatePrimitive(PrimitiveType.Cube).transform.position =
+                Vector3.one * i;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    void OnGUI() {
+        if (GUILayout.Button(&quot;StartCoroutine&quot;)) {
+            if (m_Coroutine != null) {
+                StopCoroutine(m_Coroutine);
+            }
+            m_Coroutine = StartCoroutine(CreateCube());
+        }
+        if (GUILayout.Button(&quot;StopCoroutine&quot;)) {
+            if (m_Coroutine != null) {
+                StopCoroutine(m_Coroutine);
+            }
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">IEnumerator CreateCube()</td><td>协程的返回类型必须是 <code>IEnumerator</code>（迭代器），<b>不是 void</b>。这是最容易写错的地方。</td></tr>
+<tr><td class="f">yield return new WaitForSeconds(1f)</td><td>暂停 1 秒再往下执行。<b>每一轮循环都等 1 秒</b>，所以 10 个方块是每秒冒一个。</td></tr>
+<tr><td class="f">GameObject.​CreatePrimitive(PrimitiveType.​Cube)</td><td><b>静态方法</b>，直接造一个基础几何体（Cube/Sphere/Cylinder/Plane/Capsule/Quad）。返回新建的 GameObject。</td></tr>
+<tr><td class="f">Vector3.​one * i</td><td><code>Vector3.one</code> = (1,1,1)，乘 i 就是 (i,i,i)，所以方块沿对角线排开。</td></tr>
+<tr><td class="f">m_Coroutine = StartCoroutine(CreateCube())</td><td><code>StartCoroutine</code> 返回一个 <code>Coroutine</code> 句柄，<b>存下来才能定向停止</b>。</td></tr>
+<tr><td class="f">StopCoroutine(m_Coroutine)</td><td>按句柄停止。也有 <code>StopCoroutine("方法名")</code> 的字符串版本，但那需要方法<b>有参数或至少用字符串重载</b>才稳。</td></tr>
+<tr><td class="f">GUILayout.​Button(&quot;.​.​.​&quot;)</td><td><code>OnGUI</code> 里的即时模式 GUI 按钮，返回 bool 表示这一帧是否被点。注意它和 UGUI 的 Button 完全是两套东西。</td></tr>
+</table></div>
+<div class="tip"><b>考点：协程的 5 种 yield 写法（课件 slide 34 明写）</b><br><code>yield return null;</code> → 等一帧<br><code>yield return new WaitForFixedUpdate();</code> → 等到下一次 FixedUpdate<br><code>yield return new WaitForSeconds(k);</code> → 等 k 秒（<b>受 timeScale 影响</b>）<br><code>yield return StartCoroutine("Other");</code> → 等另一个协程结束<br><code>yield break;</code> → 直接结束协程（PPT 没写，但常考）</div>
+<div class="warn"><b>协程什么时候会停</b>：物体 <code>SetActive(false)</code> 会停、脚本 <code>enabled = false</code> 会停、<code>Destroy</code> 会停。<b>这一点和 Update 一致</b>。</div>
+</div>
+<h3>第 3 章　Unity 资源系统</h3>
+<div class="card ">
+<div class="q">A7 · TextMesh 伤害飘字<span class="tag src">课件 03 · slide 10</span></div>
+<pre><code>private Color[] colors = new Color[] {
+    Color.red, Color.yellow, Color.blue, Color.green, Color.white
+};
+
+public GameObject text;
+public float destoryTime;        // 注意：老师把 destroy 拼成了 destory，照抄即可
+
+void Start() {
+    text = GameObject.Find(&quot;Text1&quot;);
+    destoryTime = Time.time;
+}
+
+void Update() {
+    if (Input.GetMouseButtonDown(0)) {
+        text.SetActive(true);
+
+        TextMesh t = text.GetComponent&lt;TextMesh&gt;();
+        t.text = &quot;-&quot; + Random.Range(1, 100).ToString();
+        t.color = this.colors[Random.Range(0, this.colors.Length)];
+
+        text.transform.position = this.transform.position
+            + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(0.1f, 0.2f), 0f) * 10f;
+
+        destoryTime = Time.time;
+    }
+
+    if (Time.time - this.destoryTime &lt;= 1f)      // 1 秒钟后消失
+        text.transform.Translate(new Vector3(0f, 0.05f, 0f));
+    else
+        text.SetActive(false);
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">private Color[] colors = new Color[] { .​.​.​ }</td><td>一个<b>颜色数组</b>当场初始化，用来给飘字随机取色。<code>private</code> 所以不在 Inspector 显示。</td></tr>
+<tr><td class="f">GameObject.​Find(&quot;Text1&quot;)</td><td><b>按名字找物体</b>，返回 GameObject。找不到返回 null。性能差，<b>只在 Start 里调一次</b>是对的写法；放 Update 里会有人说你。</td></tr>
+<tr><td class="f">Input.​GetMouseButtonDown(0)</td><td>鼠标<b>左键按下那一帧</b>返回 true。<code>0</code>=左键、<code>1</code>=右键、<code>2</code>=中键。对比：<code>GetMouseButton</code> 按住一直 true，<code>GetMouseButtonUp</code> 松开那一帧 true。</td></tr>
+<tr><td class="f">text.​SetActive(true)</td><td>把物体<b>激活</b>。注意 <code>SetActive</code> 是<b>物体级</b>开关，<code>enabled</code> 是<b>组件级</b>开关，两者别混。</td></tr>
+<tr><td class="f">t.​text = &quot;-&quot; + Random.​Range(1,​ 100).​ToString()</td><td><b>Random.Range(int, int)</b>：返回 int，<b>右端不包含</b>，所以是 1~99。<br><b>Random.Range(float, float)</b>：返回 float，<b>右端包含</b>。<b>这个不对称是必考点。</b></td></tr>
+<tr><td class="f">t.​color = this.​colors[Random.​Range(0,​ this.​colors.​Length)]</td><td><code>this.colors.Length</code> = 5，<code>Range(0,5)</code> 取 0~4，正好是合法下标。<b>这里写 Length 而不是 Length-1，正是利用了上面那条“右端不包含”。</b></td></tr>
+<tr><td class="f">Time.​time - this.​destoryTime ​&lt;= 1f</td><td><code>Time.time</code> 是游戏开始到现在的秒数（<b>受 timeScale 影响，暂停时不走</b>）。两个 time 相减 = 经过了多久。</td></tr>
+<tr><td class="f">text.​transform.​Translate(new Vector3(0f,​ 0.​05f,​ 0f))</td><td>每帧往上飘 0.05 单位。<b>注意这里没乘 Time.deltaTime</b>，所以飘的速度<b>跟着帧率变</b>——这是课件的瑕疵，标准写法应该乘 deltaTime。</td></tr>
+</table></div>
+<div class="hot"><b>必背：Random.Range 的两种重载</b><br><code>Random.Range(int min, int max)</code> → 返回 <b>int</b>，范围 <b>[min, max)</b>，右端不含<br><code>Random.Range(float min, float max)</code> → 返回 <b>float</b>，范围 <b>[min, max]</b>，右端含<br>实验一 FoodSpawner 里的 <code>(int)Random.Range(borderLeft.position.x+0.5f, ...)</code> 用的是 float 版再强转，<b>注意这个区别</b>。</div>
+<div class="tip"><b>考点：TextMesh 的三个属性</b>：<code>.text</code>（内容）、<code>.color</code>（颜色）、<code>.fontSize</code>（字号）。<br>课件给的清晰化技巧：<b>先把 Font Size 调到 80，再缩小 Scale</b>——因为 TextMesh 是按字号渲染位图，字号小的时候拉大会糊。</div>
+</div>
+<div class="card ">
+<div class="q">A8 · Skybox 的两种脚本赋值方式<span class="tag src">课件 03 · slide 22</span></div>
+<pre><code>// 方法一（静态）：给 Camera 加 Skybox 组件，在 Inspector 里拖材质
+
+// 方法二：改全局渲染设置（不能给相机加 Skybox 组件）
+RenderSettings.skybox =
+    (Material)Resources.Load(&quot;skybox1&quot;);
+
+// 方法三：改相机上的 Skybox 组件（必须给相机加了 Skybox 组件）
+GetComponent&lt;Skybox&gt;().material =
+    (Material)Resources.Load(&quot;skybox1&quot;);</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">RenderSettings.​skybox</td><td><b>全局</b>天空盒设置，整个场景一个。改了之后所有相机都变。</td></tr>
+<tr><td class="f">GetComponent​&lt;Skybox&gt;().​material</td><td>改<b>这个相机</b>自己的 Skybox 组件。前提是相机身上真的挂了 Skybox 组件，否则返回 null 然后崩。</td></tr>
+<tr><td class="f">Resources.​Load(&quot;skybox1&quot;)</td><td><b>运行时动态加载</b>资源。三条铁律：<br>① 资源<b>必须放在名为 Resources 的文件夹里</b>；<br>② 路径<b>相对 Resources</b>，不带 "Resources/" 前缀；<br>③ <b>不带扩展名</b>（写 "skybox1" 不写 "skybox1.mat"）。</td></tr>
+<tr><td class="f">(Material)Resources.​Load(.​.​.​)</td><td><code>Resources.Load</code> 返回 <code>Object</code>，<b>必须强转</b>成实际类型。也可以用泛型版 <code>Resources.Load&lt;Material&gt;("skybox1")</code>，不用强转。</td></tr>
+</table></div>
+<div class="hot"><b>这道题爱考「两种方法的区别」</b>：<br>方法二改的是 <code>RenderSettings.skybox</code>（全局），<b>不需要相机上有 Skybox 组件</b>；<br>方法三改的是 <code>GetComponent&lt;Skybox&gt;()</code>（单相机），<b>必须相机上有该组件</b>。<br>两者都要求材质在 <b>Resources 文件夹</b>下。</div>
+<div class="tip"><b>Resources.Load 的三种类型写法</b>（课件第 3、4 章都出现过）：<br><code>Resources.Load("Sound/hit") as AudioClip</code>　实验三<br><code>Resources.Load("Materials/"+m_mid[i]) as Material</code>　实验三<br><code>(Material)Resources.Load("skybox1")</code>　课件<br><b>子文件夹用斜杠分隔，不用反斜杠。</b></div>
+</div>
+<div class="card hot">
+<div class="q">A9 · MouseLook 鼠标视角控制<span class="tag src">课件 03 · slide 23-24</span></div>
+<pre><code>public class MouseLook : MonoBehaviour {
+
+    public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
+
+    public RotationAxes axes = RotationAxes.MouseXAndY;
+    public float sensitivityX = 15F;
+    public float sensitivityY = 15F;
+    public float minimumX = -360F;
+    public float maximumX = 360F;
+    public float minimumY = -60F;
+    public float maximumY = 60F;
+
+    float rotationY = 0F;
+
+    void Update() {
+        if (axes == RotationAxes.MouseXAndY) {
+            float rotationX = transform.localEulerAngles.y
+                            + Input.GetAxis(&quot;Mouse X&quot;) * sensitivityX;
+
+            rotationY += Input.GetAxis(&quot;Mouse Y&quot;) * sensitivityY;
+            rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
+
+            transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+        }
+        else if (axes == RotationAxes.MouseX) {
+            transform.Rotate(0, Input.GetAxis(&quot;Mouse X&quot;) * sensitivityX, 0);
+        }
+        else {
+            rotationY += Input.GetAxis(&quot;Mouse Y&quot;) * sensitivityY;
+            rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
+
+            transform.localEulerAngles = new Vector3(-rotationY,
+                                        transform.localEulerAngles.y, 0);
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">public enum RotationAxes { MouseXAndY = 0,​ MouseX = 1,​ MouseY = 2 }</td><td><b>嵌套枚举</b>。显式写 <code>= 0/1/2</code> 是为了让 Inspector 下拉框的顺序确定。</td></tr>
+<tr><td class="f">public RotationAxes axes = RotationAxes.​MouseXAndY</td><td><b>枚举字段 + 默认值</b>，Inspector 里显示成下拉框。</td></tr>
+<tr><td class="f">Input.​GetAxis(&quot;Mouse X&quot;)</td><td>鼠标横向移动的<b>增量</b>（不是绝对位置）。纵向是 <code>"Mouse Y"</code>。<b>注意中间有空格</b>，写成 "MouseX" 会报轴不存在。</td></tr>
+<tr><td class="f">rotationY += Input.​GetAxis(&quot;Mouse Y&quot;) * sensitivityY</td><td><b>累加</b>而不是直接赋值。因为 GetAxis 返回的是「这一帧移动了多少」，要攒起来才是角度。</td></tr>
+<tr><td class="f">Mathf.​Clamp(rotationY,​ minimumY,​ maximumY)</td><td>把值<b>夹到 [min, max]</b> 范围内。<b>必须夹</b>，否则视角能翻过头顶，画面上下颠倒。</td></tr>
+<tr><td class="f">new Vector3(-rotationY,​ rotationX,​ 0)</td><td><b>负号</b>：鼠标往上推（Mouse Y 为正）时希望抬头，而 Unity 里绕 X 轴负方向转才是抬头，所以取反。<b>这个负号是这道题最爱考的细节。</b></td></tr>
+<tr><td class="f">transform.​localEulerAngles</td><td><b>相对父物体</b>的欧拉角。用 world 的 <code>eulerAngles</code> 在父子嵌套时会出问题。</td></tr>
+</table></div>
+<div class="hot"><b>三组易混的输入 API（课件 slide 38 明列）</b><br><code>Input.GetAxis("轴名")</code> → 返回 float，平滑值<br><code>Input.GetButton("按钮名")</code> / <code>GetButtonDown</code> / <code>GetButtonUp</code> → 返回 bool<br><code>Input.GetKey(KeyCode.X)</code> / <code>GetKeyDown</code> / <code>GetKeyUp</code> → 返回 bool<br><code>Input.GetMouseButton(0/1/2)</code> / <code>GetMouseButtonDown</code> / <code>GetMouseButtonUp</code> → 返回 bool<br><b>带 Down 是“按下那一帧”，带 Up 是“松开那一帧”，不带的是“按住期间每帧”。</b></div>
+</div>
+<div class="card hot">
+<div class="q">A10 · 相机跟随（offset 法）<span class="tag src">课件 03 · slide 27</span></div>
+<pre><code>public Transform playerTransfrom;      // 老师的拼写：Transfrom（应为 Transform）
+private Vector3 offset;
+
+void Start() {
+    offset = transform.position - playerTransfrom.position;
+}
+
+void Update() {
+    transform.position = playerTransfrom.position + offset;
+}
+
+// 控制玩家运动
+float h = Input.GetAxis(&quot;Horizontal&quot;);
+float v = Input.GetAxis(&quot;Vertical&quot;);
+this.transform.Translate(h, 0, v);</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">offset = transform.​position - playerTransfrom.​position</td><td><b>核心一行</b>：在 Start 里算一次「相机相对于玩家差多少」。这个差值就是 offset。</td></tr>
+<tr><td class="f">transform.​position = playerTransfrom.​position + offset</td><td>每帧把差值加回去，<b>相机位置 = 玩家位置 + 固定偏移</b>，于是距离永远不变，看起来就是跟着走。</td></tr>
+<tr><td class="f">Input.​GetAxis(&quot;Horizontal&quot;) / (&quot;Vertical&quot;)</td><td>Unity 内置的两条轴：<b>Horizontal</b> 对应 A/D 和左右方向键，<b>Vertical</b> 对应 W/S 和上下方向键。返回值 <b>-1 ~ 1</b>，带平滑过渡。</td></tr>
+<tr><td class="f">transform.​Translate(h,​ 0,​ v)</td><td><b>三参数重载</b>：<code>Translate(x, y, z)</code>，等价于 <code>Translate(new Vector3(h,0,v))</code>。默认按 <b>Space.Self</b>（自身坐标系）平移。<b>注意 Y 传 0</b>，因为这是地面上的移动。</td></tr>
+</table></div>
+<div class="hot"><b>考点：为什么 offset 要在 Start 里算，不能在 Update 里算？</b><br>在 Start 里算 = 记录<b>初始</b>相对位置，之后保持不变 → 相机刚性跟随。<br>如果在 Update 里算，每帧的 <code>transform.position</code> 已经变了，算出来的 offset 会一直缩小到 0，相机会<b>直接叠到玩家身上</b>。<b>这是很爱考的陷阱。</b></div>
+<div class="tip"><b>另一种做法（实验二方法一）</b>：直接把 Camera 拖成 Car 的<b>子物体</b>，父物体动子物体自动动，一行代码都不用写。考试问「有哪两种实现跟随相机的方法」——答「设为子物体」和「脚本算 offset」即可。</div>
+</div>
+<div class="card miss">
+<div class="q">A11 · 小球吃道具（Player / PickUp / FollowTarget）<span class="tag src">课件 03 · slide 29-30</span></div>
+<pre><code>public class Player : MonoBehaviour {
+    private Rigidbody rd;
+    public int force = 5;
+
+    void Start() {
+        rd = GetComponent&lt;Rigidbody&gt;();
+    }
+
+    void Update() {
+        float h = Input.GetAxis(&quot;Horizontal&quot;);
+        float v = Input.GetAxis(&quot;Vertical&quot;);
+        rd.AddForce(new Vector3(h, 0, v) * force);
+    }
+
+    void OnCollisionEnter(Collision collision) {
+        if (collision.collider.tag == &quot;PickUp&quot;) {
+            Destroy(collision.collider.gameObject);
+        }
+    }
+}
+
+public class PickUp : MonoBehaviour {
+    void Update() {
+        transform.Rotate(new Vector3(0, 1, 0));
+    }
+}
+
+public class FollowTarget : MonoBehaviour {
+    public Transform playerTransfrom;
+    private Vector3 offset;
+
+    void Start() {
+        offset = transform.position - playerTransfrom.position;
+    }
+
+    void Update() {
+        transform.position = playerTransfrom.position + offset;
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">rd = GetComponent​&lt;Rigidbody&gt;()</td><td>取<b>同一个物体</b>上的 Rigidbody 组件。放在 Start 里缓存，避免每帧 GetComponent（性能）。</td></tr>
+<tr><td class="f">rd.​AddForce(new Vector3(h,​ 0,​ v) * force)</td><td>给刚体施加<b>一个力</b>（单位是牛顿量级）。<b>持续施力物体会越来越快</b>，因为它改的是加速度。想要「定速移动」应该改 <code>rd.velocity</code> 或 <code>rd.MovePosition</code>。</td></tr>
+<tr><td class="f">collision.​collider.​tag == &quot;PickUp&quot;</td><td><code>Collision</code> 对象本身没有 tag，要通过 <code>.collider</code> 或 <code>.gameObject</code> 取。<b>两者等价</b>：<code>collision.collider.gameObject</code> 就是你撞到的那个物体。</td></tr>
+<tr><td class="f">transform.​Rotate(new Vector3(0,​ 1,​ 0))</td><td><b>欧拉角重载</b>：每帧绕 Y 转 1 度，道具原地自转。<b>没乘 deltaTime</b>，所以转速跟帧率挂钩（课件的瑕疵）。</td></tr>
+<tr><td class="f">if (.​.​.​) { Destroy(collision.​collider.​gameObject); }</td><td>销毁<b>撞到的那个物体</b>（道具），不是销毁玩家。<b>写 <code>Destroy(gameObject)</code> 就把玩家删了 —— 这是最常见的抄错。</b></td></tr>
+</table></div>
+<div class="warn"><b>课件的写法不严谨，要注意</b>：<code>AddForce</code> 写在 <code>Update</code> 里。按第 2 章和第 5 章的标准，<b>物理相关的操作必须写在 FixedUpdate 里</b>，否则受力不均匀、会出现抖动。<br><b>考试怎么答</b>：如果题目问「应该写在哪个方法里」→ 答 <code>FixedUpdate</code>；如果是照着课件填空 → 填 <code>Update</code>。<b>先看题目怎么问。</b></div>
+<div class="tip"><b>这组代码其实是三个必考点的合体</b>：<br>① <code>GetComponent</code> 缓存组件<br>② <code>OnCollisionEnter(Collision)</code> 的参数类型<br>③ <code>collision.collider.gameObject</code> 三级跳取到对方物体<br>你上次答成 <code>Collider2.gameObject</code>，就是第 ② ③ 点没串起来。</div>
+</div>
+<div class="card ">
+<div class="q">A12 · 音频控制常用脚本<span class="tag src">课件 03 · slide 44</span></div>
+<pre><code>AudioSource audio;                  // 变量名就叫 audio，照抄
+
+audio.isPlaying                     // 是否正在播放（只读）
+audio.loop = true;                  // 循环
+audio.volume = 0.2f;                // 音量 0~1
+audio.Play();                       // 播放
+audio.Stop();                       // 停止
+
+AudioClip clip = (AudioClip)Resources.Load(&quot;Brightman&quot;);
+audio.clip = clip;                  // 切换音频后必须重新 Play()</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">audio.​isPlaying</td><td><b>只读属性</b>，只能判断不能赋值。想暂停用 <code>audio.Pause()</code> + <code>audio.UnPause()</code>。</td></tr>
+<tr><td class="f">audio.​volume = 0.​2f</td><td>范围 <b>0 ~ 1</b>。超过 1 也能设，但那是放大，会破音。</td></tr>
+<tr><td class="f">audio.​clip = clip</td><td><b>换 clip 之后播放不会自动开始</b>，必须再调一次 <code>Play()</code>。<b>这是课件特意注释出来的考点。</b></td></tr>
+<tr><td class="f">(AudioClip)Resources.​Load</td><td><code>Resources.Load</code> 返回 Object，用 <code>as</code> 或强转拿具体类型。</td></tr>
+</table></div>
+<div class="hot"><b>四组音频必背（第 3 章）</b><br><b>① 组件分工</b>：<code>AudioSource</code> = 喇叭（放音）、<code>AudioListener</code> = 耳朵（收音）。<b>一个场景通常只有一个 Listener</b>（默认在 Main Camera 上）。<br><b>② 格式</b>：<code>mp3 / ogg</code> → 长背景音乐；<code>wav / aiff</code> → 短音效。<br><b>③ Load Type</b>：<code>Decompress on load</code>（加载时解压，小文件）、<code>Compressed in memory</code>（内存中压缩，大文件）、<code>Stream from disc</code>（磁盘流，很长的音乐）。<br><b>④ 3D 音效</b>：<code>Min Distance</code> 之内最响、之外开始衰减，<code>Max Distance</code> 之后停止衰减。</div>
+</div>
+<h3>第 4 章　3D 数学与 3D 图形学</h3>
+<div class="card ">
+<div class="q">A13 · 本地方向 / 世界方向互转<span class="tag src">课件 04 · slide 3</span></div>
+<pre><code>void Update() {   // 坐标转换
+    transform.Translate(Vector3.forward * Time.deltaTime);   // Local forward
+
+    Vector3 objvec = transform.InverseTransformDirection(Vector3.forward);
+    transform.Translate(objvec * Time.deltaTime);            // World forward
+}
+
+// 变换自身坐标 → 世界坐标
+Vector3 relative = transform.TransformDirection(Vector3.forward);
+
+// 变换世界坐标 → 自身坐标
+Vector3 relative = transform.InverseTransformDirection(Vector3.forward);</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">transform.​Translate(Vector3.​forward * .​.​.​)</td><td><b>Translate 默认按 Space.Self</b>，所以 <code>Vector3.forward</code> 被理解为「<b>自己的</b>前方」，物体转向后它会跟着转。</td></tr>
+<tr><td class="f">TransformDirection(v)</td><td><b>本地 → 世界</b>。把「自身坐标系里的方向」翻译成「世界坐标系里的方向」。</td></tr>
+<tr><td class="f">InverseTransformDirection(v)</td><td><b>世界 → 本地</b>。反过来翻译。</td></tr>
+<tr><td class="f">TransformPoint vs TransformDirection</td><td>还有一组容易混的：<code>TransformPoint</code> 转的是<b>位置</b>（含缩放和平移），<code>TransformDirection</code> 转的是<b>方向</b>（只含旋转，<b>不含平移</b>，也会归一化）。</td></tr>
+</table></div>
+<div class="hot"><b>四个转换必须分清楚</b><br><code>TransformDirection</code>：本地方向 → 世界方向<br><code>InverseTransformDirection</code>：世界方向 → 本地方向<br><code>TransformPoint</code>：本地点 → 世界点<br><code>InverseTransformPoint</code>：世界点 → 本地点<br><b>Direction 管方向，Point 管位置。用 Point 转方向会因为物体位置偏移而算错。</b></div>
+</div>
+<div class="card hot">
+<div class="q">A14 · 点乘判断物体在前方还是后方<span class="tag src">课件 04 · slide 6</span></div>
+<pre><code>// 两个对象间的向量
+Vector3 v = obj2.transform.position - obj1.transform.position;
+Vector3 wforward = obj1.transform.TransformDirection(Vector3.forward);
+
+if (Vector3.Dot(wforward, v) &lt; 0)
+    print(&quot;obj2 在 obj1 后方&quot;);
+else
+    print(&quot;obj2 不在 obj1 后方&quot;);</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">Vector3 v = obj2.​position - obj1.​position</td><td><b>终点减起点</b>，得到「从 obj1 指向 obj2」的向量。<b>顺序反了结论就全反了。</b></td></tr>
+<tr><td class="f">TransformDirection(Vector3.​forward)</td><td>把「本地前方」翻成<b>世界方向</b>。因为 <code>transform.forward</code> 本身就是世界空间的前方，这里其实等价于 <code>obj1.transform.forward</code>。</td></tr>
+<tr><td class="f">Vector3.​Dot(wforward,​ v)</td><td><b>点乘</b>。<code>&gt;0</code> 夹角 &lt;90° → 在前方；<code>=0</code> 垂直；<code>&lt;0</code> 夹角 &gt;90° → 在后方。</td></tr>
+<tr><td class="f">​&lt; 0</td><td>因为上面求的是「前方 · 指向目标」，为负说明目标在前方的反方向，即<b>背后</b>。</td></tr>
+</table></div>
+<div class="hot"><b>必背：点乘公式与三档判断</b><br><code>v1·v2 = x1x2 + y1y2 + z1z2 = |v1||v2|cosθ</code><br><code>v1·v2 &gt; 0</code> → <b>0° ≤ θ &lt; 90°</b>，两向量大致同向<br><code>v1·v2 = 0</code> → <b>θ = 90°</b>，垂直<br><code>v1·v2 &lt; 0</code> → <b>90° &lt; θ ≤ 180°</b>，反向<br><b>两个都是单位向量时，Dot 就等于 cosθ，范围 [−1, 1]。</b></div>
+</div>
+<div class="card miss">
+<div class="q">A15 · 叉乘求平面法线（正面朝向）<span class="tag src">课件 04 · slide 7</span></div>
+<pre><code>Vector3 side1 = objc.transform.position - obja.transform.position;
+Vector3 side2 = objb.transform.position - obja.transform.position;
+
+Vector3 normal = Vector3.Cross(side1, side2);
+normal.Normalize();     // 单位化</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">objc.​position - obja.​position</td><td>从 <b>a 指向 c</b> 的一条边。</td></tr>
+<tr><td class="f">objb.​position - obja.​position</td><td>从 <b>a 指向 b</b> 的另一条边。<b>两条边共用同一个起点 a</b>，这是关键。</td></tr>
+<tr><td class="f">Vector3.​Cross(side1,​ side2)</td><td>叉乘 → 得到<b>同时垂直于两条边</b>的向量，也就是这个三角形平面的<b>法线</b>。</td></tr>
+<tr><td class="f">normal.​Normalize()</td><td>单位化，让长度变成 1。<b>叉乘结果的长度 = |a||b|sinθ，不是单位长度</b>，求法线必须单位化。</td></tr>
+</table></div>
+<div class="hot"><b>必背：叉乘公式与性质</b><br><code>v1 × v2 = (y1z2 − z1y2,　z1x2 − x1z2,　x1y2 − y1x2)</code><br><b>反交换律</b>：<code>v1 × v2 = −(v2 × v1)</code>　→　换顺序法线就翻转<br><b>长度</b>：<code>|v1×v2| = |v1||v2|sinθ</code>　→　<b>不等于 1，必须 Normalize</b><br><b>方向</b>：右手定则，同时垂直于 v1 和 v2<br><b>用途</b>：求平面法线 / 求旋转轴（见 A16）</div>
+<div class="tip"><b>叉乘算不准就背这个口诀</b>：<b>求哪个分量，就把它划掉，剩下两个轴按 x→y→z→x 循环排，前一个放第一项。</b><br>求 x 分量：划掉 x，剩 y、z → 排成 y1z2，再反过来 z1y2，相减 → <code>y1z2 − z1y2</code><br>求 y 分量：划掉 y，剩 z、x → <code>z1x2 − x1z2</code>（<b>注意这里顺序是 z 在前</b>）<br>求 z 分量：划掉 z，剩 x、y → <code>x1y2 − y1x2</code><br><b>你上次错在 y 分量把减数和被减数颠倒了，就是没记住「z 在前」。</b></div>
+</div>
+<div class="card star">
+<div class="q">A16 · 跟随 + 平滑转向（Slerp）与手写转向（Cross）★<span class="tag src">课件 04 · slide 8</span></div>
+<pre><code>public Transform target;
+public float moveSpeed = 3f;
+public float rotationSpeed = 50f;
+public Vector3 positionOffset = new Vector3(0, 1, -3);
+public bool lookAtTarget = true;
+
+void Update() {
+    if (target != null)
+        FollowTarget();
+}
+
+void FollowTarget() {
+    // 计算目标位置
+    Vector3 targetPosition = target.position + positionOffset;
+
+    // 移动：线性插值
+    transform.position = Vector3.Lerp(transform.position, targetPosition,
+                                      moveSpeed * Time.deltaTime);
+
+    // 旋转：先求目标朝向，再球面插值
+    Vector3 direction = (target.position - transform.position).normalized;
+    Quaternion targetRotation = Quaternion.LookRotation(direction);
+    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
+                                          rotationSpeed * Time.deltaTime);
+}
+
+private void RotateTowardsTargetPure() {
+    // 自身指向目标的方向
+    Vector3 directionToA = (target.position - transform.position).normalized;
+    // 叉乘得到旋转轴
+    Vector3 cross = Vector3.Cross(transform.forward, directionToA);
+    // 当前前方与目标方向的夹角
+    float angle = Vector3.Angle(transform.forward, directionToA);
+
+    if (angle &gt; 5) {                       // 5 度死区
+        float rotationAngle = Mathf.Min(rotationSpeed * Time.deltaTime, angle);
+        transform.Rotate(cross, rotationAngle, Space.World);
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">Vector3.​Lerp(a,​ b,​ t)</td><td><b>线性插值</b>：<code>a + (b−a)*t</code>。t=0 返回 a，t=1 返回 b。<b>t 应该夹在 0~1，课件没夹，是瑕疵。</b></td></tr>
+<tr><td class="f">Quaternion.​LookRotation(direction)</td><td><b>方向 → 旋转</b>。让物体的前方（+Z）对准 direction。<b>参数是方向，不是位置</b>——写 <code>LookRotation(target.position)</code> 是错的。</td></tr>
+<tr><td class="f">Quaternion.​Slerp(a,​ b,​ t)</td><td><b>球面线性插值</b>，第三个参数是 <b>0~1 的比例</b>。角速度均匀，所以转向看起来平滑不突兀。</td></tr>
+<tr><td class="f">(target.​position - transform.​position).​normalized</td><td>先求方向再<b>单位化</b>。不单位化的话 Lerp/Slerp 的比例会被距离放大。</td></tr>
+<tr><td class="f">Vector3.​Cross(transform.​forward,​ directionToA)</td><td><b>叉乘得旋转轴</b>。顺序决定转向：<code>forward × 目标方向</code> 才是「朝目标转」，反了就背对着转。</td></tr>
+<tr><td class="f">float angle = Vector3.​Angle(a,​ b)</td><td>返回两向量夹角，<b>单位是度，范围 0~180</b>。内部就是 <code>Acos(Dot)</code>。</td></tr>
+<tr><td class="f">if (angle &gt; 5)</td><td><b>死区</b>：差 5 度以内就不转了。防止在目标附近来回抖动。</td></tr>
+<tr><td class="f">Mathf.​Min(rotationSpeed * Time.​deltaTime,​ angle)</td><td><b>限速 + 防过冲</b>：这一帧最多转这么多，但也不能超过剩下要转的角度。<b>没有 Mathf.Min 就会转过头再回摆。</b></td></tr>
+<tr><td class="f">transform.​Rotate(cross,​ rotationAngle,​ Space.​World)</td><td><b>三参数重载</b>：绕 <code>cross</code> 轴转 <code>rotationAngle</code> 度，轴按<b>世界坐标</b>解释。</td></tr>
+</table></div>
+<div class="hot"><b>★ 这就是今天那道选择题的原文。</b>考点有三个：<br>① 代码只改 <code>rotation</code> 不改 <code>position</code> → 功能是「一直面向目标」<br>② <code>Cross(forward, 目标方向)</code> = 旋转轴，<b>顺序反了会背对目标转</b><br>③ <code>Mathf.Min(限速×dt, 剩余角度)</code> = 限速且不过冲，<b>这个骨架要背下来</b></div>
+<div class="tip"><b>Quaternion 五成员（必背）</b><br><code>identity</code>　无旋转（w=1），常用于 Instantiate 第三个参数<br><code>Euler</code>　　 欧拉角 → 四元数，<code>Quaternion.Euler(0,90,0)</code><br><code>LookRotation</code>　方向 → 旋转，<b>参数是方向</b><br><code>Slerp</code>　　 球面插值，第三参数是<b>比例 0~1</b><br><code>AngleAxis</code>　绕轴转多少度，<code>Quaternion.AngleAxis(30, Vector3.up)</code><br><b>陷阱</b>：<code>Slerp</code> 第三参数是比例，<code>RotateTowards</code> 第三参数是<b>角度</b>，两者容易混。</div>
+<div class="warn"><b>两个可以拿来说明的瑕疵</b>：① <code>Vector3.Lerp</code> 的 t 没做 <code>Mathf.Clamp01</code>，速度大时 t&gt;1 会冲过头；② <code>Slerp</code> 同理。答辩或答题时指出这一点，会显得你真的读懂了。</div>
+</div>
+<div class="card ">
+<div class="q">A17 · 网格合并与材质合并<span class="tag src">课件 04 · slide 14</span></div>
+<pre><code>void Start() {
+    //---------------- 先获取材质 -------------------------
+    // 获取自身和所有子物体中所有 MeshRenderer 组件
+    MeshRenderer[] meshRenderers = GetComponentsInChildren&lt;MeshRenderer&gt;();
+    Material[] mats = new Material[meshRenderers.Length];
+    for (int i = 0; i &lt; meshRenderers.Length; i++) {
+        mats[i] = meshRenderers[i].sharedMaterial;
+    }
+
+    //---------------- 合并 Mesh --------------------------
+    // 获取自身和所有子物体中所有 MeshFilter 组件
+    MeshFilter[] meshFilters = GetComponentsInChildren&lt;MeshFilter&gt;();
+    CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+
+    for (int i = 0; i &lt; meshFilters.Length; i++) {
+        combine[i].mesh = meshFilters[i].sharedMesh;
+        // 矩阵：自身空间坐标的点 → 世界空间坐标的点
+        combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+        meshFilters[i].gameObject.SetActive(false);
+    }
+
+    // 为新的整体新建一个 mesh
+    transform.GetComponent&lt;MeshFilter&gt;().mesh = new Mesh();
+    // 合并 Mesh。第二个 false 参数表示不合并为一个网格，而是子网格列表
+    transform.GetComponent&lt;MeshFilter&gt;().mesh.CombineMeshes(combine, false);
+
+    transform.gameObject.SetActive(true);
+
+    // 为合并后的新 Mesh 指定材质
+    transform.GetComponent&lt;MeshRenderer&gt;().sharedMaterials = mats;
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">GetComponentsInChildren​&lt;T&gt;()</td><td><b>取自身 + 所有子物体</b>上的组件，返回数组。对比 <code>GetComponent</code>（只取自己、单个）、<code>GetComponents</code>（只取自己、多个）。</td></tr>
+<tr><td class="f">sharedMaterial 而不是 material</td><td><b>关键区别</b>：<code>material</code> 会<b>复制一份新材质</b>（改了不影响别人，但会漏内存）；<code>sharedMaterial</code> 直接拿共享的那个（改了大家一起变）。<b>这里只是读取，所以用 shared。</b></td></tr>
+<tr><td class="f">CombineInstance[] combine</td><td>合并用的结构体数组。<b>每个元素装两个东西</b>：<code>.mesh</code>（哪个网格）和 <code>.transform</code>（它原来在世界里的位置矩阵）。</td></tr>
+<tr><td class="f">meshFilters[i].​transform.​localToWorldMatrix</td><td><b>本地变世界的 4×4 矩阵</b>。没有这一步，所有零件会被叠在原点。</td></tr>
+<tr><td class="f">meshFilters[i].​gameObject.​SetActive(false)</td><td>合并完把原零件<b>隐藏</b>，不然会和合并后的新模型重叠显示。</td></tr>
+<tr><td class="f">new Mesh()</td><td><b>必须 new</b>，不能直接用子物体的 mesh 覆盖。</td></tr>
+<tr><td class="f">CombineMeshes(combine,​ false)</td><td><b>第二参数</b>：<code>false</code> = 合并成一个网格但<b>保留子网格列表</b>（这样才能一个物体挂多个材质）；<code>true</code> = 真正合成单一网格（只能挂一个材质）。</td></tr>
+</table></div>
+<div class="hot"><b>考点：为什么合并后要 <code>sharedMaterials = mats</code></b>。因为用了 <code>CombineMeshes(combine, false)</code>，合并结果里有很多<b>子网格</b>，每个子网格要对应一个材质，所以要把材质数组整体赋过去。</div>
+<div class="warn"><b>课件特意标注的坑</b>：<b>比例失真</b>。如果以某个零件作为根物体，它自己的缩放比例会<b>影响合并后的整体大小</b>，其他部件的缩放都按它走。所以合并前要把所有零件的 scale 统一。</div>
+</div>
+<div class="card ">
+<div class="q">A18 · Cube 六面独立材质（OnGUI + SetTriangles）<span class="tag src">课件 04 · slide 22</span></div>
+<pre><code>public class AA : MonoBehaviour {
+    void OnGUI() {
+        if (GUI.Button(new Rect(100, 100, 100, 100), &quot;测试Mesh&quot;)) {
+
+            Mesh mesh = new Mesh();
+            mesh = this.gameObject.GetComponent&lt;MeshFilter&gt;().mesh;
+
+            int[] triangles;
+            mesh.subMeshCount = 6;
+            this.gameObject.GetComponent&lt;MeshRenderer&gt;().materials = new Material[6];
+
+            triangles = mesh.triangles;
+            mesh.SetTriangles(GetRangeArray(triangles, 0, 5), 0);
+            mesh.SetTriangles(GetRangeArray(triangles, 6, 11), 1);
+            mesh.SetTriangles(GetRangeArray(triangles, 12, 17), 2);
+            mesh.SetTriangles(GetRangeArray(triangles, 18, 23), 3);
+            mesh.SetTriangles(GetRangeArray(triangles, 24, 29), 4);
+            mesh.SetTriangles(GetRangeArray(triangles, 30, 35), 5);
+
+            var mr = this.gameObject.GetComponent&lt;MeshRenderer&gt;();
+            mr.materials[0].color = Color.red;
+            mr.materials[1].color = Color.green;
+            mr.materials[2].color = Color.white;
+            mr.materials[3].color = Color.black;
+            mr.materials[4].color = Color.blue;
+            mr.materials[5].color = Color.yellow;
+        }
+    }
+
+    public int[] GetRangeArray(int[] SourceArray, int StartIndex, int EndIndex) {
+        try {
+            int[] result = new int[EndIndex - StartIndex + 1];
+            for (int i = 0; i &lt;= EndIndex - StartIndex; i++)
+                result[i] = SourceArray[i + StartIndex];
+            return result;
+        }
+        catch (IndexOutOfRangeException ex) {
+            throw new Exception(ex.Message);
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">GUI.​Button(new Rect(x,​ y,​ w,​ h),​ &quot;文字&quot;)</td><td><b>立即模式 GUI 按钮</b>：前四个数是屏幕坐标和宽高，第二个参数是按钮文字。返回 bool。</td></tr>
+<tr><td class="f">mesh.​subMeshCount = 6</td><td>把网格拆成 <b>6 个子网格</b>（Cube 正好 6 个面）。</td></tr>
+<tr><td class="f">MeshRenderer.​materials = new Material[6]</td><td><b>materials（复数）</b>是一个数组，<b>一个子网格配一个材质</b>。</td></tr>
+<tr><td class="f">mesh.​triangles</td><td>所有三角面的<b>顶点下标数组</b>。Cube 有 6 面 × 2 三角形 × 3 顶点 = <b>36 个</b>。</td></tr>
+<tr><td class="f">mesh.​SetTriangles(数组,​ 子网格序号)</td><td>把某一段三角形<b>分给指定子网格</b>。所以 0~5 给第 0 面、6~11 给第 1 面，依次到 30~35。</td></tr>
+<tr><td class="f">GetRangeArray(arr,​ start,​ end)</td><td>自制工具方法：<b>取数组的 [start, end] 闭区间</b>。C# 没有内置的「取一段」方法（Linq 有 Skip/Take 但用法不同），所以自己写。</td></tr>
+<tr><td class="f">catch (IndexOutOfRangeException ex)</td><td><b>下标越界异常</b>，是 .NET 里最常见的运行时异常之一。<code>throw new Exception(ex.Message)</code> 是把异常重新包一层抛出。</td></tr>
+</table></div>
+<div class="tip"><b>这段主要考的其实是两个小点</b>：<br>① <code>materials</code>（复数，数组）vs <code>material</code>（单数，第一个材质）<br>② <code>triangles</code> 是顶点下标数组，<b>每 3 个数构成一个三角形</b><br>Cube 的 36 个下标为什么正好对应 6 个面，是因为 Unity 内置 Cube 的三角形顺序本身按面排列。</div>
+</div>
+<div class="card ">
+<div class="q">A19 · 视频贴图 VideoPlayer<span class="tag src">课件 04 · slide 20</span></div>
+<pre><code>using UnityEngine.Video;
+
+public VideoPlayer vplay;
+
+vplay = GetComponent&lt;VideoPlayer&gt;();
+
+// 切换视频：用 VideoClip 对象
+// vplay.clip = 某个 VideoClip;
+// vplay.Play();</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">using UnityEngine.​Video;</td><td><b>必须加这句</b>，否则 <code>VideoPlayer</code> 和 <code>VideoClip</code> 都找不到。</td></tr>
+<tr><td class="f">GetComponent​&lt;VideoPlayer&gt;()</td><td>取<b>同一个物体</b>上的 VideoPlayer 组件。注意组件是加在 Plane 上的。</td></tr>
+<tr><td class="f">Source = Video Clip 或 URL</td><td>Inspector 里选视频来源：本地剪辑或网络地址。</td></tr>
+</table></div>
+<div class="tip"><b>同一章里配套的三个“贴图”考点</b><br><b>Cubemap 立方体贴图</b>：6 张面拼成，模拟环境反射，类似 Skybox。<br><b>Render Texture 渲染贴图</b>：内容由<b>摄像机实时</b>产生，用于小地图 / 实时预览。做法：第二台相机 → Target Texture 指向 Render Texture → 用<b>自发光材质</b>贴到 Plane 上。<br><b>视频贴图</b>：VideoPlayer 组件 + VideoClip。</div>
+</div>
+<h3>第 5 章　物理系统</h3>
+<div class="card hot">
+<div class="q">A20 · 隐形感应门（桥的出现与消失）<span class="tag src">课件 05 · slide 10</span></div>
+<pre><code>public class BridgeDoor1 : MonoBehaviour {
+    public GameObject goBridge;        // 感应桥
+
+    void OnTriggerEnter(Collider col) {
+        if (col.gameObject.name.Equals(&quot;Player&quot;)) {
+            print(&quot;触发检测&quot;);
+            goBridge.GetComponent&lt;MeshCollider&gt;().enabled = true;
+            goBridge.GetComponent&lt;MeshRenderer&gt;().enabled = true;
+        }
+    }
+}
+
+public class BridgeDoor2 : MonoBehaviour {
+    public GameObject goBridge;        // 感应桥
+
+    void OnTriggerEnter(Collider col) {
+        print(&quot;进入到第二个隐形门&quot;);
+        if (col.gameObject.name.Equals(&quot;Player&quot;)) {
+            goBridge.GetComponent&lt;MeshCollider&gt;().enabled = false;
+            goBridge.GetComponent&lt;MeshRenderer&gt;().enabled = false;
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">OnTriggerEnter(Collider col)</td><td><b>触发器回调，参数类型是 Collider（不是 Collision）</b>。因为触发器不产生真实接触，所以没有接触点信息，直接给你对方的碰撞体。</td></tr>
+<tr><td class="f">col.​gameObject.​name.​Equals(&quot;Player&quot;)</td><td><b>按名字判断</b>，不用 tag。三种等价写法：<code>col.gameObject.name.Equals("Player")</code>、<code>col.gameObject.tag == "Player"</code>、<code>col.CompareTag("Player")</code>。<b>最后一种性能最好。</b></td></tr>
+<tr><td class="f">GetComponent​&lt;MeshCollider&gt;().​enabled = true</td><td><b>组件级开关</b>。关掉 MeshCollider，碰撞消失，玩家能穿过去。</td></tr>
+<tr><td class="f">GetComponent​&lt;MeshRenderer&gt;().​enabled = true</td><td><b>组件级开关</b>。关掉 MeshRenderer，物体看不见。</td></tr>
+<tr><td class="f">两个都要设置</td><td><b>这就是“隐形门”的本质</b>：既要看不见（Renderer 关）又要能穿过（Collider 关）。只关一个会出现「看得见但能穿」或「看不见但被挡住」。</td></tr>
+</table></div>
+<div class="hot"><b>★ 这里有个极易混淆的三组开关，必须分清</b><br><code>gameObject.SetActive(bool)</code>　→ <b>物体</b>显隐，会连组件一起停<br><code>component.enabled = bool</code>　→ <b>单个组件</b>启停，物体还在<br><code>renderer.enabled = bool</code>　→ 只是<b>不画</b>，碰撞体照旧生效<br><b>实验一里用的是 <code>snake.gameObject.SetActive(true)</code> + <code>snake.enabled = true</code>，两行都写是冗余的</b>（SetActive 已经包含 enabled 的效果）。</div>
+<div class="tip"><b>“隐形墙”怎么做（课件 slide 9 的技巧）</b>：<b>空对象 + BoxCollider</b>，不加 MeshRenderer，于是能挡人但看不见。这比关 Renderer 更干净。</div>
+<div class="warn"><b>课件里还写了一条要注意</b>：勾了 <code>Is Trigger</code> 之后，<b>刚体物体会静静下坠穿透地面</b>（因为它不再被地面挡住）。可以在 Constraints 里冻结 Y 轴防止下坠。</div>
+</div>
+<h3>第 6 章　粒子系统</h3>
+<div class="card ">
+<div class="q">A21 · 粒子·随机双色（MinMaxGradient）<span class="tag src">课件 06 · slide 25</span></div>
+<pre><code>public class ColorfulParticles : MonoBehaviour {
+
+    private ParticleSystem particleSystem;
+    private ParticleSystem.MainModule mainModule;
+
+    void Start() {
+        particleSystem = GetComponent&lt;ParticleSystem&gt;();
+        mainModule = particleSystem.main;
+
+        // 设置粒子系统基础参数
+        mainModule.startSpeed = 5f;
+        mainModule.startSize = 0.2f;
+        mainModule.startLifetime = 3f;
+        mainModule.maxParticles = 1000;
+
+        // 启用随机颜色
+        mainModule.startColor = new ParticleSystem.MinMaxGradient(
+            Color.red,
+            Color.blue
+        );
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">GetComponent​&lt;ParticleSystem&gt;()</td><td>取粒子系统组件。<b>注意粒子组件的类名是 <code>ParticleSystem</code>，没有空格。</b></td></tr>
+<tr><td class="f">particleSystem.​main</td><td>返回 <code>MainModule</code>（基础模块）。<b>这是个结构体，不是类</b>，所以拿到之后要直接改它的字段，不能存起来以后再用（会失效）。</td></tr>
+<tr><td class="f">mainModule.​startSpeed = 5f</td><td>初始速度。<b>对应 Inspector 里的 Start Speed</b>。命名规律：模块里带 <code>start</code> 前缀的都是「出生时的初始值」。</td></tr>
+<tr><td class="f">mainModule.​startLifetime = 3f</td><td>粒子存活 <b>3 秒</b>。</td></tr>
+<tr><td class="f">mainModule.​maxParticles = 1000</td><td><b>最大粒子数</b>，超过就不再生成，用来保护性能。</td></tr>
+<tr><td class="f">new ParticleSystem.​MinMaxGradient(Color.​red,​ Color.​blue)</td><td><b>在两个值之间随机取</b>：每颗粒子的颜色在红色和蓝色之间随机。<b>注意：<code>startColor</code> 的类型是 <code>MinMaxGradient</code>，不能直接赋 <code>Color</code>。</b>这是最常写错的地方。</td></tr>
+</table></div>
+<div class="hot"><b>考点：粒子系统的三种数值设置（课件 slide 6，简答高频）</b><br><b>① 权重</b>　范围 0~1，例如 Attraction<br><b>② 固定参数</b>　固定一个值，例如发射器的持续时间<br><b>③ 参数曲线</b>　<b>这是粒子系统千变万化的根源</b>，通过调曲线能变出各种效果<br>问「粒子系统为什么能做出那么多效果」→ 答第三条。</div>
+<div class="tip"><b>over Lifetime vs by Speed（简答必考，你已经背下来了）</b><br><code>over Lifetime</code> → <b>花开花落式</b>，粒子一生都在变（颜色从亮到暗、尺寸从大到小）<br><code>by Speed</code> → <b>跑龙套式</b>，满足条件才执行（速度快时才拖尾）</div>
+</div>
+<div class="card ">
+<div class="q">A22 · 粒子·Gradient 渐变动态色<span class="tag src">课件 06 · slide 26</span></div>
+<pre><code>public class DynamicColorParticles : MonoBehaviour {
+
+    public Gradient colorGradient;
+    public float colorChangeSpeed = 1f;
+
+    private ParticleSystem particleSystem;
+    private ParticleSystem.MainModule mainModule;
+    private float timer;
+
+    void Start() {
+        particleSystem = GetComponent&lt;ParticleSystem&gt;();
+        mainModule = particleSystem.main;
+
+        // 创建颜色渐变
+        colorGradient = new Gradient();
+
+        // 颜色关键点
+        GradientColorKey[] colorKeys = new GradientColorKey[5];
+        colorKeys[0] = new GradientColorKey(Color.red,     0.0f);
+        colorKeys[1] = new GradientColorKey(Color.yellow,  0.25f);
+        colorKeys[2] = new GradientColorKey(Color.green,   0.5f);
+        colorKeys[3] = new GradientColorKey(Color.blue,    0.75f);
+        colorKeys[4] = new GradientColorKey(Color.magenta, 1.0f);
+
+        // 透明度关键点
+        GradientAlphaKey[] alphaKeys = new GradientAlphaKey[2];
+        alphaKeys[0] = new GradientAlphaKey(1.0f, 0.0f);
+        alphaKeys[1] = new GradientAlphaKey(1.0f, 1.0f);
+
+        colorGradient.SetKeys(colorKeys, alphaKeys);
+
+        // 粒子参数
+        mainModule.startSpeed = 8f;
+        mainModule.startSize = 0.3f;
+        mainModule.startLifetime = 4f;
+        mainModule.loop = true;
+        mainModule.duration = 5f;
+    }
+
+    void Update() {
+        timer += Time.deltaTime * colorChangeSpeed;
+        mainModule.startColor = new ParticleSystem.MinMaxGradient(
+            GetRandomColor(),
+            GetRandomColor()
+        );
+    }
+
+    Color GetRandomColor() {
+        // 方法1：完全随机颜色
+        return new Color(Random.value, Random.value, Random.value);
+
+        // 方法2：使用预设渐变
+        // return colorGradient.Evaluate(Random.value);
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">new GradientColorKey(颜色,​ 位置)</td><td><b>两个参数</b>：颜色 + 它在这条渐变上的<b>位置比例（0~1）</b>。5 个关键点就把 0~1 分成红→黄→绿→蓝→品红。</td></tr>
+<tr><td class="f">new GradientAlphaKey(透明度,​ 位置)</td><td><b>透明度关键点</b>。这里两端都设 1.0，表示全程不透明。</td></tr>
+<tr><td class="f">colorGradient.​SetKeys(colorKeys,​ alphaKeys)</td><td><b>一次性设置两组关键点</b>。<b>Gradient 必须同时设颜色和透明度</b>，只设一组会报错或效果不对。</td></tr>
+<tr><td class="f">colorGradient.​Evaluate(t)</td><td><b>按比例取色</b>，t 是 0~1。<b>这个方法在注释里，说明老师讲课时演示过</b>——常作为「怎么从渐变里取颜色」的答案。</td></tr>
+<tr><td class="f">Random.​value</td><td><b>返回 0~1 的 float（两端都包含）</b>，是 <code>Random.Range(0f,1f)</code> 的简写。</td></tr>
+<tr><td class="f">new Color(r,​ g,​ b)</td><td><b>三参数版本</b>，alpha 默认 1（不透明）。<b>四参数版本才是 (r,g,b,a)</b>。</td></tr>
+<tr><td class="f">mainModule.​loop = true</td><td>循环发射。</td></tr>
+<tr><td class="f">mainModule.​duration = 5f</td><td><b>一个循环持续 5 秒</b>。配合 loop 使用。</td></tr>
+</table></div>
+<div class="hot"><b>注意这段代码有一个“看起来像 bug”的地方</b>：<code>GetRandomColor()</code> 里 <code>return</code> 之后还有一行注释的 return。<b>这在 C# 里合法但第二个永远执行不到</b>，编译器会给警告（unreachable code）。考题如果问「这段有没有问题」，答案是「有，return 之后是死代码」。</div>
+<div class="tip"><b>必背的 Random 三种取值</b><br><code>Random.value</code>　→ float，<b>[0, 1]</b>，两端含<br><code>Random.Range(int, int)</code>　→ int，<b>[min, max)</b>，<b>右端不含</b><br><code>Random.Range(float, float)</code>　→ float，<b>[min, max]</b>，右端含</div>
+</div>
+<div class="card ">
+<div class="q">A23 · 粒子·每颗粒子独立颜色<span class="tag src">课件 06 · slide 27</span></div>
+<pre><code>public class IndividualColorParticles : MonoBehaviour {
+
+    private ParticleSystem particleSystem;
+    private ParticleSystem.MainModule mainModule;
+    private List&lt;Color&gt; particleColors = new List&lt;Color&gt;();
+
+    void Start() {
+        particleSystem = GetComponent&lt;ParticleSystem&gt;();
+        mainModule = particleSystem.main;
+        mainModule.startColor = new ParticleSystem.MinMaxGradient(
+            Color.white, Color.white
+        );
+    }
+
+    void Update() {
+        // 获取所有粒子
+        ParticleSystem.Particle[] particles =
+            new ParticleSystem.Particle[particleSystem.main.maxParticles];
+
+        int numParticlesAlive = particleSystem.GetParticles(particles);
+
+        for (int i = 0; i &lt; numParticlesAlive; i++) {
+            if (particles[i].remainingLifetime &gt; particles[i].startLifetime * 0.99f) {
+                // 只在粒子刚生成时设置颜色
+                particles[i].startColor = new Color(
+                    Random.Range(0.2f, 1f),
+                    Random.Range(0.2f, 1f),
+                    Random.Range(0.2f, 1f),
+                    1f
+                );
+            }
+        }
+
+        particleSystem.SetParticles(particles, numParticlesAlive);
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">new ParticleSystem.​Particle[maxParticles]</td><td>先按<b>最大粒子数</b>开一个数组当容器。<b>数组要开够大</b>，否则装不下。</td></tr>
+<tr><td class="f">GetParticles(particles)</td><td><b>把当前所有存活粒子拷进数组</b>，返回<b>实际拷贝了几个</b>。<b>循环上限要用这个返回值，不能用数组长度。</b></td></tr>
+<tr><td class="f">remainingLifetime &gt; startLifetime * 0.​99f</td><td><b>判断“刚生成”</b>：剩余寿命 ≈ 总寿命，说明它是这一帧才出生的。<b>因为这个判断，每颗粒子只会在出生时被染一次色，不会每帧变色。</b></td></tr>
+<tr><td class="f">particles[i].​startColor = .​.​.​</td><td><b>写回数组里的粒子</b>。改的是数组元素，不是粒子系统本身。</td></tr>
+<tr><td class="f">SetParticles(particles,​ numParticlesAlive)</td><td><b>把数组写回粒子系统</b>。<b>Get → 改 → Set 是 Unity 改单个粒子的固定三步</b>，缺一步都不生效。</td></tr>
+</table></div>
+<div class="hot"><b>考点：为什么改粒子要 Get/Set 而不是直接改？</b><br>因为 <code>ParticleSystem</code> 是 C++ 侧的对象，C# 拿到的只是接口。要逐颗修改只能把数据<b>拷到托管数组</b>里改完再送回去。<br><b>三步：<code>GetParticles</code> → 改数组元素 → <code>SetParticles</code>。</b></div>
+<div class="warn"><b>这段的两个性能坑</b>：① 每帧 <code>new</code> 一个上千长度的数组，GC 压力大（应该提到字段里复用）；② 每帧遍历全部粒子，粒子多时很慢。<b>这也是可以拿来说的“改进点”。</b></div>
+</div>
+<div class="card ">
+<div class="q">A24 · 粒子系统的开启与关闭<span class="tag src">课件 06 · slide 28</span></div>
+<pre><code>// 基本粒子 ParticleSystem：Play + Stop
+if (Input.GetKeyDown(KeyCode.A))
+    PsBasePartical.Play();
+
+if (Input.GetKeyDown(KeyCode.B))
+    PsBasePartical.Stop();
+
+// 复合粒子 GameObject：SetActive(true / false)
+if (Input.GetKeyDown(KeyCode.C))
+    obj.SetActive(true);
+
+if (Input.GetKeyDown(KeyCode.D))
+    obj.SetActive(false);</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">PsBasePartical.​Play()</td><td><b>开始发射</b>。注意 <code>ParticleSystem</code> 组件自身有 <code>Play/Stop/Pause/Clear</code>，不需要别的封装。</td></tr>
+<tr><td class="f">PsBasePartical.​Stop()</td><td><b>停止发射</b>。注意：<b>Stop 只是不再产生新粒子，已经在天上的粒子会继续飞完</b>。想立刻全部消失要用 <code>Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear)</code> 或 <code>Clear()</code>。</td></tr>
+<tr><td class="f">obj.​SetActive(true)</td><td><b>复合粒子</b>（一个空物体下面挂好几个粒子系统）用物体级开关。</td></tr>
+<tr><td class="f">Input.​GetKeyDown(KeyCode.​A)</td><td><b>KeyCode 枚举</b>：A~Z、Space、LeftShift、Escape、UpArrow/DownArrow/LeftArrow/RightArrow 等。<b>四个方向键要写 Arrow 后缀</b>，写成 "Up" 会报错。</td></tr>
+</table></div>
+<div class="hot"><b>考点：基本粒子 vs 复合粒子</b><br><b>单个粒子系统</b> → 用 <code>Play()</code> / <code>Stop()</code><br><b>多个粒子系统的组合体</b> → 用 <code>SetActive()</code> 整组开关<br>这句话几乎可以原样当简答答案用。</div>
+</div>
+<h3>第 7 章　动画系统</h3>
+<div class="card hot">
+<div class="q">A25 · Animator 参数控制动画<span class="tag src">课件 07 · slide 14</span></div>
+<pre><code>private Animator AnimaObj;      // 动画
+
+void Start() {
+    AnimaObj = this.GetComponent&lt;Animator&gt;();
+    AnimaObj.SetBool(&quot;IsRun&quot;, false);
+    AnimaObj.SetFloat(&quot;Speed&quot;, 0);
+}
+
+void Update() {
+    if (Input.GetKeyDown(KeyCode.A))
+        AnimaObj.SetFloat(&quot;Speed&quot;, 1);
+    else if (Input.GetKeyDown(KeyCode.B))
+        AnimaObj.SetBool(&quot;IsRun&quot;, true);
+    else if (Input.GetKeyDown(KeyCode.C))
+        AnimaObj.SetBool(&quot;IsRun&quot;, false);
+    else if (Input.GetKeyDown(KeyCode.D))
+        AnimaObj.SetFloat(&quot;Speed&quot;, 0);
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">GetComponent​&lt;Animator&gt;()</td><td>取 Animator 组件。<b>注意类名是 <code>Animator</code>（没有 e），而资源叫 Animator Controller。</b></td></tr>
+<tr><td class="f">SetBool(&quot;IsRun&quot;,​ true)</td><td><b>设置 bool 参数</b>。第一个参数是<b>参数名（字符串，必须和状态机里完全一致，区分大小写）</b>。</td></tr>
+<tr><td class="f">SetFloat(&quot;Speed&quot;,​ 1)</td><td><b>设置 float 参数</b>。用于阈值比较（Speed&gt;0.1 进入行走）。</td></tr>
+<tr><td class="f">SetTrigger(&quot;名&quot;)</td><td>还有 <code>SetTrigger</code> / <code>ResetTrigger</code>，用于<b>一次性的触发</b>（触发后自动归零）。课件没写，但三兄弟常一起考。</td></tr>
+<tr><td class="f">GetBool / GetFloat / GetInteger</td><td><b>读取参数</b>的方法。</td></tr>
+</table></div>
+<div class="hot"><b>考点：Animator 参数四种类型</b>：<code>Float</code>、<code>Int</code>、<code>Bool</code>、<code>Trigger</code>。<br><b>Bool 和 Trigger 的区别</b>：Bool 是状态，可以一直保持 true；Trigger 是一次性事件，触发后自动变回 false。<br>「按一下攻击」用 Trigger，「正在跑」用 Bool。</div>
+<div class="warn"><b>参数名写错是最常见的“不报错但没效果”</b>。<code>SetBool("isRun", true)</code> 和状态机里的 <code>IsRun</code> 大小写不同 → 完全没反应，也没有任何报错提示。</div>
+</div>
+<div class="card ">
+<div class="q">A26 · BlendTree 融合树脚本<span class="tag src">课件 07 · slide 20</span></div>
+<pre><code>public float rotateSpeed = 2.0f;    // 身体旋转速度
+private Animator anim;
+
+void Start() {
+    anim = GetComponent&lt;Animator&gt;();
+}
+
+void Update() {
+    // 旋转：左/右键（A/D）→ Direction 参数 + 物体转身
+    float h = Input.GetAxis(&quot;Horizontal&quot;);
+    anim.SetFloat(&quot;Direction&quot;, h);
+    transform.Rotate(0, h * rotateSpeed, 0);
+
+    // 前进
+    if (Input.GetKey(KeyCode.Z)) {
+        anim.SetFloat(&quot;Speed&quot;, 0.2f);           // 行走档
+        transform.Translate(new Vector3(0f, 0f, 0.2f * Time.deltaTime));
+    }
+    else if (Input.GetKey(KeyCode.X)) {
+        anim.SetFloat(&quot;Speed&quot;, 0.9f);           // 奔跑档
+        transform.Translate(new Vector3(0f, 0f, 0.9f * Time.deltaTime));
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">anim.​SetFloat(&quot;Direction&quot;,​ h)</td><td><b>把输入值直接喂给参数</b>。Direction 在融合树里作为一个<b>独立轴</b>，取 -1/0/1 就分别对应 左/中/右 三个动作。</td></tr>
+<tr><td class="f">anim.​SetFloat(&quot;Speed&quot;,​ 0.​2f)</td><td><b>Speed 是另一个轴</b>。实验四里 0.5 = 走、1 = 跑，这里 0.2 / 0.9 —— <b>具体数值要跟融合树的临界点对上</b>。</td></tr>
+<tr><td class="f">transform.​Rotate(0,​ h*rotateSpeed,​ 0)</td><td><b>欧拉角重载</b>：绕 Y 转。因为没乘 <code>deltaTime</code>，转身速度跟帧率相关（课件瑕疵）。</td></tr>
+<tr><td class="f">transform.​Translate(new Vector3(0,​0,​0.​2f*Time.​deltaTime))</td><td><b>沿本地 Z 轴前进</b>，乘了 <code>deltaTime</code> 所以速度和帧率无关 —— <b>这一行是对的</b>。</td></tr>
+</table></div>
+<div class="hot"><b>融合树的核心思想（简答可答）</b>：<br>把 <b>Speed（前后）× Direction（左右）</b> 两个参数当作一个二维平面上的坐标，融合树根据这个坐标在多个动画之间<b>加权混合</b>，从而实现「站→走→跑」「左→中→右」的连续平滑过渡，而不是硬切。<b>临界点（Threshold）就是每个子动画在轴上的位置。</b></div>
+<div class="tip"><b>实验四的三个关键数值（要记）</b><br>walking 融合树内三个子节点：Direction = <b>-1 / 0 / 1</b><br>run 融合树内三个子节点：Direction = <b>-1 / 0 / 1</b><br>Motion 层两个子节点：walking = <b>0</b>，run = <b>0.8</b>，参数是 Speed</div>
+</div>
+<div class="card hot">
+<div class="q">A27 · 动画层权重与身体蒙版<span class="tag src">课件 07 · slide 25</span></div>
+<pre><code>protected Animator animator;    // 保存 Animator 组件
+
+void Start() {
+    animator = this.GetComponent&lt;Animator&gt;();
+
+    // 设置第二个图层的权重为 1。图层序号从 0 开始计，
+    // 权重 1 表示没有被身体蒙版屏蔽的部分由该图层的骨骼动画控制，
+    // 权重 0 表示不受该层影响
+    if (animator.layerCount &gt;= 2) {
+        animator.SetLayerWeight(1, 1);
+    }
+}
+
+void Update() {
+    if (animator) {
+        if (Input.GetButtonDown(&quot;Fire1&quot;)) {
+            animator.SetBool(&quot;IsRaise&quot;, true);
+        }
+        if (Input.GetButtonUp(&quot;Fire1&quot;)) {
+            animator.SetBool(&quot;IsRaise&quot;, false);
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">animator.​layerCount</td><td><b>总层数</b>。层序号<b>从 0 开始</b>，所以第二层的序号是 <b>1</b>。</td></tr>
+<tr><td class="f">animator.​SetLayerWeight(1,​ 1)</td><td><b>第一个参数是层序号，第二个是权重（0~1）</b>。权重 1 = 该层完全生效；0 = 完全不生效。</td></tr>
+<tr><td class="f">if (animator.​layerCount &gt;= 2)</td><td><b>先判断再设置</b>，防止层数不够时越界。这是好的防御性写法。</td></tr>
+<tr><td class="f">Input.​GetButtonDown(&quot;Fire1&quot;)</td><td><b>Button 系列</b>读的是 Input Manager 里配置的虚拟按钮名。<code>Fire1</code> 默认映射到左 Ctrl 和鼠标左键。</td></tr>
+<tr><td class="f">if (animator)</td><td><b>Unity 对象的隐式 bool 判断</b>，等价于 <code>if (animator != null)</code>。</td></tr>
+</table></div>
+<div class="hot"><b>考点：Layer 和 Avatar Mask 分别解决什么问题</b><br><b>动画层（Layer）</b>：把身体不同部位的动画<b>叠加</b>起来。例如下层管走/跑，上层管投掷/射击。<br><b>身体蒙版（Avatar Mask）</b>：在某一层里<b>屏蔽掉某些骨骼</b>，让这些部位不受该层影响。<br><b>例子（课件原话）</b>：角色双手举着东西走路时，手臂不该摆动 → 做手臂蒙版。<br><b>关键数值</b>：<code>SetLayerWeight(层号, 权重)</code>，<b>层号从 0 起</b>。</div>
+</div>
+<h3>第 8 章　UGUI 界面</h3>
+<div class="card ">
+<div class="q">A28 · Slider / Toggle 取值与赋值<span class="tag src">课件 08 · slide 15-16</span></div>
+<pre><code>// Slider
+Slider slider = GameObject.Find(&quot;Slider1&quot;).GetComponent&lt;Slider&gt;();
+slider.value = 0.5f;
+
+// Toggle
+Toggle t = GameObject.Find(&quot;Toggle1&quot;).GetComponent&lt;Toggle&gt;();
+t.isOn = false;</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">using UnityEngine.​UI;</td><td><b>UGUI 的类全在 <code>UnityEngine.UI</code> 命名空间里</b>，不写这句 <code>Slider/Toggle/Image/Text/Button</code> 都找不到。</td></tr>
+<tr><td class="f">GameObject.​Find(&quot;Slider1&quot;)</td><td><b>按名字找物体</b>，返回 GameObject。</td></tr>
+<tr><td class="f">GetComponent​&lt;Slider&gt;()</td><td><b>再取组件</b>。两步走：先找物体，再取组件。</td></tr>
+<tr><td class="f">slider.​value = 0.​5f</td><td>滑块的值，<b>范围是 0~1</b>（除非改了 Min/Max Value）。</td></tr>
+<tr><td class="f">t.​isOn = false</td><td><b>Toggle 的选中状态</b>。注意属性名是 <code>isOn</code>（<b>i 小写、O 大写</b>），不是 <code>IsOn</code>。</td></tr>
+<tr><td class="f">OnValueChanged 事件</td><td>值变化时触发。<b>Slider 的处理函数带一个 float 参数</b>（就是新值），<b>Toggle 带一个 bool</b>。这个签名对不上是最常见的“绑了没反应”原因。</td></tr>
+</table></div>
+<div class="hot"><b>四个控件的取值属性（必背）</b><br><code>Slider.value</code>　→ float 0~1<br><code>Toggle.isOn</code>　→ bool<br><code>InputField.text</code>　→ string<br><code>Text.text</code>　→ string<br><b>血条怎么做？</b>删掉 Slider 的 Handle，只剩底和 Fill，调 value 就是血量。</div>
+</div>
+<div class="card ">
+<div class="q">A29 · 登录窗口校验与切换场景<span class="tag src">课件 08 · slide 19</span></div>
+<pre><code>using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public void testa() {
+    InputField name = GameObject.Find(&quot;InputField1&quot;).GetComponent&lt;InputField&gt;();
+    InputField pswd = GameObject.Find(&quot;InputField2&quot;).GetComponent&lt;InputField&gt;();
+
+    if (name.text == &quot;aust&quot; &amp;&amp; pswd.text == &quot;1234&quot;) {
+        SceneManager.LoadScene(&quot;aaa&quot;);
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">using UnityEngine.​SceneManagement;</td><td><b>场景管理的命名空间</b>。不写这句用不了 <code>SceneManager</code>。</td></tr>
+<tr><td class="f">InputField name = .​.​.​</td><td>取两个输入框。<b>注意变量名叫 <code>name</code>，它和 <code>MonoBehaviour.name</code> 属性重名</b>——局部变量会遮蔽成员，虽然能编译，但容易让人看晕。</td></tr>
+<tr><td class="f">name.​text == &quot;aust&quot;</td><td>取<b>输入框里的文字</b>，字符串比较用 <code>==</code> 即可（C# 里 string 重载了 ==，比较的是内容不是地址）。</td></tr>
+<tr><td class="f">SceneManager.​LoadScene(&quot;aaa&quot;)</td><td><b>按场景名切换</b>。也可以用场景索引 <code>LoadScene(1)</code>。</td></tr>
+<tr><td class="f">前提：场景要加进 Build</td><td><b>没在 Build Settings 里注册的场景，运行时加载不到</b>。课件特意强调「所有场景在 Build 中都添加进去」。</td></tr>
+</table></div>
+<div class="hot"><b>考点：场景切换的几种写法</b><br><code>SceneManager.LoadScene("名字")</code>　同步加载<br><code>SceneManager.LoadScene(索引)</code>　按编号加载<br><code>SceneManager.LoadSceneAsync("名字")</code>　<b>异步加载</b>，返回 <code>AsyncOperation</code>，可用 <code>.progress</code>（0~1）和 <code>.isDone</code> 做进度条<br><b>旧写法</b> <code>Application.LoadLevel()</code> 已废弃 —— 课件第 2 章还在讲，如果考题同时给出新旧两种，<b>选 <code>SceneManager</code></b>。</div>
+<div class="tip"><b>跨场景传数据的两种办法（课件 02 slide 46）</b><br>① <b>静态变量</b>：<code>public static int age = 20;</code> 在别的场景里也能读。<br>② <b>DontDestroyOnLoad</b>：在 Start 里写 <code>GameObject.DontDestroyOnLoad(gameObject);</code>，这个物体切场景时不会被销毁。</div>
+</div>
+<h2 id="b">B 组 · 实验文档代码<span class="cnt">12 段 · 实验一 ~ 实验四</span></h2>
+<div class="tip"><b>为什么实验代码比课件代码更重要</b>：实验是老师<b>亲自带着做</b>的，程序题的填空很可能直接挖这些代码里的空。而且实验代码有完整的功能背景（贪吃蛇、赛车、台球、角色动画），比课件里的零散片段更好记。</div>
+<h3>实验一　C# 语法基础（贪吃蛇）</h3>
+<div class="card hot">
+<div class="q">B1 · Snake —— 蛇头移动、吃食物、长身体<span class="tag src">实验一 · 内容.doc</span></div>
+<pre><code>using System.Linq;
+
+public class Snake : MonoBehaviour {
+    Vector3 dir = Vector3.right;
+    List&lt;Transform&gt; tail = new List&lt;Transform&gt;();
+    bool ate = false;
+    public GameObject tailPrefab;   // Tail Prefab
+    public bool work = false;
+
+    void Start() {
+        InvokeRepeating(&quot;Move&quot;, 1f, 0.3f);
+    }
+
+    void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag.Equals(&quot;food&quot;)) {
+            ate = true;
+            Destroy(other.gameObject);
+        }
+        else {
+            work = false;
+            //Game game = GameObject.Find(&quot;Game&quot;).GetComponent&lt;Game&gt;() as Game;
+            //game.StopGame();
+        }
+    }
+
+    void Update() {
+        if (Input.GetKey(KeyCode.RightArrow))      dir = Vector3.right;
+        else if (Input.GetKey(KeyCode.DownArrow))  dir = Vector3.down;
+        else if (Input.GetKey(KeyCode.LeftArrow))  dir = Vector3.left;
+        else if (Input.GetKey(KeyCode.UpArrow))    dir = Vector3.up;
+    }
+
+    void Move() {
+        if (work) {
+            Vector3 v = transform.position;
+            transform.Translate(dir);
+
+            if (ate) {
+                GameObject g = (GameObject)Instantiate(tailPrefab, v, Quaternion.identity);
+                tail.Insert(0, g.transform);
+                ate = false;
+            }
+            else if (tail.Count &gt; 0) {
+                tail.Last().position = v;
+                tail.Insert(0, tail.Last());
+                tail.RemoveAt(tail.Count - 1);
+            }
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">using System.​Linq;</td><td><b>为 <code>tail.Last()</code> 服务</b>。Linq 的扩展方法在 <code>System.Linq</code> 里，不写这句编译不过。<b>这句是常考细节：问“为什么要 using System.Linq”。</b></td></tr>
+<tr><td class="f">Vector3 dir = Vector3.​right</td><td>初始方向朝右。<b>注意没写访问修饰符 = private</b>（C# 字段默认 private）。</td></tr>
+<tr><td class="f">List​&lt;Transform&gt; tail</td><td>用一个 List 存<b>所有尾巴节</b>。存 <code>Transform</code> 而不是 <code>GameObject</code>，因为只需要 position。</td></tr>
+<tr><td class="f">InvokeRepeating(&quot;Move&quot;,​ 1f,​ 0.​3f)</td><td><b>重复调用</b>：1 秒后第一次执行，之后每 0.3 秒执行一次。<br><b>三个参数：方法名（字符串，带引号）、首次延迟、重复间隔。</b><br>⚠️ 课件第 2 章写的是 <code>InvokeRepeat()</code>，<b>Unity 里没有这个方法</b>。</td></tr>
+<tr><td class="f">other.​gameObject.​tag.​Equals(&quot;food&quot;)</td><td><b>触发器回调参数是 Collider</b>，取 tag 要先 <code>.gameObject</code> 或直接 <code>other.tag</code>。</td></tr>
+<tr><td class="f">Destroy(other.​gameObject)</td><td>销毁<b>食物</b>，不是蛇自己。</td></tr>
+<tr><td class="f">else { work = false; }</td><td>撞到不是 food 的东西 → 游戏结束（后面注释掉的两行是通知 Game 脚本）。</td></tr>
+<tr><td class="f">Vector3.​right / down / left / up</td><td><b>注意方向</b>：这是 2D 竖版贪吃蛇，<b>Y 轴当上下</b>，所以用 <code>up/down</code> 而不是 <code>forward/back</code>。</td></tr>
+<tr><td class="f">Vector3 v = transform.​position;</td><td><b>先存下旧位置</b>，因为下一行就要动了，尾巴要挪到「头刚才在的地方」。</td></tr>
+<tr><td class="f">transform.​Translate(dir)</td><td><b>默认按 Space.Self 平移</b>。每 0.3 秒移动 1 个单位。</td></tr>
+<tr><td class="f">Instantiate(tailPrefab,​ v,​ Quaternion.​identity)</td><td><b>三参数实例化</b>：预制体、位置、旋转。<code>Quaternion.identity</code> = 不旋转。</td></tr>
+<tr><td class="f">tail.​Insert(0,​ g.​transform)</td><td><b>插到下标 0（头部）</b>，因为尾巴是从头往尾数的。</td></tr>
+<tr><td class="f">tail.​Last().​position = v</td><td><b>把尾巴末端挪到蛇头刚才的位置</b>——这是贪吃蛇的核心技巧：<b>不移动所有节，只移动最后一节</b>。</td></tr>
+<tr><td class="f">tail.​Insert(0,​ tail.​Last()); tail.​RemoveAt(tail.​Count - 1);</td><td><b>再把刚挪过来的那一节移到队首</b>，同时把队尾删掉（它已经插到前面了）。这就是「整条尾巴往前蠕动一格」的实现。</td></tr>
+</table></div>
+<div class="hot"><b>这道题的三个高频考点</b><br>① <code>InvokeRepeating(方法名, 首次延迟, 间隔)</code> —— 参数顺序和含义<br>② <code>Instantiate(预制体, 位置, 旋转)</code> —— 三个参数<br>③ <code>Quaternion.identity</code> = 无旋转，<b>你已经错两次了</b><br><b>附加考点</b>：<code>Instantiate(prefab, pos)</code> 两参数版和 <code>Instantiate(prefab, pos, Quaternion.identity)</code> <b>完全等价</b>。</div>
+<div class="tip"><b>“为什么只移动最后一节？”</b>——这是设计题会问的点。如果每节都计算自己该去哪，代码复杂且容易错；<b>只把最后一节挪到新位置再插到队首，其余节位置不变，视觉上就是整条蛇前进了</b>。这是用<b>数据结构操作替代逐元素计算</b>的典型思路。</div>
+</div>
+<div class="card ">
+<div class="q">B2 · FoodSpawner —— 定时在边界内随机刷食物<span class="tag src">实验一 · 内容.doc</span></div>
+<pre><code>public class FoodSpawner : MonoBehaviour {
+
+    public GameObject foodPrefab;
+
+    // Borders
+    public Transform borderTop;
+    public Transform borderBottom;
+    public Transform borderLeft;
+    public Transform borderRight;
+
+    public bool Continuous = false;
+
+    void Start() {
+        InvokeRepeating(&quot;Spawn&quot;, 1, 4);   // 每 4 秒钟生成一个食物
+    }
+
+    void Spawn() {
+        if (Continuous) {
+            int x = (int)Random.Range(borderLeft.position.x + 0.5f,
+                                      borderRight.position.x - 0.5f);
+            int y = (int)Random.Range(borderBottom.position.y + 0.5f,
+                                      borderTop.position.y - 0.5f);
+
+            // Instantiate the food at (x, y)
+            Instantiate(foodPrefab, new Vector3(x, y, -0.5f), Quaternion.identity);
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">InvokeRepeating(&quot;Spawn&quot;,​ 1,​ 4)</td><td><b>1 秒后开始</b>，之后<b>每 4 秒</b>一次。注意这里写的是整数 <code>1, 4</code>，隐式转成 float，也能编译。</td></tr>
+<tr><td class="f">public Transform borderTop / Bottom / Left / Right</td><td><b>四个边界物体</b>，在 Inspector 里拖四个 Board 进去。用 Transform 是为了取 <code>.position</code>。</td></tr>
+<tr><td class="f">public bool Continuous = false</td><td><b>外部开关</b>，由 Game 脚本控制：开始游戏前不刷食物，开始了才刷。</td></tr>
+<tr><td class="f">(int)Random.​Range(f1,​ f2)</td><td><b>float 版 Range 再强转 int</b>。这里是<b>截断取整（去掉小数）</b>，不是四舍五入。<b>注意：<code>(int)3.9 = 3</code>，要四舍五入得用 <code>Mathf.RoundToInt</code>。</b></td></tr>
+<tr><td class="f">borderLeft.​position.​x + 0.​5f</td><td><b>加 0.5 留边距</b>，防止食物生成在边界正上被吃掉或卡住。<b>这个“±0.5”是设计细节，考设计题时可以提。</b></td></tr>
+<tr><td class="f">new Vector3(x,​ y,​ -0.​5f)</td><td><b>Z 固定 -0.5</b>，让食物在蛇所在的平面上（蛇头 Z = -0.6，食物略靠前一点，保证能被吃掉）。</td></tr>
+</table></div>
+<div class="hot"><b>考点：随机数的两个版本</b><br><code>Random.Range(int, int)</code> → <b>int，右端不含</b><br><code>Random.Range(float, float)</code> → <b>float，右端含</b><br>这里取 <code>(int)</code> 强转，属于「先用 float 版再用 int 截断」，<b>和直接用 int 版不等价</b>（int 版是均匀取整，float 版截断会让分布略微偏向小的数）。</div>
+<div class="tip"><b>为什么用 <code>InvokeRepeating</code> 而不是在 Update 里计时？</b><br>因为 <code>InvokeRepeating</code> 由引擎统一调度，不用自己维护计时变量，代码更短。<br><b>缺点</b>：停止不方便（要 <code>CancelInvoke("Spawn")</code>），且方法名用字符串没有编译期检查。<br><b>设计题里问“为什么不用 Update 硬刷”就是考这个 —— 事件驱动优于轮询。</b></div>
+</div>
+<div class="card hot">
+<div class="q">B3 · Game —— 开始 / 结束游戏的状态切换<span class="tag src">实验一 · 内容.doc</span></div>
+<pre><code>public class Game : MonoBehaviour {
+
+    public FoodSpawner fs;
+    public Snake snake;
+    public GameObject textLose;
+    public bool status = false;
+
+    void Update() {
+        if (Input.GetKeyUp(KeyCode.Space)) {
+            status = true;
+
+            textLose.transform.position = new Vector3(0, 20, -1);   // 把&quot;you lose&quot;藏到视野外
+            fs.gameObject.SetActive(true);
+            fs.Continuous = true;
+            snake.work = true;
+            snake.enabled = true;
+            snake.gameObject.SetActive(true);
+        }
+    }
+
+    public void StopGame() {
+        status = false;
+
+        textLose.transform.position = new Vector3(-2, 5, -1);   // 把&quot;you lose&quot;挪回视野内
+        fs.Continuous = false;
+        fs.gameObject.SetActive(false);
+        snake.work = false;
+        snake.gameObject.SetActive(false);
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">public FoodSpawner fs; public Snake snake;</td><td><b>脚本也能当字段类型</b>！在 Inspector 里把挂了对应脚本的物体拖进来，就能直接调用它的 public 成员。<b>这是“脚本间通信”最简单的做法。</b></td></tr>
+<tr><td class="f">Input.​GetKeyUp(KeyCode.​Space)</td><td><b>空格键松开那一帧</b>。<code>GetKey</code> 按住每帧 true、<code>GetKeyDown</code> 按下那帧、<code>GetKeyUp</code> 松开那帧。</td></tr>
+<tr><td class="f">new Vector3(0,​ 20,​ -1)</td><td><b>用挪位置的方式“隐藏”文字</b>。Z = -1 在相机前方，Y=20 在视野上方之外。<b>比 SetActive 更省事，但很土</b>——设计题里可以说“更规范的做法是 <code>textLose.SetActive(true/false)</code>”。</td></tr>
+<tr><td class="f">fs.​gameObject.​SetActive(true)</td><td><b>物体级开关</b>，整个 FoodSpawner 物体一起启用。</td></tr>
+<tr><td class="f">fs.​Continuous = true</td><td><b>字段级开关</b>，直接改脚本里的 public 变量。<b>和上一行配合才完整</b>：物体启用了，但还得允许刷食物。</td></tr>
+<tr><td class="f">snake.​enabled = true</td><td><b>组件级开关</b>。<b>注意这一行和下一行的 <code>SetActive(true)</code> 是冗余的</b>——SetActive 已经让物体连同组件一起启用了。<b>这是课件里的冗余代码，答题时可指出。</b></td></tr>
+<tr><td class="f">public void StopGame()</td><td><b>必须是 public</b>，否则 Snake 脚本里 <code>game.StopGame()</code> 调不到。<b>访问修饰符是判断能不能跨脚本调用的唯一标准。</b></td></tr>
+</table></div>
+<div class="hot"><b>考点：两种“关闭”的区别</b><br><b>挪位置</b>：物体还活着，Update 照跑，只是看不见 → 浪费性能<br><b>SetActive(false)</b>：物体整个停掉，Update 不执行 → 省性能<br><b>enabled = false</b>：只停这个组件，物体和别的组件还在<br>问「哪个更省性能」→ <code>SetActive(false)</code>。</div>
+<div class="tip"><b>脚本间通信的三种方式（可以当简答答）</b><br>① <b>Inspector 拖引用</b>：<code>public Snake snake;</code>（本实验用的）<br>② <b>Find 查找</b>：<code>GameObject.Find("Game").GetComponent&lt;Game&gt;()</code><br>③ <b>静态变量 / 单例</b>：<code>public static Game instance;</code><br><b>①最稳、②最慢、③最灵活。</b></div>
+</div>
+<h3>实验二　资源系统使用（赛车）</h3>
+<div class="card hot">
+<div class="q">B4 · CameraControl —— 第三人称跟随相机<span class="tag src">实验二 · 内容.doc</span></div>
+<pre><code>public Transform playerTransfrom;      // 老师的拼写：Transfrom
+private Vector3 offset;
+
+void Start() {
+    offset = transform.position - playerTransfrom.position;
+}
+
+void Update() {
+    if (playerTransfrom)
+        transform.position = playerTransfrom.position + offset;
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">offset = transform.​position - playerTransfrom.​position</td><td><b>Start 里算一次</b>：相机比车高多少、靠后多少。</td></tr>
+<tr><td class="f">if (playerTransfrom)</td><td><b>防御性判断</b>。如果忘记在 Inspector 里拖引用，<code>playerTransfrom</code> 是 null，不判断就会每帧报空引用。<b>实验二第一版就是漏了这个判断，车没动起来。</b></td></tr>
+<tr><td class="f">transform.​position = playerTransfrom.​position + offset</td><td><b>刚性跟随</b>：位置永远保持固定偏移。</td></tr>
+</table></div>
+<div class="hot"><b>实验二给了两种跟随方案（这是简答的现成答案）</b><br><b>方法 1</b>：把 Camera 拖成 Car 的<b>子物体</b>。父动子动，零代码，但相机朝向也跟着车转（车翻相机也翻）。<br><b>方法 2</b>：脚本算 offset（本段代码）。相机<b>只跟位置、不跟旋转</b>，视觉更稳，可以单独调。<br><b>问“两种方法区别”就答这个。</b></div>
+<div class="warn"><b>这个 offset 法有个明显缺陷</b>：车<b>转向</b>时相机不会跟着转，永远是固定方向。想要「车尾一直对着相机」，需要每帧重算 offset（用车的 rotation 旋转 offset 向量），或者直接把相机设为子物体。<b>这一点可以作为改进点写进报告或答辩。</b></div>
+</div>
+<div class="card ">
+<div class="q">B5 · CarLife —— 生命值归零则销毁<span class="tag src">实验二 · 内容.doc</span></div>
+<pre><code>public int life = 10;
+
+void Update() {
+    if (life &lt;= 0)
+        Destroy(this.gameObject);
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">public int life = 10</td><td><b>public 所以在 Inspector 里能看到并修改初始值。</b></td></tr>
+<tr><td class="f">if (life ​&lt;= 0)</td><td><b>用 &lt;= 而不是 ==</b>。因为一次扣 3 点（10→7→4→1→-2），<b>永远不可能正好等于 0</b>。<b>这是很爱考的逻辑陷阱。</b></td></tr>
+<tr><td class="f">Destroy(this.​gameObject)</td><td>销毁<b>这个脚本所在的物体</b>（车）。<b>写 <code>Destroy(this)</code> 只销毁组件，车还在。</b></td></tr>
+</table></div>
+<div class="hot"><b>★ 必考的小逻辑题</b>：life 初始 10，每次撞障碍物扣 3，问「撞几次之后车消失」→ <b>第 4 次</b>（10→7→4→1→−2，此时 ≤0）。<b>如果代码写成 <code>if (life == 0)</code>，车永远不会消失。</b></div>
+<div class="tip"><b>为什么判定放在 Update 里？</b>因为 life 是被<b>别的脚本</b>（ProcessCollider）改的，本脚本不知道什么时候被改，只能每帧检查。<br><b>更优雅的做法</b>：在 ProcessCollider 里扣完血后直接判断并通知，或者把 life 改成属性（property），在 set 里判断 —— 这就是「事件驱动优于轮询」。</div>
+</div>
+<div class="card hot">
+<div class="q">B6 · ProcessCollider —— 撞障碍物扣血<span class="tag src">实验二 · 内容.doc</span></div>
+<pre><code>void OnCollisionEnter(Collision other) {
+    if (other.gameObject.name.Equals(&quot;Car&quot;)) {
+        CarLife car = GameObject.Find(&quot;Car&quot;).GetComponent&lt;CarLife&gt;();
+        car.life = car.life - 3;
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">OnCollisionEnter(Collision other)</td><td><b>参数是 Collision</b>（碰撞），不是 Collider（触发）。<b>这一空你答错过。</b></td></tr>
+<tr><td class="f">other.​gameObject.​name.​Equals(&quot;Car&quot;)</td><td><b>按物体名字判断</b>，不用 tag。<b>名字判断的缺点是改名就失效。</b></td></tr>
+<tr><td class="f">GameObject.​Find(&quot;Car&quot;)</td><td><b>全局按名字查找</b>，<b>每撞一次就查一次</b> —— 性能差。应该像实验一那样用 <code>public CarLife car;</code> 拖引用。</td></tr>
+<tr><td class="f">GetComponent​&lt;CarLife&gt;()</td><td>从找到的物体上取脚本组件。</td></tr>
+<tr><td class="f">car.​life = car.​life - 3;</td><td><b>直接改对方的 public 字段</b>。等价写法：<code>car.life -= 3;</code>。<b>public 是能跨脚本改的前提。</b></td></tr>
+</table></div>
+<div class="hot"><b>这道题常考「谁来扣血」的问题</b><br><b>本实验的做法</b>：障碍物脚本去改车的血量（<b>被动方改主动方</b>）。<br><b>问题</b>：障碍物得知道车在哪、叫什么名字，耦合高；每撞一次 Find 一次，性能差。<br><b>更好的做法</b>：碰撞由<b>车</b>自己处理，车在自己的 <code>OnCollisionEnter</code> 里判断撞到的是不是障碍物，然后扣自己的血。<br><b>设计题问「碰撞扣血怎么设计」就答这个对比。</b></div>
+<div class="tip"><b><code>other</code> 这个名字</b>：课件第 5 章写 <code>OnCollisionEnter(Collision other)</code>，课件第 3 章写 <code>OnCollisionEnter(Collision collision)</code>，实验二写 <code>other</code>，实验三写 <code>other</code>。<b>参数名随便起，考试填空时只要类型对就行。</b></div>
+</div>
+<h3>实验三　物理系统与材质（台球）</h3>
+<div class="card hot">
+<div class="q">B7 · Player —— 台球主球的受力移动与进洞重置<span class="tag src">实验三 · 内容.doc</span></div>
+<pre><code>public class Player : MonoBehaviour {
+
+    public float m_Force = 20;
+
+    void Update() {
+        float x = Input.GetAxis(&quot;Horizontal&quot;);
+        float y = Input.GetAxis(&quot;Vertical&quot;);
+        this.gameObject.GetComponent&lt;Rigidbody&gt;().AddForce(new Vector3(x, 0, y) * m_Force);
+    }
+
+    void OnCollisionEnter(Collision other) {
+        if (other.collider.tag.Equals(&quot;Hole&quot;)) {
+            Rigidbody rg = gameObject.GetComponent&lt;Rigidbody&gt;();
+            rg.Sleep();
+            gameObject.transform.position = new Vector3(0, 0.5f, 0);
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">m_Force</td><td><b>m_ 前缀是匈牙利命名法</b>（m = member，成员变量）。老师四个实验里都在用：<code>m_Force</code>、<code>m_BallID</code>、<code>m_audiosource</code>、<code>m_ballPrefab</code>。</td></tr>
+<tr><td class="f">AddForce(new Vector3(x,​ 0,​ y) * m_Force)</td><td><b>Y 传 0</b>，因为台球在地面上移动，不能往上推。<b>X 和 Y 输入映射到 X 和 Z 轴</b>——这是 3D 场景里「平面移动」的标准写法。</td></tr>
+<tr><td class="f">this.​gameObject.​GetComponent​&lt;Rigidbody&gt;()</td><td><b>每帧 GetComponent</b>，非常浪费。正确做法是在 Start 里缓存成字段（像课件 A11 的 <code>rd</code> 那样）。</td></tr>
+<tr><td class="f">other.​collider.​tag.​Equals(&quot;Hole&quot;)</td><td><b>注意这里用 <code>other.collider</code></b>，不是 <code>other.gameObject</code>。两者都能取到 tag，<code>collider</code> 少一层跳转。</td></tr>
+<tr><td class="f">rg.​Sleep()</td><td><b>让刚体休眠</b>：速度归零、停止物理计算。<b>如果不加这一句，重置位置后球还会带着原来的速度继续滚。</b></td></tr>
+<tr><td class="f">gameObject.​transform.​position = new Vector3(0,​ 0.​5f,​ 0);</td><td><b>重置到原点</b>。Y = 0.5 是因为球的半径是 0.5，放在 0 会陷进桌面。<b>这个 0.5 是很容易考的细节。</b></td></tr>
+</table></div>
+<div class="hot"><b>★ <code>Sleep()</code> 和 <code>WakeUp()</code> 是必背的一对</b>：<br><code>Sleep()</code>　刚体休眠，静止不动，省性能<br><code>WakeUp()</code> 唤醒刚体<br><b>为什么重置位置前要 Sleep？</b>因为直接改 <code>position</code> 不会清速度，球会「带着旧速度瞬移」，看起来像弹飞。<b>Sleep 就是清速度。</b></div>
+<div class="tip"><b>这段代码的顺序很讲究</b>：先 <code>Sleep()</code> 再改 <code>position</code>。<b>反过来就失效</b>——先改位置，物理引擎下一帧还会用旧速度继续推它。</div>
+</div>
+<div class="card hot">
+<div class="q">B8 · Ball —— 目标球的进洞销毁与撞击音效<span class="tag src">实验三 · 内容.doc</span></div>
+<pre><code>public class Ball : MonoBehaviour {
+
+    public int m_BallID = 0;
+    public AudioSource m_audiosource;
+    public AudioClip m_audioclip;
+
+    void Start() {
+        m_audiosource = GetComponent&lt;AudioSource&gt;();
+    }
+
+    void OnCollisionEnter(Collision other) {
+
+        if (other.collider.tag.Equals(&quot;Hole&quot;)) {
+            Destroy(this.gameObject);
+        }
+
+        if (other.collider.tag.Equals(&quot;TargetBall&quot;)
+            || other.collider.tag.Equals(&quot;Player&quot;)) {
+
+            m_audioclip = Resources.Load(&quot;Sound/hit&quot;) as AudioClip;
+            if (m_audiosource)
+                m_audiosource.PlayOneShot(m_audioclip);
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">m_audiosource = GetComponent​&lt;AudioSource&gt;()</td><td><b>在 Start 里缓存</b>，避免每次碰撞都取一次。</td></tr>
+<tr><td class="f">Destroy(this.​gameObject)</td><td>进洞就<b>销毁这颗球自己</b>。</td></tr>
+<tr><td class="f">other.​collider.​tag.​Equals(&quot;TargetBall&quot;) || other.​collider.​tag.​Equals(&quot;Player&quot;)</td><td><b>撞到别的目标球或主球时</b>才播放撞击音效。<b>用 || 连接两个条件</b>，任一满足即播放。</td></tr>
+<tr><td class="f">Resources.​Load(&quot;Sound/hit&quot;) as AudioClip</td><td><b>路径用斜杠</b>，<b>不带扩展名</b>，相对 Resources 文件夹。</td></tr>
+<tr><td class="f">if (m_audiosource)</td><td><b>判空再调用</b>。如果球上没有 AudioSource 组件，这里会返回 null，不判断就崩。</td></tr>
+<tr><td class="f">m_audiosource.​PlayOneShot(m_audioclip)</td><td><b>PlayOneShot</b>：播放一次，<b>可以叠加</b>。同一颗球连续撞击时不会打断上一声，这是和 <code>Play()</code> 的最大区别。</td></tr>
+</table></div>
+<div class="hot"><b>★ <code>Play()</code> 和 <code>PlayOneShot()</code> 的区别（高频）</b><br><code>Play()</code>　播放，<b>会打断当前正在播的声音</b>，适合背景音乐<br><code>PlayOneShot(clip)</code>　播放一次，<b>可以和别的音效叠加，互不打断</b>，适合音效<br><b>问「连打时音效被吞了怎么办」→ 答改用 PlayOneShot。</b></div>
+<div class="warn"><b>这段有个逻辑瑕疵</b>：<code>m_audioclip</code> 在<b>每次碰撞时都重新 Load 一次</b>，而 Resources.Load 是有开销的。应该在 <code>Start</code> 里加载一次存起来。<b>这个可以当“代码优化点”说。</b></div>
+</div>
+<div class="card hot">
+<div class="q">B9 · BallCreate —— 批量实例化 + 按名字加载材质<span class="tag src">实验三 · 内容.doc</span></div>
+<pre><code>public class BallCreate : MonoBehaviour {
+
+    public Transform m_ballPrefab;    // 预制小球，拖拽小球预制到变量中
+
+    // 材质名称
+    private string[] m_mid = new string[] { &quot;ball1&quot;, &quot;ball2&quot;, &quot;ball3&quot;, &quot;ball4&quot;, &quot;ball5&quot;, &quot;ball6&quot; };
+
+    private Vector3[] m_pos = new Vector3[] {
+        new Vector3(0,     0.5f, 5),  new Vector3(0.5f,  0.5f, 6),
+        new Vector3(-0.5f, 0.5f, 6),  new Vector3(1,     0.5f, 7),
+        new Vector3(0,     0.5f, 7),  new Vector3(-1,    0.5f, 7)
+    };
+
+    void Start() {
+        int i;
+
+        // 产生一组小球
+        for (i = 0; i &lt; 6; i++) {
+            Transform go = Instantiate(m_ballPrefab);
+            go.transform.parent = this.gameObject.transform;
+            go.position = m_pos[i];
+            go.rotation = transform.rotation;
+        }
+
+        // 获取小球组
+        GameObject[] balls = GameObject.FindGameObjectsWithTag(&quot;TargetBall&quot;);
+        Material[] mats = new Material[balls.Length];
+
+        for (i = 0; i &lt; balls.Length; i++) {
+            // 材质获取
+            mats[i] = Resources.Load(&quot;Materials/&quot; + m_mid[i]) as Material;
+
+            // 设置小球 ID 和材质
+            Ball ball = balls[i].GetComponent&lt;Ball&gt;();
+            ball.m_BallID = i + 1;
+            ball.GetComponent&lt;MeshRenderer&gt;().material = mats[i];
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">Instantiate(m_ballPrefab)</td><td><b>单参数版</b>：只给预制体，位置和旋转沿用<b>预制体自身</b>的设定。<b>和实验一的 <code>Instantiate(prefab, pos, rot)</code> 三参数版对比记。</b></td></tr>
+<tr><td class="f">Transform go = Instantiate(m_ballPrefab);</td><td><b>返回值是 Transform</b>，因为 <code>m_ballPrefab</code> 声明成了 Transform。<b>如果声明成 GameObject，返回的就是 GameObject。</b></td></tr>
+<tr><td class="f">go.​transform.​parent = this.​gameObject.​transform;</td><td><b>设置父物体</b>（也可以用 <code>go.SetParent(...)</code>）。<b>作用是让所有小球挂在一个空物体下，层次面板干净。</b></td></tr>
+<tr><td class="f">go.​position = m_pos[i];</td><td><b>按数组里预设好的六个坐标依次摆放</b>，形成台球的三角形摆法。</td></tr>
+<tr><td class="f">GameObject.​FindGameObjectsWithTag(&quot;TargetBall&quot;)</td><td><b>复数版</b>，返回所有 tag 为 TargetBall 的物体数组。<b>注意方法名有 s：FindGameObject<b>s</b>WithTag。</b></td></tr>
+<tr><td class="f">Resources.​Load(&quot;Materials/&quot; + m_mid[i]) as Material</td><td><b>字符串拼接路径</b>，依次加载 ball1~ball6 六个材质。</td></tr>
+<tr><td class="f">ball.​GetComponent​&lt;MeshRenderer&gt;().​material = mats[i]</td><td><b>改的是 <code>material</code>（单数）不是 <code>sharedMaterial</code></b>。这里<b>故意用 material</b>：每颗球要独立的材质实例，改一颗不影响其他颗。<br><b>这个 material / sharedMaterial 的取舍是必考点。</b></td></tr>
+<tr><td class="f">ball.​m_BallID = i + 1;</td><td><b>ID 从 1 开始</b>（i 从 0 开始，所以 +1）。</td></tr>
+</table></div>
+<div class="hot"><b>★ material vs sharedMaterial（极易考）</b><br><code>renderer.material</code>　读的时候会<b>自动复制一份新材质</b>，改它只影响自己；写的时候也会创建实例。<b>会打破批处理，慎用。</b><br><code>renderer.sharedMaterial</code>　直接拿共享材质，<b>改了所有用这个材质的东西一起变</b>。<br><b>规律</b>：要“各管各的”用 <code>material</code>，要“批量改”用 <code>sharedMaterial</code>。<br><b>这里六颗球要不同颜色，必须用 <code>material</code>。</b></div>
+<div class="tip"><b>这段最妙的一行是 <code>go.transform.parent = ...</code> 之前没写 <code>go.position</code></b>。先设父物体再设位置：<b>因为设父物体时子物体位置会按父物体的坐标系重新解释</b>，如果先设位置再设父物体，最终位置会偏。<b>这个顺序坑很值得说。</b></div>
+</div>
+<div class="card ">
+<div class="q">B10 · Hole —— 球洞的进洞音效<span class="tag src">实验三 · 内容.doc</span></div>
+<pre><code>public class Hole : MonoBehaviour {
+
+    void OnCollisionEnter(Collision other) {
+        if (other.collider.tag.Equals(&quot;TargetBall&quot;)
+            || other.collider.tag.Equals(&quot;Player&quot;))
+            GetComponent&lt;AudioSource&gt;().Play();
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">OnCollisionEnter(Collision other)</td><td><b>碰撞回调</b>，不是触发。所以球洞是实体，球是真的撞上去的。</td></tr>
+<tr><td class="f">GetComponent​&lt;AudioSource&gt;().​Play()</td><td><b>不判空直接取</b>。如果球洞上没加 AudioSource 组件，这里会崩。（实验三步骤里写了「为球洞添加音频」，所以有。）</td></tr>
+<tr><td class="f">if 后面没写大括号</td><td><b>单条语句可以省略大括号</b>，C# 语法允许。但<b>多条语句必须加</b>，否则只有第一条在 if 里。</td></tr>
+</table></div>
+<div class="tip"><b>三个脚本都用了 <code>OnCollisionEnter</code>，但处理的事完全不同</b>：<br><b>Hole</b>：只管播声音（被动响应）<br><b>Ball</b>：进洞销毁自己 + 撞球播声音<br><b>Player</b>：进洞重置位置 + 清速度<br><b>同一个事件被三处订阅，这就是「事件驱动」的雏形</b>——设计题可以拿这个举例。</div>
+</div>
+<h3>实验四　Mecanim 角色动画控制</h3>
+<div class="card hot">
+<div class="q">B11 · BaseController —— WASD 控制移动与动画切换<span class="tag src">实验四 · 内容.doc</span></div>
+<pre><code>public class BaseController : MonoBehaviour {
+
+    public float FloWalkingSpeed  = 0.02F;   // 走路速度
+    public float FloRatationSpeed = 0.2F;    // 旋转速度（Rotation 拼错成 Ratation）
+    private Animator AnimaObj;               // 动画
+
+    void Start() {
+        AnimaObj = this.GetComponent&lt;Animator&gt;();
+    }
+
+    void Update() {
+
+        if (Input.GetKey(KeyCode.W)) {
+            if (Input.GetKey(KeyCode.LeftShift)) {
+                AnimaObj.SetBool(&quot;IsRun&quot;, true);
+                this.transform.Translate(Vector3.forward * FloWalkingSpeed);
+            }
+            else {
+                AnimaObj.SetBool(&quot;IsRun&quot;, false);
+                AnimaObj.SetFloat(&quot;Speed&quot;, 1);
+            }
+            this.transform.Translate(Vector3.forward * FloWalkingSpeed);
+        }
+        else if (Input.GetKey(KeyCode.S)) {
+            this.transform.Translate(Vector3.back * FloWalkingSpeed);
+        }
+        else {
+            AnimaObj.SetFloat(&quot;Speed&quot;, 0);
+            AnimaObj.SetBool(&quot;IsRun&quot;, false);
+        }
+
+        // 转弯
+        if (Input.GetKey(KeyCode.A)) {
+            this.transform.Rotate(Vector3.down * FloRatationSpeed);
+        }
+        else if (Input.GetKey(KeyCode.D)) {
+            this.transform.Rotate(Vector3.up * FloRatationSpeed);
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">Input.​GetKey(KeyCode.​W)</td><td><b>按住 W 的每一帧都返回 true</b>，所以能连续前进。用 <code>GetKeyDown</code> 就只能走一步。</td></tr>
+<tr><td class="f">Input.​GetKey(KeyCode.​LeftShift)</td><td><b>按 Shift 切奔跑</b>。注意 KeyCode 名是 <code>LeftShift</code>，写 <code>Shift</code> 不存在。</td></tr>
+<tr><td class="f">AnimaObj.​SetBool(&quot;IsRun&quot;,​ true)</td><td><b>参数名必须和状态机里大小写完全一致</b>。</td></tr>
+<tr><td class="f">AnimaObj.​SetFloat(&quot;Speed&quot;,​ 1)</td><td><b>Speed = 1</b>，对应状态转移条件 <code>Speed &gt; 0.1</code>，所以会进入 Walking。</td></tr>
+<tr><td class="f">this.​transform.​Translate(Vector3.​forward * FloWalkingSpeed)</td><td><b>没乘 deltaTime</b>，所以速度跟帧率挂钩。<b>FloWalkingSpeed = 0.02</b> 就是按「一帧挪 0.02」来定的，60fps 下大约 1.2 单位/秒。<b>课件的写法，不要学。</b></td></tr>
+<tr><td class="f">transform.​Rotate(Vector3.​down * FloRatationSpeed)</td><td><b>A 键用 <code>Vector3.down</code>（−Y 轴）→ 向左转</b>。<b>D 键用 <code>Vector3.up</code>（+Y 轴）→ 向右转</b>。<b>这里 <code>Vector3.up/down</code> 被当轴用，每帧转 0.2 度。</b></td></tr>
+<tr><td class="f">else { SetFloat(&quot;Speed&quot;,​ 0); .​.​.​ }</td><td><b>没有按 W 就回站立</b>。注意这个 else 是跟 <code>if (W)</code> 配对的，<code>S</code> 的分支走到这里会设 Speed=0（也就是倒着走时播放站立动画 —— <b>课件的小 bug</b>）。</td></tr>
+</table></div>
+<div class="hot"><b>★ <code>Rotate(Vector3.up * x)</code> 和 <code>Rotate(0, x, 0)</code> 的区别</b><br><code>Rotate(Vector3.up * 0.2f)</code>　→ <b>两个参数</b>：第一个被当成<b>欧拉角</b>，所以这是「绕 Y 转 0.2 度」<br><code>Rotate(0, 0.2f, 0)</code>　→ <b>三个参数</b>：三个欧拉角分量，<b>效果完全一样</b><br><code>Rotate(Vector3.up, 0.2f)</code>　→ <b>两个参数但第二个是 float</b>：这是「绕 up 轴转 0.2 度」，<b>结果也一样</b><br><b>三种写法在这个场景结果相同，但参数含义不同 —— 这是最容易出选择题的地方。</b></div>
+<div class="warn"><b>实验四代码里的一个真 bug</b>：按 W 时，<code>if/else</code> 分支里都设了 IsRun，<b>但 else 分支（走路）设了 <code>Speed = 1</code> 而 <code>if</code> 分支（跑步）<b>没设 Speed</b></b>。所以从走路切到跑步时 Speed 会停留在 1，状态机可能不会切到 Running。<b>答辩时指出这点很加分。</b></div>
+</div>
+<div class="card star">
+<div class="q">B12 · Blendtree —— 融合树双参数控制<span class="tag src">实验四 · 内容.doc</span></div>
+<pre><code>public class Blendtree : MonoBehaviour {
+
+    public float forwardSpeed = 7.0f;    // 前进的速度
+    public float rotateSpeed  = 2.0f;    // 身体旋转速度
+    private Animator anim;
+
+    void Start() {
+        anim = GetComponent&lt;Animator&gt;();
+    }
+
+    void Update() {
+        // 旋转
+        float h = Input.GetAxis(&quot;Horizontal&quot;);
+        anim.SetFloat(&quot;Direction&quot;, h);
+        transform.Rotate(0, h * rotateSpeed, 0);
+
+        // 前进
+        if (Input.GetKey(KeyCode.UpArrow)) {
+            if (Input.GetKey(KeyCode.Z)) {
+                anim.SetFloat(&quot;Speed&quot;, 1f);      // running
+                forwardSpeed = 3f;
+            }
+            else {
+                anim.SetFloat(&quot;Speed&quot;, 0.5f);    // walking
+                forwardSpeed = 1;
+            }
+            transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
+        }
+        else {
+            anim.SetFloat(&quot;Speed&quot;, 0f);
+        }
+    }
+}</code></pre>
+<div class="exp"><table>
+<tr><th>代码</th><th>作用</th></tr>
+<tr><td class="f">Input.​GetAxis(&quot;Horizontal&quot;)</td><td><b>返回 -1~1 的连续值</b>（带平滑），所以 <code>Direction</code> 参数能取 0.37 这种中间值 —— <b>这正是融合树需要的</b>。</td></tr>
+<tr><td class="f">anim.​SetFloat(&quot;Direction&quot;,​ h)</td><td><b>把 -1~1 直接喂给融合树的一个轴</b>，融合树就会在 左(-1)/中(0)/右(1) 三个动作之间插值。</td></tr>
+<tr><td class="f">anim.​SetFloat(&quot;Speed&quot;,​ 0.​5f)</td><td><b>0.5 = 走</b>，对应融合树里 walking 的临界点 0。<b>1 = 跑</b>，对应 run 的临界点 0.8。<b>所以 0.5 落在 walking 区间、1 落在 run 区间。</b></td></tr>
+<tr><td class="f">anim.​SetFloat(&quot;Speed&quot;,​ 0f)</td><td><b>没按前进键 → Speed 归零 → 播放站立</b>（Standing 的转移条件是 Speed &lt; 0.1）。</td></tr>
+<tr><td class="f">forwardSpeed = 3f; / = 1;</td><td><b>代码里改的是对象自身的移动速度</b>，和动画参数是<b>两套独立的东西</b>——一个控制「看起来在跑」，一个控制「实际跑多快」。<b>两者要手动对齐，这是常见的“滑步”来源。</b></td></tr>
+<tr><td class="f">transform.​Translate(Vector3.​forward * forwardSpeed * Time.​deltaTime)</td><td><b>这一行是标准的</b>：乘了 deltaTime，速度和帧率无关。</td></tr>
+</table></div>
+<div class="hot"><b>★ 融合树的三个数值要记（实验四 4-6 步）</b><br>walking 子节点临界点：<b>Direction = −1 / 0 / 1</b>（左 / 中 / 右）<br>run 子节点临界点：<b>Direction = −1 / 0 / 1</b><br>Motion 层两个子节点：<b>walking = 0，run = 0.8</b>，参数是 <b>Speed</b><br>所以 Speed = 0.5 走、Speed = 1 跑，<b>都是相对这两个临界点算的</b>。</div>
+<div class="tip"><b>「滑步（foot sliding）」是什么</b>：动画里角色迈步的速度和它在场景里实际移动的速度不一致，看起来像脚在地上打滑。<br><b>解决办法</b>：把 <code>forwardSpeed</code> 和动画的 <code>Speed</code> 参数绑定，或者用 Animator 的 <code>root motion</code>（由动画驱动位移，而不是代码驱动）。<b>这是设计题/答辩的加分点。</b></div>
+</div>
+<h2 id="c">附一 · API 签名速查<span class="cnt">考前最后 30 分钟看这个</span></h2>
+<div class="tip">下面每一条都是<b>课件或实验里真实出现过的写法</b>。程序填空考的就是这些签名，<b>参数个数、参数顺序、参数类型</b>三个维度都要对。</div>
+<div class="exp"><table>
+<tr><th>分类</th><th>正确签名</th><th>易错点</th></tr>
+<tr><td class="f">查找物体</td><td>GameObject.Find("名字")</td><td>返回 GameObject，找不到返回 null</td></tr>
+<tr><td class="f">查找物体</td><td>GameObject.FindGameObjectsWithTag("标签")</td><td><b>有 s</b>，返回数组</td></tr>
+<tr><td class="f">取组件</td><td>GetComponent&lt;T&gt;()</td><td>取自己身上的，返回单个</td></tr>
+<tr><td class="f">取组件</td><td>GetComponentsInChildren&lt;T&gt;()</td><td><b>含自身 + 所有子物体</b>，返回数组</td></tr>
+<tr><td class="f">实例化</td><td>Instantiate(预制体, 位置, 旋转)</td><td>第三参数常填 Quaternion.identity</td></tr>
+<tr><td class="f">实例化</td><td>Instantiate(预制体)</td><td>单参数：位置旋转沿用预制体</td></tr>
+<tr><td class="f">销毁</td><td>Destroy(物体)</td><td>第二参数可加延迟秒数</td></tr>
+<tr><td class="f">销毁</td><td>Destroy(物体, 2f)</td><td>2 秒后销毁</td></tr>
+<tr><td class="f">平移</td><td>transform.Translate(Vector3, Space)</td><td>默认 Space.Self</td></tr>
+<tr><td class="f">平移</td><td>transform.Translate(x, y, z)</td><td>三参数重载</td></tr>
+<tr><td class="f">旋转</td><td>transform.Rotate(Vector3 euler, Space)</td><td>两参数：欧拉角 + 空间</td></tr>
+<tr><td class="f">旋转</td><td>transform.Rotate(Vector3 axis, float angle, Space)</td><td>三参数：轴 + 角度 + 空间</td></tr>
+<tr><td class="f">绕点转</td><td>transform.RotateAround(Vector3 point, Vector3 axis, float angle)</td><td><b>三参数顺序：点、轴、角度</b></td></tr>
+<tr><td class="f">定时调用</td><td>InvokeRepeating("方法名", 首次延迟, 间隔)</td><td><b>不是 InvokeRepeat</b></td></tr>
+<tr><td class="f">取消定时</td><td>CancelInvoke("方法名")</td><td>不传参数取消全部</td></tr>
+<tr><td class="f">协程启动</td><td>StartCoroutine(方法名())</td><td>方法返回类型必须是 IEnumerator</td></tr>
+<tr><td class="f">协程停止</td><td>StopCoroutine(Coroutine 句柄)</td><td>要先把启动的返回值存起来</td></tr>
+<tr><td class="f">加载资源</td><td>Resources.Load("路径") as T</td><td><b>不带扩展名，路径用斜杠</b></td></tr>
+<tr><td class="f">场景切换</td><td>SceneManager.LoadScene("名字")</td><td>要 using UnityEngine.SceneManagement</td></tr>
+<tr><td class="f">场景异步</td><td>SceneManager.LoadSceneAsync("名字")</td><td>返回 AsyncOperation，有 progress / isDone</td></tr>
+<tr><td class="f">随机整数</td><td>Random.Range(int, int)</td><td><b>右端不含</b></td></tr>
+<tr><td class="f">随机浮点</td><td>Random.Range(float, float)</td><td><b>右端含</b></td></tr>
+<tr><td class="f">随机 0~1</td><td>Random.value</td><td>两端都含</td></tr>
+<tr><td class="f">点乘</td><td>Vector3.Dot(a, b)</td><td>&gt;0 同向，=0 垂直，&lt;0 反向</td></tr>
+<tr><td class="f">叉乘</td><td>Vector3.Cross(a, b)</td><td>长度 = |a||b|sinθ，<b>要 Normalize</b></td></tr>
+<tr><td class="f">夹角</td><td>Vector3.Angle(a, b)</td><td><b>返回度</b>，范围 0~180</td></tr>
+<tr><td class="f">钳制</td><td>Mathf.Clamp(v, min, max)</td><td>超出范围就取边界值</td></tr>
+<tr><td class="f">四元数</td><td>Quaternion.identity</td><td><b>无旋转</b>，不是 Vector3.zero</td></tr>
+<tr><td class="f">四元数</td><td>Quaternion.LookRotation(方向)</td><td><b>参数是方向，不是位置</b></td></tr>
+<tr><td class="f">四元数</td><td>Quaternion.Slerp(a, b, t)</td><td>t 是<b>比例 0~1</b></td></tr>
+<tr><td class="f">球面转向</td><td>Quaternion.RotateTowards(a, b, 角度)</td><td>第三参数是<b>角度</b>，不是比例</td></tr>
+<tr><td class="f">插值</td><td>Vector3.Lerp(a, b, t)</td><td>t 是比例 0~1，<b>要 Clamp01</b></td></tr>
+<tr><td class="f">刚体受力</td><td>rb.AddForce(Vector3)</td><td>改的是加速度，持续施力越来越快</td></tr>
+<tr><td class="f">刚体扭矩</td><td>rb.AddTorque(Vector3)</td><td>让它旋转</td></tr>
+<tr><td class="f">刚体速度</td><td>rb.velocity = Vector3</td><td>直接定速</td></tr>
+<tr><td class="f">刚体休眠</td><td>rb.Sleep() / rb.WakeUp()</td><td>重置位置前要先 Sleep</td></tr>
+<tr><td class="f">音频播放</td><td>audioSource.PlayOneShot(clip)</td><td>可叠加，不打断</td></tr>
+<tr><td class="f">音频播放</td><td>audioSource.Play()</td><td><b>会打断</b>当前播放</td></tr>
+<tr><td class="f">动画参数</td><td>anim.SetBool("名", bool)</td><td>参数名大小写必须一致</td></tr>
+<tr><td class="f">动画参数</td><td>anim.SetFloat("名", float)</td><td></td></tr>
+<tr><td class="f">动画参数</td><td>anim.SetTrigger("名")</td><td>触发后自动归 false</td></tr>
+<tr><td class="f">动画层</td><td>anim.SetLayerWeight(层号, 权重)</td><td><b>层号从 0 开始</b></td></tr>
+<tr><td class="f">粒子</td><td>GetComponent&lt;ParticleSystem&gt;().Play()</td><td>单个粒子系统</td></tr>
+<tr><td class="f">粒子</td><td>particleSystem.GetParticles(数组)</td><td>返回<b>实际存活数</b></td></tr>
+<tr><td class="f">粒子</td><td>particleSystem.SetParticles(数组, 数量)</td><td><b>Get → 改 → Set 三步</b></td></tr>
+<tr><td class="f">粒子颜色</td><td>new ParticleSystem.MinMaxGradient(c1, c2)</td><td>类型不是 Color</td></tr>
+<tr><td class="f">输入·轴</td><td>Input.GetAxis("Horizontal")</td><td>返回 -1~1 的 float</td></tr>
+<tr><td class="f">输入·键</td><td>Input.GetKey(KeyCode.Space)</td><td>按住期间每帧 true</td></tr>
+<tr><td class="f">输入·键</td><td>Input.GetKeyDown / GetKeyUp</td><td>按下 / 松开那一帧</td></tr>
+<tr><td class="f">输入·鼠标</td><td>Input.GetMouseButtonDown(0)</td><td>0 左 / 1 右 / 2 中</td></tr>
+<tr><td class="f">UI 取值</td><td>slider.value / toggle.isOn</td><td>isOn 是 i 小写</td></tr>
+<tr><td class="f">UI 取值</td><td>inputField.text / text.text</td><td>都是 string</td></tr>
+</table></div>
+<h2 id="d">附二 · 老师代码和课件里的拼写坑<span class="cnt">写错就编译不过，考试也扣分</span></h2>
+<div class="tip">下面这些是<b>课件和实验文档里真实存在的拼写错误</b>。<b>注意：不是让你跟着写错</b>，而是告诉你「看到这个写法要知道它是错的」，以及<b>正确拼写是什么</b>（因为拼写题会考正确的那个）。</div>
+<div class="exp"><table>
+<tr><th>课件 / 实验里写的</th><th>正确的</th><th>出处</th></tr>
+<tr><td class="f">InvokeRepeat()</td><td><b>InvokeRepeating</b></td><td>课件 02 · slide 28</td></tr>
+<tr><td class="f">destoryTime</td><td><b>destroyTime</b></td><td>课件 03 · slide 10</td></tr>
+<tr><td class="f">playerTransfrom</td><td><b>playerTransform</b></td><td>课件 03 / 实验二</td></tr>
+<tr><td class="f">rigibody</td><td><b>Rigidbody</b></td><td>课件 02 · slide 21</td></tr>
+<tr><td class="f">FloRatationSpeed</td><td><b>FloRotationSpeed</b></td><td>实验四</td></tr>
+<tr><td class="f">Partical System</td><td><b>Particle System</b></td><td>课件 06 · slide 5</td></tr>
+<tr><td class="f">deteceCollisions</td><td><b>detectCollisions</b></td><td>课件 05 · slide 5</td></tr>
+<tr><td class="f">Bouncyness</td><td><b>Bounciness</b></td><td>课件 05 · slide 13</td></tr>
+<tr><td class="f">Instensity</td><td><b>Intensity</b></td><td>课件 03 · slide 33</td></tr>
+<tr><td class="f">characater joint</td><td><b>Character Joint</b></td><td>课件 05 · slide 19</td></tr>
+<tr><td class="f">Thresl</td><td><b>Threshold</b></td><td>课件 07 · slide 18</td></tr>
+<tr><td class="f">Inteactable</td><td><b>Interactable</b></td><td>课件 08 · slide 12</td></tr>
+<tr><td class="f">Spirte</td><td><b>Sprite</b></td><td>课件 08 · slide 10</td></tr>
+<tr><td class="f">PreserverAspect</td><td><b>Preserve Aspect</b></td><td>课件 08 · slide 10</td></tr>
+<tr><td class="f">Enviroment</td><td><b>Environment</b></td><td>课件 03 · slide 19</td></tr>
+<tr><td class="f">Rending</td><td><b>Rendering</b></td><td>课件 03 · slide 19</td></tr>
+<tr><td class="f">Nagative Button</td><td><b>Negative Button</b></td><td>课件 02 · slide 40</td></tr>
+<tr><td class="f">relativeTo (float)</td><td><b>relativeTo (Space)</b></td><td>课件 03 · slide 43</td></tr>
+</table></div>
+<div class="tip"><b>怎么用这张表</b>：不是让你纠错，是让你<b>认得出</b>。考试时题目里出现 <code>destoryTime</code> 这种变量名，你能立刻知道它指的是 <code>destroy</code>，不会被陌生的拼写卡住。<b>自己写的时候一律写右边那列。</b></div>
+<h2 id="e">附三 · 到手就能写的高频骨架<span class="cnt">照着套，不要现编</span></h2>
+<div class="tip">考试的程序题如果要你<b>补完整段</b>而不是填空，就用这几个骨架。<b>每个都只有 5~12 行，全部背下来。</b></div>
+<h3>骨架 1　跟随相机</h3>
+<pre><code>public class FollowCamera : MonoBehaviour {
+    public Transform target;
+    private Vector3 offset;
+
+    void Start() {
+        offset = transform.position - target.position;
+    }
+
+    void Update() {
+        transform.position = target.position + offset;
+    }
+}</code></pre>
+<h3>骨架 2　碰撞检测（含判空）</h3>
+<pre><code>void OnCollisionEnter(Collision other) {
+    if (other.gameObject.CompareTag(&quot;Enemy&quot;)) {
+        Destroy(other.gameObject);
+        Destroy(gameObject, 0.5f);
+    }
+}
+
+void OnTriggerEnter(Collider other) {
+    if (other.CompareTag(&quot;Pickup&quot;)) {
+        other.gameObject.SetActive(false);
+    }
+}</code></pre>
+<h3>骨架 3　物理移动（必须写在 FixedUpdate）</h3>
+<pre><code>private Rigidbody rb;
+public float speed = 5f;
+
+void Awake() {
+    rb = GetComponent&lt;Rigidbody&gt;();
+}
+
+void FixedUpdate() {
+    float h = Input.GetAxis(&quot;Horizontal&quot;);
+    float v = Input.GetAxis(&quot;Vertical&quot;);
+    Vector3 dir = new Vector3(h, 0, v).normalized;
+    rb.MovePosition(transform.position + dir * speed * Time.fixedDeltaTime);
+}</code></pre>
+<h3>骨架 4　定时器 / 延迟销毁</h3>
+<pre><code>public float lifeTime = 3f;
+private float timer = 0f;
+
+void Update() {
+    timer += Time.deltaTime;
+    if (timer &gt;= lifeTime) {
+        Destroy(gameObject);
+    }
+}</code></pre>
+<h3>骨架 5　协程延时序列</h3>
+<pre><code>void Start() {
+    StartCoroutine(Sequence());
+}
+
+IEnumerator Sequence() {
+    yield return new WaitForSeconds(1f);
+    // 1 秒后做的事
+    yield return new WaitForSeconds(0.5f);
+    // 再 0.5 秒后做的事
+}</code></pre>
+<h3>骨架 6　朝向目标平滑转向</h3>
+<pre><code>public Transform target;
+public float turnSpeed = 5f;
+
+void Update() {
+    Vector3 dir = (target.position - transform.position).normalized;
+    Quaternion look = Quaternion.LookRotation(dir);
+    transform.rotation = Quaternion.Slerp(transform.rotation, look,
+                                          turnSpeed * Time.deltaTime);
+}</code></pre>
+<h3>骨架 7　找对象 + 取组件 + 改属性</h3>
+<pre><code>GameObject go = GameObject.Find(&quot;Player&quot;);
+if (go != null) {
+    Player p = go.GetComponent&lt;Player&gt;();
+    if (p != null) p.hp -= 10;
+}</code></pre>
+<h3>骨架 8　单例（全局访问）</h3>
+<pre><code>public class GameManager : MonoBehaviour {
+    public static GameManager instance;
+
+    void Awake() {
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
+    }
+}</code></pre>
+<h3>骨架 9　UI 按钮响应</h3>
+<pre><code>using UnityEngine;
+using UnityEngine.UI;
+
+public class MenuUI : MonoBehaviour {
+    public Button startButton;
+    public Slider volumeSlider;
+
+    void Start() {
+        startButton.onClick.AddListener(OnStart);
+        volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+    }
+
+    void OnStart() {
+        Debug.Log(&quot;开始&quot;);
+    }
+
+    void OnVolumeChanged(float v) {
+        AudioListener.volume = v;
+    }
+}</code></pre>
+<h3>骨架 10　对象池（课设和设计题的高频答案）</h3>
+<pre><code>public class SimplePool : MonoBehaviour {
+    public GameObject prefab;
+    private Queue&lt;GameObject&gt; pool = new Queue&lt;GameObject&gt;();
+
+    public GameObject Get() {
+        if (pool.Count &gt; 0) {
+            GameObject go = pool.Dequeue();
+            go.SetActive(true);
+            return go;
+        }
+        return Instantiate(prefab);
+    }
+
+    public void Return(GameObject go) {
+        go.SetActive(false);
+        pool.Enqueue(go);
+    }
+}</code></pre>
+<div class="ok"><b>对象池为什么重要</b>：反复 <code>Instantiate</code> + <code>Destroy</code> 会产生大量内存垃圾，触发 GC（垃圾回收）时游戏会卡顿。<b>对象池的思路是「不销毁，只隐藏，下次复用」</b>。<b>这是游戏设计题的标准答案之一</b>，问「怎么优化频繁生成销毁的物体」就答它。</div>
+<h2 id="f">怎么用这份文档</h2>
+
+<div class="card">
+<p><b>三轮用法</b></p>
+<ol>
+<li><b>第一轮（今天）：</b>只看代码，遮住右边解释，逐段自己说「这一行在干什么」。说不出来的段落做标记 —— 那就是你的盲区。A 组 29 段 + B 组 12 段，大约 90 分钟。</li>
+<li><b>第二轮（明天）：</b>只看解释，遮住代码，试着把代码写出来。写不出来的，说明只是「认得」不是「会用」。重点攻 A11、A16、A20、B1、B7、B9 这六段（都是高频 + 你错过或没验证过的）。</li>
+<li><b>第三轮（考前）：</b>只看附一（API 签名表）+ 附三（十个骨架）。这两部分加起来不到 15 分钟，是性价比最高的。</li>
+</ol>
+<p style="margin-top:10px"><b>优先级</b>：附一 &gt; 附三 &gt; A16 / A11 / B1 / B7 / B9 &gt; 其余 A 组 &gt; 其余 B 组。</p>
+</div>
+<div class="tip"><b>最重要的一句话</b>：你今天程序填空考了 <b>1/6</b>，不是理解不了，是<b>手上没有库存</b>。这 41 段代码就是你全部的库存。<b>把它们抄一遍（真的用笔抄），比看十遍管用。</b></div>
+
+<script>
+(function(){
+  var all = document.querySelectorAll('.exp');
+  var armed = false;
+  document.getElementById('toggleAll').addEventListener('click', function(){
+    armed = !armed;
+    for (var i=0;i<all.length;i++) all[i].classList.toggle('hide', armed);
+    this.textContent = armed ? '🔓 显示全部解释' : '🔒 遮住全部解释';
+  });
+  for (var i=0;i<all.length;i++){
+    all[i].addEventListener('click', function(){ this.classList.toggle('hide'); });
+  }
+})();
+</script>
+</main>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>游戏开发技术 · 复习资料索引</title>
+<style>
+:root{
+  --bg:#fbfaf6; --panel:#fff; --ink:#20242a; --sub:#5c6673; --line:#e4e0d6;
+  --accent:#1f5f8b; --accent-soft:#eaf1f7; --warm:#b4530a; --warm-soft:#fdf3e7;
+  --green:#1c6f4a; --green-soft:#eef6ea; --code:#f4f2ea; --code-line:#ded9cc;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",system-ui,sans-serif;
+  font-size:15px;line-height:1.8;-webkit-font-smoothing:antialiased}
+main{max-width:960px;margin:0 auto;padding:46px 40px 90px}
+
+header{border-bottom:2px solid var(--ink);padding-bottom:14px}
+h1{font-size:27px;margin:0 0 4px;letter-spacing:.5px}
+header .sub{font-size:13px;color:var(--sub);letter-spacing:.3px}
+header .sub b{color:var(--accent);font-weight:600}
+
+.lead{margin:22px 0 6px;font-size:14.5px;color:#333b45;line-height:1.85}
+.lead b{color:var(--accent)}
+.lead .warn{color:var(--warm);font-weight:600}
+
+h2{font-size:17px;margin:44px 0 12px;padding:0 0 7px;border-bottom:1px solid var(--line);
+  color:var(--ink);display:flex;align-items:baseline;gap:10px}
+h2 .no{font-size:12px;color:var(--accent);background:var(--accent-soft);
+  border:1px solid #d3e2ee;border-radius:4px;padding:1px 7px;font-weight:600;
+  letter-spacing:.5px;flex:none}
+h2 .hint{font-size:12px;color:var(--sub);font-weight:400;margin-left:auto}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+a.card{display:block;text-decoration:none;color:inherit;background:var(--panel);
+  border:1px solid var(--line);border-radius:9px;padding:14px 17px 13px;
+  transition:border-color .14s,box-shadow .14s,transform .14s;position:relative}
+a.card:hover{border-color:var(--accent);box-shadow:0 3px 14px rgba(31,95,139,.10);
+  transform:translateY(-1px)}
+a.card:hover .t{color:var(--accent)}
+.card .t{font-size:15px;font-weight:600;margin-bottom:5px;line-height:1.5;
+  transition:color .14s;padding-right:18px}
+.card .d{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:9px}
+.card .m{font-size:11.5px;color:#7b8592;display:flex;gap:6px;flex-wrap:wrap}
+.card .m span{background:#f6f4ec;border:1px solid var(--line);border-radius:3px;
+  padding:0 6px;line-height:1.7}
+.card .m span.k{background:var(--accent-soft);border-color:#d3e2ee;color:var(--accent)}
+.card .m span.w{background:var(--warm-soft);border-color:#e8d3b3;color:var(--warm)}
+.card .m span.g{background:var(--green-soft);border-color:#cfe3c7;color:var(--green)}
+.card::after{content:"›";position:absolute;right:14px;top:12px;font-size:19px;
+  color:#c9c4b6;line-height:1}
+a.card:hover::after{color:var(--accent)}
+
+.box{background:var(--panel);border:1px solid var(--line);border-radius:9px;
+  padding:15px 19px;margin:14px 0;font-size:13.8px;line-height:1.85}
+.box.acc{border-left:3px solid var(--accent)}
+.box.warm{border-left:3px solid var(--warm);background:#fffdf8}
+.box b{color:var(--accent)}
+.box.warm b{color:var(--warm)}
+.box ol,.box ul{padding-left:20px;margin:7px 0 3px}
+.box li{margin:5px 0}
+
+table{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:13px;background:#fff}
+th,td{border:1px solid var(--line);padding:7px 11px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-weight:600;white-space:nowrap;font-size:12.5px}
+td.k{background:#faf8f2;font-weight:600;white-space:nowrap}
+
+code{background:var(--code);border:1px solid var(--code-line);border-radius:4px;
+  padding:1px 5px;font-family:Consolas,"Courier New",monospace;font-size:12.5px;color:#2c3138}
+
+footer{margin-top:52px;padding-top:15px;border-top:1px solid var(--line);
+  font-size:12px;color:#8a939d;line-height:1.9}
+footer b{color:var(--sub)}
+
+@media (max-width:760px){
+  main{padding:30px 20px 60px}
+  .grid{grid-template-columns:1fr}
+  h1{font-size:22px}
+  h2 .hint{display:none}
+}
+@media print{
+  body{background:#fff}
+  a.card:hover{transform:none;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>游戏开发技术 · 复习资料索引</h1>
+  <div class="sub">Unity 2022.3 LTS · Built-in 渲染管线 · <b>8 章课件 + 4 个实验 + 课程设计</b> · 2026 秋</div>
+</header>
+
+<p class="lead">
+  这里是《游戏开发技术》期末复习期间整理的全部资料，<b>纯 HTML 单文件</b>，不依赖任何外部资源，下载后双击即可打开，也可以直接在线看。
+  <span class="warn">课程内容（课件、教学视频、实验素材、课程设计选题）版权归授课教师与学校所有，本仓库只收录个人整理的学习笔记，不包含原始教学材料。</span>
+</p>
+
+<h2><span class="no">01</span>复习手册<span class="hint">按章节过一遍，建立整体骨架</span></h2>
+<div class="grid">
+
+  <a class="card" href="01-复习手册/背诵手册.html">
+    <div class="t">背诵手册</div>
+    <div class="d">按 PPT 原话逐条整理的问答卡，覆盖 8 章全部核心概念；文末附三个速记附录（参数表、API 表、易错点）。</div>
+    <div class="m"><span class="k">77 张卡片</span><span>17 页</span><span class="g">含 3 个附录</span></div>
+  </a>
+
+  <a class="card" href="01-复习手册/代码全解.html">
+    <div class="t">代码全解</div>
+    <div class="d">四个实验里出现的真实代码逐段拆解，每段讲清「这段在做什么、每个 API 为什么这么用」，是第二大题的直接题源。</div>
+    <div class="m"><span class="k">41 段代码</span><span>48 页</span><span class="w">程序题必备</span></div>
+  </a>
+
+  <a class="card" href="01-复习手册/组件属性速查清单.html">
+    <div class="t">组件属性速查清单</div>
+    <div class="d">17 个常用组件、132 条属性，每条四栏：英文名 / 中文名 / 作用 / <b>设错会怎样</b>。第四栏是案例题里「判断力」的来源。</div>
+    <div class="m"><span class="k">132 条属性</span><span>17 个组件</span><span class="g">每条标课件出处</span></div>
+  </a>
+
+</div>
+
+<h2><span class="no">02</span>模拟试卷<span class="hint">五套，结构与真题一致：案例 30 + 编程 30 + 设计 40</span></h2>
+<div class="grid">
+
+  <a class="card" href="02-模拟试卷/模拟试卷-第一套.html">
+    <div class="t">模拟试卷 · 第一套</div>
+    <div class="d">答案直接展示在题目下方，适合<b>通读背答案</b>。考点以基础概念与实验代码为主。</div>
+    <div class="m"><span class="k">答案常显</span><span>100 分</span></div>
+  </a>
+
+  <a class="card" href="02-模拟试卷/模拟试卷-第二套.html">
+    <div class="t">模拟试卷 · 第二套</div>
+    <div class="d">同上，答案常显。与第一套的 15 个编程空完全不重复，两套合起来覆盖 30 个常考 API。</div>
+    <div class="m"><span class="k">答案常显</span><span>100 分</span></div>
+  </a>
+
+  <a class="card" href="02-模拟试卷/模拟试卷-第三套.html">
+    <div class="t">模拟试卷 · 第三套</div>
+    <div class="d">答案<b>默认收起</b>，点题目右侧「看答案」原地展开，不跳转。适合写完一题对一题的自查。</div>
+    <div class="m"><span class="k">答案折叠</span><span>100 分</span><span class="g">考点全新</span></div>
+  </a>
+
+  <a class="card" href="02-模拟试卷/模拟试卷-第四套.html">
+    <div class="t">模拟试卷 · 第四套</div>
+    <div class="d">答案折叠。案例题换了问法（怎么做得更好、更省），设计题三题全部取自课程设计选题库。</div>
+    <div class="m"><span class="k">答案折叠</span><span>100 分</span><span class="g">设计题取课设</span></div>
+  </a>
+
+  <a class="card" href="02-模拟试卷/模拟试卷-第五套.html">
+    <div class="t">模拟试卷 · 第五套</div>
+    <div class="d">答案折叠。15 个空换成数学与查询类 API，案例题覆盖动画层、复合粒子、音频空间感，设计题取自课设。</div>
+    <div class="m"><span class="k">答案折叠</span><span>100 分</span><span class="w">难度最高</span></div>
+  </a>
+
+</div>
+
+<h2><span class="no">03</span>专项速查<span class="hint">考前最后一小时只看这两份</span></h2>
+<div class="grid">
+
+  <a class="card" href="03-专项速查/美工专项-案例题素材.html">
+    <div class="t">美工专项 · 案例题素材</div>
+    <div class="d">第 1、4 章的美工类答题素材：模型导入与缩放、贴图类型、材质与 Shader 三层关系、合批与 Draw Call。</div>
+    <div class="m"><span class="k">第 1、4 章</span><span class="g">案例题直接可用</span></div>
+  </a>
+
+  <a class="card" href="03-专项速查/设计题速查表-课设20题.html">
+    <div class="t">设计题速查表 · 课设 20 题</div>
+    <div class="d">课程设计 20 个选题各三行：功能要求 / 涉及技术（评分关键词）/ 制作思路四步。综合设计题 40 分的题库。</div>
+    <div class="m"><span class="k">20 个选题</span><span class="w">综合设计 40 分</span><span>可双面打印</span></div>
+  </a>
+
+</div>
+
+<h2><span class="no">04</span>真题复盘<span class="hint">考后回忆整理，含逐题参考答案</span></h2>
+<div class="grid">
+
+  <a class="card" href="04-真题复盘/2026真题回忆版-参考答案.html">
+    <div class="t">2026 期末真题（回忆版）· 参考答案</div>
+    <div class="d">按考场回忆复原的整卷结构与题干，10 道题逐题给出完整答案与得分点清单，并附「知识点 ↔ 资料」覆盖对照。</div>
+    <div class="m"><span class="k">10 道题</span><span>案例 5 · 编程 2 · 设计 3</span><span class="g">含得分点清单</span></div>
+  </a>
+
+</div>
+
+<h2><span class="no">※</span>怎么用<span class="hint">按时间倒推的推荐顺序</span></h2>
+
+<div class="box acc">
+  <b>第一轮 · 建立骨架（约 2 天）</b>
+  <ol>
+    <li>通读 <b>背诵手册</b>，不求记住，只求知道 8 章分别讲什么。</li>
+    <li>对照 <b>代码全解</b> 把四个实验的代码过一遍，重点是 API 名，不是语法。</li>
+    <li>翻 <b>组件属性速查清单</b>，只看「设错会怎样」那一栏。</li>
+  </ol>
+</div>
+
+<div class="box acc">
+  <b>第二轮 · 输出检验（约 2 天）</b>
+  <ol>
+    <li>用<b>第一、二套</b>（答案常显）当阅读材料，顺着答案学「一道题该怎么写」。</li>
+    <li>用<b>第三、四、五套</b>（答案折叠）掐表做，写完一题点一题，错的地方回背诵手册定位。</li>
+    <li>编程 15 个空是唯一有确定答案的 30 分，五套合计 75 个空，过两遍就够。</li>
+  </ol>
+</div>
+
+<div class="box warm">
+  <b>第三轮 · 考前 90 分钟</b>
+  <p style="margin:6px 0">只看两样：<b>设计题速查表</b>（20 题的技术词）+ <b>美工专项素材</b>。其余全部合上。考前看新东西只会增加焦虑，不会涨分。</p>
+</div>
+
+<h2><span class="no">※</span>这门课的出题规律<span class="hint">从真题反推</span></h2>
+
+<table>
+  <tr><th>大题</th><th>分值</th><th>题源</th><th>说明</th></tr>
+  <tr>
+    <td class="k">一、案例分析</td><td>30（5×6）</td><td>课件 8 章</td>
+    <td>问法固定为「你是某环节的 ○○，会怎么设计 / 用到什么技术」，正向提问，不考名词解释。美工、粒子、动画、地形、灯光声音五个方向基本各出一题。</td>
+  </tr>
+  <tr>
+    <td class="k">二、编程选择</td><td>30（15 空×2）</td><td>四个实验</td>
+    <td>从 A~L 十二个选项里选，挖的都是真实实验代码里的 API 名。主要考玩家控制、声音、刚体、动画。</td>
+  </tr>
+  <tr>
+    <td class="k">三、综合设计</td><td>40（10+15+15）</td><td>课程设计选题库</td>
+    <td>不写代码，只讲业务逻辑。给一个游戏需求，问你用什么预制体、什么组件、怎么实现、为什么这么设计。</td>
+  </tr>
+</table>
+
+<div class="box">
+  <b>三条能直接用的经验</b>
+  <ul>
+    <li><b>写满比写对重要。</b>评分尺度很宽，只要表达出思路就能得分，空着一定是 0 分。写不满时补一段「如果时间允许，我还会……」，这是专业判断，不是凑字数。</li>
+    <li><b>设计题一律三层：</b>规则（玩什么、核心决策、怎么算赢）→ 机制（用什么组件和脚本，把技术词写上去）→ 数值（给具体数字，并说明为什么这么调）。</li>
+    <li><b>每道题都能指出出处。</b>课件第几章、实验第几步——能指出出处的答案才是有依据的答案，也才敢往卷子上写。</li>
+  </ul>
+</div>
+
+<footer>
+  <b>说明</b>：本仓库为个人复习整理，与授课教师及学校无关；课件、教学视频、实验素材、课程设计选题等原始教学材料版权归授课教师与学校所有，未包含在本仓库中。<br>
+  所有页面均为单文件 HTML，无外部依赖，可离线打开，也可用浏览器直接打印为 PDF。
+</footer>
+
+</main>
+</body>
+</html>

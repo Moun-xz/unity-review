@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>游戏开发技术 · 模拟试卷（第二套）</title>
+<style>
+:root{
+  --bg:#fbfaf6; --panel:#fff; --ink:#20242a; --sub:#5c6673; --line:#e4e0d6;
+  --accent:#1f5f8b; --accent-soft:#eaf1f7; --warm:#b4530a; --warm-soft:#fdf3e7;
+  --red:#b3352b; --red-soft:#fbeceb; --green:#1c6f4a; --green-soft:#eef6ea;
+  --purple:#6b3fa0; --purple-soft:#f4eefb;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",system-ui,sans-serif;
+  font-size:15px;line-height:1.8}
+main{max-width:920px;margin:0 auto;padding:32px 40px 100px}
+header{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:10px;text-align:center}
+h1{font-size:22px;margin:0 0 6px;letter-spacing:1px}
+header .meta{font-size:12.5px;color:var(--sub);line-height:1.8}
+h2{font-size:18px;margin:34px 0 8px;padding:7px 0;border-bottom:2px solid var(--accent);color:var(--accent)}
+h2 .sc{float:right;font-size:12.5px;color:var(--warm);font-weight:600;padding-top:6px}
+h3{font-size:14.8px;margin:22px 0 6px;padding-left:9px;border-left:3px solid var(--accent);color:#1b2027}
+h3 .src{font-size:11.5px;color:var(--sub);font-weight:400;margin-left:8px}
+p{margin:6px 0}
+ul,ol{padding-left:22px;margin:6px 0}
+li{margin:4px 0}
+code{font-family:Consolas,"Courier New",monospace;font-size:13px;
+  background:#f4f2ea;border:1px solid #ded9cc;border-radius:3px;padding:0 4px}
+.blk{color:#b4530a;font-weight:700;letter-spacing:.3px}
+pre{background:#f7f5ed;border:1px solid #ded9cc;border-radius:6px;padding:10px 14px;
+  overflow-x:auto;margin:8px 0;font-size:13px;line-height:1.62}
+pre code{background:none;border:none;padding:0;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13.5px;background:#fff}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-weight:600;font-size:13px}
+td.k{font-weight:600;background:#fcfbf7;width:16%}
+.tip{background:var(--accent-soft);border-left:3px solid var(--accent);padding:8px 14px;
+  border-radius:0 6px 6px 0;margin:10px 0;font-size:13.5px}
+.warn{background:var(--red-soft);border-left:3px solid var(--red);padding:8px 14px;
+  border-radius:0 6px 6px 0;margin:10px 0;font-size:13.5px}
+.ok{background:var(--green-soft);border-left:3px solid var(--green);padding:8px 14px;
+  border-radius:0 6px 6px 0;margin:10px 0;font-size:13.5px}
+.opts{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 16px;
+  margin:8px 0;font-size:13.5px;line-height:2}
+.opts b{display:inline-block;width:26px;color:var(--purple);font-family:Consolas,monospace}
+.key{background:#fff;border:1px solid var(--line);border-radius:6px;padding:9px 14px;margin:8px 0;
+  font-size:13.5px;page-break-inside:avoid}
+.key b{color:var(--accent);margin-right:8px}
+.key span{display:inline-block;width:58px;border-bottom:1px solid #b9b3a4;margin:0 3px}
+.ans{border-left:3px solid var(--green);background:#fdfefb;padding:2px 0 2px 14px;margin:8px 0}
+.ans .pt{display:inline-block;font-size:11.5px;color:#fff;background:var(--green);
+  border-radius:3px;padding:0 6px;margin-right:6px;vertical-align:1px}
+.ans .ref{font-size:11.5px;color:var(--purple);background:var(--purple-soft);
+  border:1px solid #d9cbe8;border-radius:3px;padding:0 5px;margin-left:6px}
+.divider{page-break-before:always;height:0;margin:0}
+.sign{display:flex;gap:14px;font-size:12px;color:var(--sub);margin:14px 0 0}
+.sign span{flex:1;border-bottom:1px solid var(--line);padding-bottom:2px}
+@page{size:A4;margin:11mm 10mm}
+@media print{
+  main{max-width:none;padding:0}
+  body{background:#fff;font-size:9pt;line-height:1.55}
+  h1{font-size:15pt}
+  h2{font-size:12pt;margin:12px 0 4px;padding:4px 0;page-break-after:avoid}
+  h3{font-size:10.2pt;margin:9px 0 3px;page-break-after:avoid}
+  pre{font-size:7.2pt;line-height:1.3;padding:6px 9px;page-break-inside:avoid}
+  table{font-size:8.2pt;page-break-inside:avoid}
+  th,td{padding:3px 6px}
+  .tip,.warn,.ok{padding:5px 10px;margin:5px 0;font-size:8.3pt;page-break-inside:avoid}
+  .opts{font-size:8.4pt;line-height:1.75;padding:6px 10px}
+  .key{font-size:8.4pt;padding:5px 8px;letter-spacing:0}
+  .key span{width:34px;margin:0 1px}
+  .ans{page-break-inside:avoid}
+  #p2q{page-break-before:always}
+  #p3q{page-break-before:always}
+}
+
+/* ===== 题目下方直接给答案 ===== */
+.ansbox{display:block;border:1px solid #d7e3ee;border-left:3px solid var(--accent);
+  border-radius:0 8px 8px 0;background:#fbfdff;padding:9px 15px 5px;margin:8px 0 16px}
+.abhd{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:.3px;margin:0 0 2px}
+.tag{font-size:11.5px;font-weight:400;color:var(--purple);background:var(--purple-soft);
+  border:1px solid #d9cbe8;border-radius:3px;padding:0 5px;margin-left:6px;white-space:nowrap}
+.ansbox .ans:last-child{margin-bottom:4px}
+</style>
+</head>
+<body>
+<main>
+
+<header>
+<h1>游戏开发技术 · 期末考试　模拟试卷（第二套）</h1>
+<div class="meta">
+安徽理工大学 　数媒 24-1 　闭卷 　考试时间 120 分钟 　满分 100 分<br>
+姓名 <span style="display:inline-block;width:110px;border-bottom:1px solid #c9c4b6"></span>　学号 <span style="display:inline-block;width:130px;border-bottom:1px solid #c9c4b6"></span>　得分 <span style="display:inline-block;width:70px;border-bottom:1px solid #c9c4b6"></span>
+</div>
+</header>
+<table>
+<tr><th style="width:14%">题号</th><th style="width:22%">题型</th><th style="width:16%">分值</th><th>构成</th></tr>
+<tr><td class="k">一</td><td>案例分析</td><td><b>30 分</b></td><td>5 小题 × 6 分，覆盖第 1 ~ 8 章（<b>身份 + 需求 + 你怎么做</b>）</td></tr>
+<tr><td class="k">二</td><td>编程选择题</td><td><b>30 分</b></td><td>2 小题：7 空 + 8 空，共 15 空 × 2 分；<b>每题 12 个候选 A~L</b></td></tr>
+<tr><td class="k">三</td><td>游戏综合设计</td><td><b>40 分</b></td><td>10 分（2 小问）+ 15 分（3 小问）+ 15 分（3 小问），<b>每小问 5 分，不写代码</b></td></tr>
+</table>
+
+<div class="warn"><b>答题提示</b>：案例分析按「<b>你会做什么 → 用到什么技术 → 为什么这么选</b>」三段写，教师按思想给分，<b>写满、写多</b>比写得漂亮更值分；编程选择题不考默写，先排掉「一眼就知道错的」，再用上下文一致性排除。</div>
+
+<!-- ================= 一 ================= -->
+<h2>一、案例分析题<span class="sc">30 分 · 每题 6 分</span></h2>
+
+<h3>第 1 题（6 分）· 你是<b>美工</b><span class="src">第 1 章</span></h3>
+<p>策划给你一张角色的 <b>2D 原画</b>，要你把这个角色做到能在 Unity 里跑起来。你会怎么做？</p>
+<ol>
+<li>按顺序写出从原画到「模型进引擎」要经过的环节（分 <b>2D 原画</b>和 <b>3D 建模</b>两个阶段）。</li>
+<li>为什么要做高模和低模<b>两套</b>？两者之间的细节靠<b>什么手段</b>弥补？</li>
+</ol>
+<div class="ansbox" id="a1"><div class="abhd">参考答案<span class="tag">课件 01 · slide 15~23</span></div>
+<div class="ans">
+<p><span class="pt">2 分</span><b>2D 原画 4 步</b>：线稿绘制 → 上色（加光影、增强立体感）→ 细节修饰（色彩/质感/细节符合整体美术风格）→ 审查（与策划、美术指导定稿）。</p>
+<p><span class="pt">3 分</span><b>3D 建模 9 步</b>：原画分析（风格/比例/透视/材质要求）→ 粗模 → 中模（加细节提精度）→ 高模（雕刻细分曲面）→ <b>低模拓扑</b>（控面数、布线合理、与高模拓扑匹配）→ <b>UV 拆分</b> → <b>烘焙法线贴图</b> → 材质与纹理（基础色/细节纹理/法线）→ 渲染（调灯光和材质）。<br>（≥7 步给 3 分，5~6 步给 2 分，顺序乱扣 1 分）</p>
+<p><span class="pt">1 分</span><b>为什么两套</b>：高模细节足但面数高、引擎实时渲染跑不动；低模能跑但没细节。<b>用烘焙把高模细节转成法线贴图贴到低模上</b>，兼顾画质与性能；UV 是前提，没 UV 贴不上也烤不出。</p>
+</div>
+</div>
+<h3>第 2 题（6 分）· 你是<b>程序</b>（赛车实验）<span class="src">第 3 章</span></h3>
+<p>要做一个赛车场景：导入一堆现成的建筑和街道模型，加上地形，还要能切换天空盒。</p>
+<ol>
+<li>导入的模型<b>默认没有碰撞体</b>，为什么需要补上？怎么补？</li>
+<li>给场景加天空盒有<b>三种</b>做法，分别写出来，并说明两种脚本做法的<b>区别</b>在哪。</li>
+</ol>
+<div class="ansbox" id="a2"><div class="abhd">参考答案<span class="tag">课件 03 · Skybox 三种做法 / 实验二 第 4、5 步</span></div>
+<div class="ans">
+<p><span class="pt">2 分</span><b>为什么补 Collider</b>：导入的模型只有 <b>Mesh Filter + Mesh Renderer</b>（能看不能撞），要参与碰撞就<u>必须</u>给它加 <b>Collider</b>——形状按模型选 Box / Sphere / Capsule / Mesh。实验二里就是因为这点，模型看着有、车却直接穿过去。<br>
+（加分：如果它要动，还要加 <b>Rigidbody</b>；静态场景物只加 Collider 就够）</p>
+<p><span class="pt">4 分</span><b>天空盒三种做法</b>（每种 1 分，区别 1 分）：<br>
+① <b>材质法</b>：新建 Material → <code>Shader → Skybox → 6 Sided</code> → 分别设置 6 个方向的贴图 → 赋给相机；<br>
+② <b>脚本法 A</b>：<b>不能</b>给相机加 Skybox 组件，直接换材质——此时<b>材质必须放在 Resources 文件夹下</b>，否则 <code>Resources.Load</code> 找不到；<br>
+③ <b>脚本法 B</b>：<b>必须</b>给相机加 <code>Skybox</code> 组件，然后 <code>GetComponent&lt;Skybox&gt;().material = 材质</code> 赋值。<br>
+<b>区别</b>：②靠路径加载、材质必须进 Resources；③靠组件引用，材质可以放任意位置。<b>这两种不要记混。</b></p>
+</div>
+</div>
+<h3>第 3 题（6 分）· 你是<b>程序</b>（台球实验）<span class="src">第 4、5 章</span></h3>
+<p>要做一款台球游戏：主球能受力滚动、能撞球、进洞后要回到起点；同时主球要能<b>始终朝向</b>某个目标，还要判断目标在它<b>前方还是后方</b>。</p>
+<ol>
+<li>「始终朝向目标」和「判断前后」分别用哪个数学工具？写出关键调用。</li>
+<li>主球和球洞分别要挂哪些组件、Tag 怎么设？台球的<b>弹性</b>靠什么调？</li>
+<li>进洞后要把主球放回起点，<b>改位置之前必须先做什么</b>？不做会怎样？</li>
+</ol>
+<div class="ansbox" id="a3"><div class="abhd">参考答案<span class="tag">课件 04（A13~A16）/ 课件 05 / 实验三</span></div>
+<div class="ans">
+<p><span class="pt">2 分</span><b>① 始终朝向</b>：<code>Vector3 dir = target.position - transform.position;</code><br>
+<code>transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * k);</code><br>
+<b>② 判断前后用点乘</b>：<code>Vector3.Dot(transform.forward, dir.normalized)</code> &gt; 0 在前、&lt; 0 在后；<br>
+<b>判断左右用叉乘</b>：<code>Vector3.Cross(forward, dir).y</code> 的符号，正为右、负为左。</p>
+<p><span class="pt">2 分</span><b>③ 组件与 Tag</b>：主球 = <code>Rigidbody</code> + <code>Collider</code> + Tag <code>Player</code>；目标球 = <code>Rigidbody</code> + <code>Collider</code> + Tag <code>TargetBall</code>；球洞 = <code>Collider</code> + Tag <code>Hole</code>。<br>
+<b>弹性靠物理材质 Physic Material</b>：<code>Bounciness</code>（弹力）调高、<code>Friction</code>（摩擦）调低。</p>
+<p><span class="pt">2 分</span><b>④ 改位置之前必须先 <code>rg.Sleep()</code></b>。<br>
+不做的后果：速度还留着，瞬移回起点后球<b>自己又滚出去</b>（或者带着旧速度乱飞）。<code>Sleep()</code> 会清速度并冻结刚体状态，是重置位置的前置条件。<br>
+（加分：物理相关代码写在 <code>FixedUpdate</code> 里；<code>AddForce</code> 施力 <code>velocity</code> 直接改速度）</p>
+</div>
+</div>
+<h3>第 4 题（6 分）· 你是<b>特效与动画</b><span class="src">第 6、7 章</span></h3>
+<p>给炮塔做开炮特效：要有<b>火光一闪</b>、<b>火星飞散</b>、<b>烟慢慢扩散消失</b>；角色要有站立、行走、奔跑三种动作并能平滑过渡，同一套动作还要给另一个角色用。</p>
+<ol>
+<li>三种效果分别用粒子系统的<b>哪些模块</b>、怎么调？（写明模块名和关键参数）</li>
+<li>角色的三种动作用什么做<b>平滑过渡</b>？有一个参数控制「走 / 跑」的临界点，它的取值是多少？</li>
+<li>让另一个角色也能用这套动画，靠什么机制？对模型有什么要求？</li>
+</ol>
+<div class="ansbox" id="a4"><div class="abhd">参考答案<span class="tag">课件 06 粒子模块 / 课件 07 融合树与 Avatar</span></div>
+<div class="ans">
+<p><span class="pt">2.5 分</span><b>① 三种效果</b>（每种约 0.8 分）：<br>
+<b>火光</b>：生命周期很短（0.1~0.2s）、<b>Color over Lifetime</b> 白→橙→透明、<b>Size over Lifetime</b> 先大后收、Renderer 用 Additive 发光；<br>
+<b>火星</b>：<b>Shape 用 Cone</b> 定向发射、Initial Speed 大、<b>Gravity Modifier &gt; 0</b> 让火星下坠、Renderer 用 <b>Stretched Billboard</b> 拉出速度线；<br>
+<b>烟</b>：生命周期 1~2s、<b>Size over Lifetime 放大</b>、<b>Color over Lifetime 不透明→透明</b>、材质用 Alpha Blended。</p>
+<p><span class="pt">2 分</span><b>② 平滑过渡用融合树 BlendTree</b>（2D 双参数：Speed 控走跑、Direction 控左右）。<br>
+<b>临界点</b>：walking 三个子节点的 Direction = −1 / 0 / 1；<b>Motion 层 walking = 0、run = 0.8</b>，参数是 <b>Speed</b>。代码里 <code>anim.SetFloat("Speed", 0.5f)</code> 是走、<code>1f</code> 是跑。<br>
+（加分：过渡也可以给状态之间设 transition duration 交叉淡化；参数类型 Float / Int / Bool / Trigger，Trigger 触发后自动归 false）</p>
+<p><span class="pt">1.5 分</span><b>③ 多角色共用动画 = Avatar + 动画重定向 Retargeting</b>。<br>
+Avatar 的作用是把导入模型的骨骼结构<b>翻译</b>成 Mecanim 标准人形骨骼，有了这层翻译，同一套动画剪辑就能给不同模型用。<br>
+<b>对模型的要求</b>：<b>T Pose</b>；骨盆位置的骨骼关节是所有骨骼的父层级；至少 15 个骨骼；动画剪辑的 Rig 要设 <b>Humanoid</b> 并 <b>Copy From Other Avatar</b>。</p>
+</div>
+</div>
+<h3>第 5 题（6 分）· 你是<b>UI 与声音</b><span class="src">第 8 章 + 声音</span></h3>
+<p>做一款 1920×1080 的手机游戏界面：要能在不同分辨率下正常显示，按钮要能点，金币和血量要能实时刷新；背景音乐要一直循环，开炮、吃道具的音效要能同时响。</p>
+<ol>
+<li>界面用到<b>哪些技术</b>？（从画布、布局、控件、交互四层说）</li>
+<li>背景音乐和音效分别怎么配？<b>两个 AudioSource</b> 还是一个？用哪个播放方法？</li>
+</ol>
+<!-- ================= 二 ================= -->
+<div class="ansbox" id="a5"><div class="abhd">参考答案<span class="tag">课件 08 / 课件 05 音频 / 实验二、三 的 AudioSource</span></div>
+<div class="ans">
+<p><span class="pt">4 分</span><b>① 界面四层</b>（每层 1 分）：<br>
+<b>画布层</b>：<code>Canvas</code> + <code>CanvasScaler</code>（Scale With Screen Size，参考 1920×1080，Match 0.5）；Render Mode 常用 <b>Screen Space - Overlay</b>（一直在最前、自适应分辨率），要为 UI 加粒子特效时用 <b>Screen Space - Camera</b>（游戏相机 depth = −1、UI 相机 depth = 0）；<br>
+<b>布局层</b>：所有 UI 必须用 <b>RectTransform</b>；<b>Anchors 锚点</b>决定分辨率变化时贴哪——四角元素锚到对应角，底栏锚定底部并横向拉伸；<b>Pivot 轴心</b>是旋转缩放的基准；<br>
+<b>控件层</b>：<code>Text</code>/<code>Button</code>/<code>Image</code>（<b>只能显示一个精灵</b>，ImageType 用 <b>Sliced 九宫格</b>做底板拉伸不变形）/<code>RawImage</code>（<b>可显示任意纹理</b>）；图标<b>打图集 Atlas</b> 减少 draw call；<br>
+<b>交互层</b>：<b>Graphic Raycaster</b>（自动挂在 Canvas 上）+ <b>EventSystem</b>，少了按钮就点不动；数值刷新由脚本订阅事件改 Text，不要 <code>Find</code> 找 UI。</p>
+<p><span class="pt">2 分</span><b>② 声音</b>：<b>两个 AudioSource 分开挂</b>——一个专放 BGM（<code>loop = true</code>，用 <code>Play()</code>），一个专放音效（<code>PlayOneShot(clip)</code> 可<b>叠加播放不打断</b>）。<br>
+<b>不能用 <code>Play()</code> 放音效</b>：它会打断上一个音，连击时会吞音。<br>
+（加分：<code>AudioSource</code> 可以挂在管理器上做全局，也可以挂在每个物体上；<code>Resources.Load("Sound/hit") as AudioClip</code> 取音频）</p>
+</div>
+</div>
+<h2 id="p2q">二、编程选择题<span class="sc">30 分 · 15 空 × 2 分</span></h2>
+
+<div class="tip"><b>作答要求</b>：从 A~L 共 <b>12 个候选</b>中为每个编号空挑<b>一个</b>，把字母写在括号里。<b>部分候选不会被用到</b>；同一个候选<b>可以重复使用</b>。</div>
+
+<h3 id="q6">第 6 题（7 空 · 14 分）· 实验一：贪吃蛇</h3>
+<pre><code>public class Snake : MonoBehaviour {
+    Vector3 dir = Vector3.right;
+    List&lt;Transform&gt; tail = new List&lt;Transform&gt;();
+    bool ate = false;
+    public GameObject tailPrefab;
+    public bool work = false;
+
+    void Start() {
+        <span class="blk">___(1)___</span>("Move", 1f, 0.3f);
+    }
+
+    void <span class="blk">___(2)___</span>(Collider other) {
+        if (other.gameObject.tag.<span class="blk">___(3)___</span>("food")) {
+            ate = true;
+            <span class="blk">___(4)___</span>(other.gameObject);
+        }
+        else {
+            work = false;              // 撞到别的东西 → 停止移动
+        }
+    }
+
+    void Update() {
+        if (Input.<span class="blk">___(5)___</span>(KeyCode.RightArrow))     dir = Vector3.right;
+        else if (Input.GetKey(KeyCode.DownArrow))   dir = Vector3.down;
+        else if (Input.GetKey(KeyCode.LeftArrow))   dir = Vector3.left;
+        else if (Input.GetKey(KeyCode.UpArrow))     dir = Vector3.up;
+    }
+
+    void Move() {
+        if (work) {
+            Vector3 v = transform.position;
+            transform.<span class="blk">___(6)___</span>(dir);
+
+            if (ate) {
+                GameObject g = (GameObject)Instantiate(tailPrefab, v, <span class="blk">___(7)___</span>);
+                tail.Insert(0, g.transform);
+                ate = false;
+            }
+        }
+    }
+}</code></pre>
+
+<div class="opts">
+<b>A</b> InvokeRepeating　　<b>B</b> InvokeRepeat　　<b>C</b> OnTriggerEnter　　<b>D</b> OnCollisionEnter<br>
+<b>E</b> Equals　　<b>F</b> CompareTag　　<b>G</b> Destroy　　<b>H</b> SetActive<br>
+<b>I</b> GetKey　　<b>J</b> GetAxis　　<b>K</b> Translate　　<b>L</b> Quaternion.identity
+</div>
+
+<div class="key"><b>作答</b>（1）<span></span>　（2）<span></span>　（3）<span></span>　（4）<span></span>　（5）<span></span>　（6）<span></span>　（7）<span></span></div>
+
+<div class="ansbox" id="a6"><div class="abhd">参考答案</div>
+<table>
+<tr><th style="width:10%">空</th><th style="width:10%">答案</th><th>为什么</th></tr>
+<tr><td class="k">(1)</td><td><b>A</b></td><td><code>InvokeRepeating("方法名", 首次延迟, 间隔)</code>——<b>方法名是字符串</b>。<code>InvokeRepeat</code>（B）是课件里的<b>拼写错误</b>，Unity 里没这个方法</td></tr>
+<tr><td class="k">(2)</td><td><b>C</b></td><td>参数是 <b><code>Collider</code></b> → 对应 <b>OnTriggerEnter</b>；写成 <code>OnCollisionEnter</code>（D）参数应是 <code>Collision</code>，签名不匹配</td></tr>
+<tr><td class="k">(3)</td><td><b>E</b></td><td><code>other.gameObject.tag.Equals("food")</code>——老师习惯用 <b>Equals</b> 而不是 <code>CompareTag</code>（F）。而且 <code>tag</code> 是 string，<code>string.CompareTag</code> <b>不存在</b>，编译就错</td></tr>
+<tr><td class="k">(4)</td><td><b>G</b></td><td>吃到食物要<b>销毁食物物体</b>：<code>Destroy(other.gameObject)</code>。用 <code>SetActive(false)</code>（H）只是隐藏，物体还在、还会被判定</td></tr>
+<tr><td class="k">(5)</td><td><b>I</b></td><td><code>Input.GetKey(KeyCode.RightArrow)</code> —— <code>GetKey</code> 接受 <code>KeyCode</code>；<code>GetAxis</code>（J）要的是<b>字符串</b>轴名，传 KeyCode 编译不过</td></tr>
+<tr><td class="k">(6)</td><td><b>K</b></td><td>沿自身朝向平移一格：<code>transform.Translate(dir)</code></td></tr>
+<tr><td class="k">(7)</td><td><b>L</b></td><td><b><code>Quaternion.identity</code> = 无旋转</b>，四元数 (0,0,0,1)，w = 1。不是 (0,0,0,0)</td></tr>
+</table>
+</div>
+<h3 id="q7">第 7 题（8 空 · 16 分）· 实验二 + 实验三 + 实验四</h3>
+<pre><code>// ① 第三人称跟随相机（实验二）
+public class CameraControl : MonoBehaviour {
+    public Transform playerTransform;
+    private Vector3 offset;
+
+    void Start() {
+        offset = transform.position - playerTransform.position;
+    }
+
+    void <span class="blk">___(8)___</span>() {
+        transform.position = playerTransform.position <span class="blk">___(9)___</span> offset;
+    }
+}
+
+// ② 撞到障碍物扣血（实验二）
+public class ProcessCollider : MonoBehaviour {
+    void <span class="blk">___(10)___</span>(Collision other) {
+        if (other.gameObject.name.Equals("Car")) {
+            CarLife car = GameObject.Find("Car").<span class="blk">___(11)___</span>&lt;CarLife&gt;();
+            car.life = car.life - 3;
+        }
+    }
+}
+
+// ③ 球进洞时播放音效（实验三）
+public class Hole : MonoBehaviour {
+    void OnCollisionEnter(Collision other) {
+        if (other.<span class="blk">___(12)___</span>.tag.Equals("TargetBall"))
+            GetComponent&lt;AudioSource&gt;().<span class="blk">___(13)___</span>();
+    }
+}
+
+// ④ 融合树：走 / 跑切换（实验四）
+public class Blendtree : MonoBehaviour {
+    private Animator anim;
+    void Start() { anim = GetComponent&lt;Animator&gt;(); }
+
+    void Update() {
+        float h = Input.GetAxis("Horizontal");
+        anim.<span class="blk">___(14)___</span>("Direction", h);
+
+        if (Input.GetKey(KeyCode.UpArrow)) {
+            if (Input.GetKey(KeyCode.Z))
+                anim.SetFloat("Speed", 1f);      // running
+            else
+                anim.SetFloat("Speed", 0.5f);    // walking
+
+            transform.Translate(Vector3.forward * 3f * <span class="blk">___(15)___</span>);
+        }
+    }
+}</code></pre>
+
+<div class="opts">
+<b>A</b> LateUpdate　　<b>B</b> Update　　<b>C</b> OnCollisionEnter　　<b>D</b> OnTriggerEnter<br>
+<b>E</b> GetComponent　　<b>F</b> FindComponent　　<b>G</b> collider　　<b>H</b> SetTrigger<br>
+<b>I</b> Play　　<b>J</b> SetFloat　　<b>K</b> Time.deltaTime　　<b>L</b> +
+</div>
+
+<div class="key"><b>作答</b>（8）<span></span>　（9）<span></span>　（10）<span></span>　（11）<span></span>　（12）<span></span>　（13）<span></span>　（14）<span></span>　（15）<span></span></div>
+
+<!-- ================= 三 ================= -->
+<div class="ansbox" id="a7"><div class="abhd">参考答案</div>
+<table>
+<tr><th style="width:10%">空</th><th style="width:10%">答案</th><th>为什么</th></tr>
+<tr><td class="k">(8)</td><td><b>B</b></td><td><b>Update</b>——<b>实验二原文就是 Update</b>（课件 03 slide 27 同）：offset 在 Start 里算一次，每帧把玩家位置加回来。<b>填空一律按老师的代码填 Update</b>。<br>（补充：课件 <b>02 slide 32</b> 讲原理时说「跟随物体的相机可以在 <code>LateUpdate</code> 里实现」——等所有 Update 跑完再跟，不会差一帧。那是<b>原理/改良</b>的答法：案例题、设计题这样答并写理由能加分；<b>这道代码挖空只能填 Update</b>，选 A 会被判错）</td></tr>
+<tr><td class="k">(9)</td><td><b>L</b></td><td>跟随公式：<code>相机位置 = 目标位置 <b>+</b> offset</code>（offset 在 Start 里算的是「相机 − 目标」）</td></tr>
+<tr><td class="k">(10)</td><td><b>C</b></td><td>参数是 <code>Collision</code> → <b>OnCollisionEnter</b>。车撞障碍是<b>实心碰撞</b>，不是 Trigger</td></tr>
+<tr><td class="k">(11)</td><td><b>E</b></td><td><code>GetComponent&lt;T&gt;()</code> 取组件；<code>FindComponent</code>（F）<b>不存在这个方法</b></td></tr>
+<tr><td class="k">(12)</td><td><b>G</b></td><td><b><code>Collision</code> 没有 tag</b>，必须 <code>other.collider.tag</code>。这一处最容易错</td></tr>
+<tr><td class="k">(13)</td><td><b>I</b></td><td>进洞播一次音：<code>GetComponent&lt;AudioSource&gt;().Play()</code></td></tr>
+<tr><td class="k">(14)</td><td><b>J</b></td><td><code>anim.SetFloat("Direction", h)</code> —— Direction 是 <b>Float</b> 参数。<code>SetTrigger</code>（H）用于 Trigger 类型</td></tr>
+<tr><td class="k">(15)</td><td><b>K</b></td><td>位移必须乘 <code>Time.deltaTime</code> 才与帧率无关；不乘就是「帧率越高跑得越快」</td></tr>
+</table>
+
+<div class="warn"><b>这两题的四个干扰项（各自的 B / D / F / H 位）分别对应</b>：课件拼写错 <code>InvokeRepeat</code>、<code>OnTriggerEnter</code> 混 <code>OnCollisionEnter</code>、不存在的 <code>FindComponent</code>、<code>SetTrigger</code> 混 <code>SetFloat</code>。<b>考场上先按这四条排。</b></div>
+</div>
+<h2 id="p3q">三、游戏综合设计题<span class="sc">40 分 · 每小问 5 分</span></h2>
+
+<div class="tip"><b>作答要求</b>：<b>不写代码</b>。讲清「<b>怎么判断、怎么循环、什么顺序</b>」即可。</div>
+
+<h3>第 8 题（10 分 · 2 小问）· 状态与对象管理</h3>
+<p>你的射击游戏要做成：主菜单 → 选关 → 战斗中 → 暂停 → 结算，战斗中同屏几百颗子弹。</p>
+<p><b>（1）（5 分）</b>列出需要哪些<b>状态</b>，以及状态之间<b>怎么切换、由谁触发</b>。</p>
+<p><b>（2）（5 分）</b>子弹不用 <code>Instantiate</code> / <code>Destroy</code>，改用对象池。写出一个子弹从<b>取出到回收</b>的全过程，并说明<b>为什么每次取出都要重置状态</b>。</p>
+<div class="ansbox" id="a8"><div class="abhd">参考答案</div>
+<div class="ans">
+<p><span class="pt">5 分</span><b>（1）状态与切换</b>：<br>
+状态：<b>主菜单 Menu → 选关 LevelSelect → 战斗中 Playing → 暂停 Paused → 结算 Result</b>（可加开场 Boot、关卡过渡 Transition）。<br>
+切换与触发者：<br>
+① Menu → LevelSelect：玩家点「开始」，UI 按钮回调；<br>
+② LevelSelect → Playing：选中关卡并确认，由选关面板传出关卡参数；<br>
+③ Playing → Paused：按 Esc 或窗口失焦；Paused → Playing：点「继续」；Paused → Menu：点「返回主菜单」；<br>
+④ Playing → Result：生命归零或波次打完，由逻辑层（血量 / 关卡进度）判定后发事件；<br>
+⑤ Result → Playing：点「再来一局」，重置数据；Result → Menu/LevelSelect：返回。<br>
+<b>要点</b>：状态切换<b>只在一处统一处理</b>（一个 <code>GameState</code> 脚本），其他脚本只发事件，不各自改状态——否则会出现「暂停了子弹还在飞」。</p>
+<p><span class="pt">5 分</span><b>（2）对象池全过程</b>：<br>
+① <b>预热</b>：开局先 <code>Instantiate</code> 一批子弹，全部 <code>SetActive(false)</code> 放进池；<br>
+② <b>取出</b>：找一个未激活的，<code>SetActive(true)</code> 并调 <code>OnSpawn()</code> 重置；<br>
+③ <b>使用</b>：设位置、速度、伤害，进入正常飞行逻辑；<br>
+④ <b>回收</b>：命中或超时后<b>不 Destroy</b>，先 <code>OnDespawn()</code> 清理，再 <code>SetActive(false)</code> 放回池；<br>
+⑤ <b>兜底</b>：池空时扩容或复用最老的一个，不能返回 null。<br>
+<b>为什么必须重置</b>：池对象的「构造」只发生一次，第二次取出来时它还带着上次的<b>速度、位置、计时器、粒子、事件订阅</b>。<br>
+<b>必须重置的四项</b>：位置与旋转 / 速度与受力 / 生命值与状态 / 计时器与协程（加分：粒子 <code>Stop()</code> + <code>Clear()</code>、事件取消订阅）。</p>
+</div>
+</div>
+<h3 id="q9">第 9 题（15 分 · 3 小问）· 设计一款跑酷游戏</h3>
+<p><b>（1）（5 分）</b>写出核心循环（玩家在一分钟里重复做什么），并说明「什么条件算通过、什么条件算失败」。</p>
+<p><b>（2）（5 分）</b>障碍<b>随机生成</b>时怎么保证「一定过得去」？写出你的判定规则和生成顺序。</p>
+<p><b>（3）（5 分）</b>难度怎么<b>递增</b>？举 3 个可调数值，说明调哪个、往哪调、玩家会感受到什么变化。</p>
+<div class="ansbox" id="a9"><div class="abhd">参考答案</div>
+<div class="ans">
+<p><span class="pt">5 分</span><b>（1）核心循环</b>：观察前方 → <b>跳 / 滑 / 左右换道</b> → 吃金币和道具 → 速度自动加快 → 撞到障碍结算。<br>
+<b>通过</b>：跑完设定距离或达成目标分数；<b>失败</b>：撞到障碍（一次或几次，看设计）/ 掉落 / 超时。<br>
+<b>成败判定写在哪</b>：碰撞用 <code>OnTriggerEnter</code> 判 Tag（<code>Obstacle</code> / <code>Coin</code>），距离用累计位移判定。</p>
+<p><span class="pt">5 分</span><b>（2）随机生成要保证可通过</b>，规则：<br>
+① <b>分段生成</b>：把赛道切成固定长度的「片段」，每次取一个<b>预制好的片段</b>（预制件里已经验证过可通过），而不是随机撒单个障碍；<br>
+② <b>难度带权重</b>：片段按难度分档，随距离提高高档片段的抽取概率，但<b>相邻两个片段不能同时是高难</b>（设冷却）；<br>
+③ <b>留出反应距离</b>：障碍出现位置距玩家至少 <code>速度 × 反应时间</code>（如 0.8s），速度越快提前越远；<br>
+④ <b>保证有路</b>：三车道里<b>至少留一条完全无障碍</b>，且连续的障碍之间间距 ≥ 一次跳跃的距离。<br>
+<b>生成顺序</b>：先定片段 → 再定障碍通道 → 最后铺金币（金币要铺在"安全路径"上，起到引导作用）。</p>
+<p><span class="pt">5 分</span><b>（3）难度递增</b>（每项 1.5 分）：<br>
+① <b>前进速度</b>：从 8 提到 15，加速曲线用缓动而不是线性 → 玩家感到"越来越赶"；<br>
+② <b>障碍密度</b>：单位距离的片段数从 1 个/100m 增到 1 个/60m → 操作间隔变短；<br>
+③ <b>障碍类型解锁</b>：先只出地面障碍，再出空中障碍（要滑），最后出组合障碍（要跳+滑）→ 逐步增加操作种类；<br>
+（其他可接受：金币价值降低、道具刷新率降低、出现"必须二选一"的分叉路）</p>
+</div>
+</div>
+<h3 id="q10">第 10 题（15 分 · 3 小问）· 声音与结算</h3>
+<p><b>（1）（5 分）</b>游戏里至少有三类声音（背景音乐、打击音效、界面音）。分别说明它们的<b>播放时机</b>、<b>能不能被打断</b>、以及你用什么方法实现。</p>
+<p><b>（2）（5 分）</b>玩家要能在设置里<b>分别调</b>音乐和音效的音量，并且下次进游戏还是上次的值。说明怎么分轨、怎么保存。</p>
+<p><b>（3）（5 分）</b>结算界面要显示哪几项？数据从哪来？最高分怎么保证不丢？</p>
+<div class="sign">
+<span>建议时间：案例 40 分钟 / 编程选择 30 分钟 / 综合设计 45 分钟 / 检查 5 分钟</span><span>答题完毕请检查空白处是否写满</span><span>满分 100 分</span>
+</div>
+
+<!-- ================= 答案 ================= -->
+<div class="ansbox" id="a10"><div class="abhd">参考答案</div>
+<div class="ans">
+<p><span class="pt">5 分</span><b>（1）三类声音</b>：<br>
+① <b>背景音乐 BGM</b>：进关卡时开始，<b>循环不断</b>，<b>不能被打断</b>——用一个独立 <code>AudioSource</code>，<code>loop = true</code>，<code>Play()</code> 一次即可；切换场景时用 <code>DontDestroyOnLoad</code> 或由音频管理器统一接管；<br>
+② <b>打击音效</b>：命中/爆炸/吃道具时播，<b>必须能叠加</b>——用 <b><code>PlayOneShot(clip)</code></b>（不会打断上一个音），连击时多个音同时响；<br>
+③ <b>界面音</b>：点击按钮、开关面板时播，<b>不循环、短促</b>，同样用 <code>PlayOneShot</code>；<br>
+<b>关键判断</b>：<code>Play()</code> 会打断同一 AudioSource 上的上一个音，所以<b>音效不能用 Play</b>，否则连击时会"吞音"。</p>
+<p><span class="pt">5 分</span><b>（2）分轨调音量 + 保存</b>：<br>
+① <b>分轨</b>：两个 AudioSource 分别叫 Music 和 SFX；更规范的做法是用 <b>AudioMixer</b> 建 Music / SFX 两个 Group，各自的 <code>AudioSource.outputAudioMixerGroup</code> 指向对应 Group；<br>
+② <b>调节</b>：<code>AudioMixer.SetFloat("MusicVolume", Mathf.Log10(v) * 20)</code>——音量是<b>对数</b>的，直接给 0~1 会很怪；也可简单用 <code>audioSource.volume = v</code>；<br>
+③ <b>保存</b>：设置面板的 Slider 变化时 <code>PlayerPrefs.SetFloat("musicVol", v)</code>，关面板调 <code>PlayerPrefs.Save()</code>；进游戏时 <code>GetFloat("musicVol", 1f)</code> 读回来并应用到 Mixer；<br>
+④ <b>UISlider 取值</b>：<code>slider.value</code>（0~1）绑到音量，<code>slider.onValueChanged.AddListener(...)</code> 监听变化。</p>
+<p><span class="pt">5 分</span><b>（3）结算界面</b>：<br>
+<b>显示项</b>：本局得分、击杀/收集数、最高连击、用时或距离、历史最高分（破纪录要给提示）。<br>
+<b>数据来源</b>：局内由逻辑层累加（击杀加分 × 连击倍率），<b>结算时一次性汇总</b>；界面只负责显示，<b>不反向去场景里读数</b>。<br>
+<b>最高分不丢</b>：<code>PlayerPrefs.SetInt("bestScore", score)</code> + <code>Save()</code>，并且<b>只有超过旧值才写</b>；读取用 <code>GetInt(key, 0)</code>。<br>
+（加分：结算面板要按状态机进 Result 才显示；分数滚动动画用 unscaled 时间，暂停时不卡）</p>
+</div>
+</div>
+
+<div class="ok"><b>与第一套的区别</b>：这一套 5 道案例题全部改成「<b>你是什么角色 + 要做什么 + 你怎么做</b>」的正向问法，答案都能对应到课件原话或实验步骤；编程选择题的 15 个空<b>全部来自四份实验的真实代码</b>（实验一贪吃蛇 / 实验二赛车 / 实验三台球 / 实验四融合树），没有一道是自编场景。</div>
+<h2 style="margin-top:22px">附：覆盖面自查</h2>
+<table>
+<tr><th style="width:16%">题号</th><th style="width:12%">章</th><th style="width:34%">考点</th><th>出处</th></tr>
+<tr><td class="k">案例 1</td><td>第 1 章</td><td>2D 原画四步 / 3D 建模九步 / 高低模 + 法线贴图</td><td>课件 01 · slide 15~23</td></tr>
+<tr><td class="k">案例 2</td><td>第 3 章</td><td>导入模型补 Collider / 天空盒三种做法</td><td>课件 03 · 实验二</td></tr>
+<tr><td class="k">案例 3</td><td>第 4、5 章</td><td>Slerp 朝向 / 点乘判前后 / 组件与 Tag / 改位置先 Sleep</td><td>课件 04、05 · 实验三</td></tr>
+<tr><td class="k">案例 4</td><td>第 6、7 章</td><td>粒子三效果（火光/火星/烟）/ 融合树 / Avatar 重定向</td><td>课件 06、07 · 实验四</td></tr>
+<tr><td class="k">案例 5</td><td>第 8 章 + 声音</td><td>界面四层技术 / 两个 AudioSource / PlayOneShot</td><td>课件 08、05</td></tr>
+<tr><td class="k">编程 6</td><td>第 2、5 章</td><td>生命周期与协程调用 / 触发判定 / 输入 / 平移与旋转</td><td>实验一 贪吃蛇源码</td></tr>
+<tr><td class="k">编程 7</td><td>第 2、5、6、7 章</td><td>Update（实验原文）/ 碰撞回调 / 取组件 / AudioSource / 融合树参数</td><td>实验二 三四 源码</td></tr>
+<tr><td class="k">设计 8~10</td><td>综合</td><td>状态机 / 对象池 / 核心循环 / 难度曲线 / 声音分轨与存档</td><td>课设《虚数星区》可迁移</td></tr>
+</table>
+<p style="font-size:12.5px;color:#5c6673;margin-top:6px">说明：<b>第 2 章（C# 与 Unity 脚本基础）</b>没有单独的案例题，它的考点（MonoBehaviour 生命周期、<code>Start</code>/<code>Update</code> 顺序、脚本文件名与类名一致、组件获取）全部落在编程选择题第 6、7 题里——认得出调用就当掌握了。</p>
+</main>
+
+</body>
+</html>

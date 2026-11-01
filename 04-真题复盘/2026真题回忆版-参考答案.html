@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 期末真题（回忆版）· 参考答案</title>
+<style>
+:root{
+  --bg:#f7f8fa; --card:#fff; --ink:#1f2937; --ink2:#4b5563; --ink3:#8b95a3;
+  --line:#e3e8ef; --accent:#b4530a; --accent2:#d97706; --accent-soft:#fdf3e7;
+  --green:#166534; --green-soft:#eefaf1; --blue:#1e4e79; --blue-soft:#eef4fb;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:32px 20px 80px;
+  background:var(--bg); color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
+  font-size:15px; line-height:1.85;
+}
+.wrap{max-width:900px; margin:0 auto}
+
+/* 头部 */
+header{
+  background:linear-gradient(135deg,#fff 0%,#fdf8f1 100%);
+  border:1px solid var(--line); border-radius:14px;
+  padding:26px 30px; margin-bottom:22px;
+  box-shadow:0 1px 3px rgba(31,41,55,.05);
+}
+header h1{margin:0 0 6px; font-size:23px; letter-spacing:.5px}
+header .sub{color:var(--ink3); font-size:13px; margin-bottom:16px}
+header .meta{display:flex; flex-wrap:wrap; gap:8px}
+header .meta span{
+  font-size:12.5px; padding:3px 11px; border-radius:999px;
+  background:var(--accent-soft); color:var(--accent); border:1px solid #f3ddc0;
+}
+
+/* 题型表 */
+.scoretab{width:100%; border-collapse:collapse; margin:18px 0 0; font-size:13.5px}
+.scoretab th,.scoretab td{border:1px solid var(--line); padding:8px 12px; text-align:left}
+.scoretab th{background:#fafbfc; font-weight:600; color:var(--ink2); font-size:13px}
+.scoretab td.n{color:var(--accent); font-weight:700; text-align:center; width:70px}
+
+/* 大节标题 */
+h2{
+  font-size:18px; margin:38px 0 16px; padding-left:12px;
+  border-left:4px solid var(--accent2); line-height:1.4;
+}
+h2 .ch{display:block; font-size:12.5px; color:var(--ink3); font-weight:400; margin-top:3px; padding-left:0}
+
+/* 题目卡片 */
+.q{
+  background:var(--card); border:1px solid var(--line); border-radius:12px;
+  padding:20px 24px 22px; margin-bottom:16px;
+  box-shadow:0 1px 2px rgba(31,41,55,.04);
+  page-break-inside:avoid;
+}
+h3{
+  font-size:15.5px; margin:0 0 12px; display:flex; align-items:baseline;
+  flex-wrap:wrap; gap:8px;
+}
+h3 .num{
+  display:inline-block; background:var(--accent); color:#fff;
+  font-size:12px; padding:1px 9px; border-radius:999px; font-weight:600;
+  flex:none;
+}
+h3 .pt{color:var(--ink3); font-size:12.5px; font-weight:400; flex:none}
+
+/* 题干 */
+.stem{
+  background:#fafbfc; border:1px solid var(--line); border-left:3px solid #cbd5e1;
+  border-radius:6px; padding:11px 15px; margin-bottom:16px;
+  font-size:14px; color:var(--ink2); line-height:1.75;
+}
+.stem b{color:var(--ink)}
+
+/* 答案 */
+.ans{font-size:14.5px}
+.ans p{margin:0 0 12px}
+.ans ul,.ans ol{margin:0 0 12px; padding-left:22px}
+.ans li{margin-bottom:6px}
+.ans b{color:var(--accent); font-weight:600}
+.ans code{
+  background:#f3f4f6; border:1px solid #e5e7eb; border-radius:4px;
+  padding:1px 6px; font-family:Consolas,"Courier New",monospace;
+  font-size:13px; color:#b4530a;
+}
+
+/* 答案分段标题 */
+.ans h4{
+  font-size:13.5px; margin:16px 0 8px; color:var(--blue);
+  display:flex; align-items:center; gap:7px;
+}
+.ans h4::before{
+  content:""; width:5px; height:5px; border-radius:50%;
+  background:var(--accent2); flex:none;
+}
+
+/* 得分点框 */
+.key{
+  background:var(--green-soft); border:1px solid #cdebd6;
+  border-radius:8px; padding:12px 16px; margin:14px 0 0;
+  font-size:13.5px; color:var(--green);
+}
+.key .t{font-weight:700; display:block; margin-bottom:6px; font-size:13px}
+.key ul{margin:0; padding-left:20px}
+.key li{margin-bottom:4px}
+
+/* 提示框 */
+.note{
+  background:var(--blue-soft); border:1px solid #d6e4f2; border-radius:8px;
+  padding:12px 16px; margin:14px 0; font-size:13.5px; color:var(--blue);
+}
+.note b{color:#12395c}
+
+.warn{
+  background:#fef6ec; border:1px solid #f6dfc2; border-radius:8px;
+  padding:12px 16px; margin:14px 0; font-size:13.5px; color:#8a4b08;
+}
+.warn b{color:#6b3a05}
+
+/* 代码块 */
+pre{
+  background:#20262e; color:#e6e8ea; border-radius:8px;
+  padding:14px 18px; overflow-x:auto; margin:12px 0;
+  font-family:Consolas,"Courier New",monospace; font-size:13px; line-height:1.7;
+}
+pre code{background:none; border:none; padding:0; color:inherit; font-size:13px}
+pre .blk{color:#ffb454; font-weight:700}
+pre .cm{color:#7c8894}
+pre .kw{color:#7cc4ff}
+pre .str{color:#a5d6a7}
+
+/* 表格 */
+table.t{width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px}
+table.t th,table.t td{border:1px solid var(--line); padding:8px 12px; text-align:left; vertical-align:top}
+table.t th{background:#fafbfc; font-weight:600; color:var(--ink2); font-size:13px}
+table.t td.k{color:var(--accent); font-weight:700; text-align:center; width:56px}
+
+/* 目录 */
+.toc{
+  background:var(--card); border:1px solid var(--line); border-radius:12px;
+  padding:18px 24px; margin-bottom:8px;
+}
+.toc .t{font-size:13px; color:var(--ink3); margin-bottom:10px}
+.toc a{
+  display:inline-block; color:var(--ink2); text-decoration:none;
+  font-size:13.5px; margin:0 14px 6px 0; padding:2px 0;
+  border-bottom:1px dashed transparent;
+}
+.toc a:hover{color:var(--accent); border-bottom-color:var(--accent)}
+
+/* 页脚 */
+footer{
+  margin-top:44px; padding-top:20px; border-top:1px dashed var(--line);
+  color:var(--ink3); font-size:12.5px; line-height:1.9;
+}
+
+@media print{
+  body{background:#fff; padding:0; font-size:11pt}
+  .wrap{max-width:none}
+  .q,header,.toc{box-shadow:none}
+  h2{page-break-after:avoid}
+  pre{background:#f5f6f8; color:#1f2937; border:1px solid #ddd}
+  pre .blk{color:#b4530a}
+  pre .cm{color:#8b95a3}
+  pre .kw{color:#1e4e79}
+  pre .str{color:#166534}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>2026 期末真题（回忆版）· 参考答案</h1>
+  <div class="sub">游戏开发技术 · 安徽理工大学 · 授课教师 · 2026-10-30 天宫 102</div>
+  <div class="meta">
+    <span>闭卷 120 分钟</span>
+    <span>满分 100</span>
+    <span>案例 30 + 编程 30 + 设计 40</span>
+    <span>据考生回忆整理</span>
+  </div>
+  <table class="scoretab">
+    <tr><th>题型</th><th>题量</th><th>分值</th><th>核心考法</th></tr>
+    <tr><td>一、案例分析</td><td>5 题</td><td class="n">30</td><td>身份代入 + 怎么做，每题 6 分</td></tr>
+    <tr><td>二、编程选择</td><td>2 题</td><td class="n">30</td><td>实验代码挖空，12 选 A~L</td></tr>
+    <tr><td>三、综合设计</td><td>3 题</td><td class="n">40</td><td>10 + 15 + 15，全部来自课设选题</td></tr>
+  </table>
+</header>
+
+<div class="toc">
+  <div class="t">目 录</div>
+  <a href="#q1">一.1 王者荣耀美工</a>
+  <a href="#q2">一.2 枪口烟火与击中特效</a>
+  <a href="#q3">一.3 融合树</a>
+  <a href="#q4">一.4 工厂密闭环境</a>
+  <a href="#q5">一.5 地形六按键</a>
+  <a href="#q6">二.1 台球蓄力击打</a>
+  <a href="#q7">二.2 两个 Toggle 控声音</a>
+  <a href="#q8">三.1 塔防</a>
+  <a href="#q9">三.2 敌人状态机 + 第一人称</a>
+  <a href="#q10">三.3 3D 无限跑酷</a>
+</div>
+
+<!-- ============ 第一大题 ============ -->
+<h2>一、案例分析题<span class="ch">5 题 × 6 分 = 30 分　｜　问法统一为「你是 ○○，你怎么做」</span></h2>
+
+<div class="q" id="q1">
+  <h3><span class="num">1-1</span>假如你是《王者荣耀》的美工，需要掌握哪些技能和技术<span class="pt">6 分</span></h3>
+  <div class="stem">
+    身份：一款日活过亿的 MOBA 手游的<b>美工</b>。<br>
+    需要说清：这个岗位要做哪些活、会哪些工具、懂哪些引擎里的规矩。
+  </div>
+  <div class="ans">
+    <p>我会把美工的能力拆成三块来讲：<b>做资源的能力、落地的能力、协作与优化的能力</b>。只会做资源、不懂落地，资源进引擎就变形；只懂落地、不会做资源，只能做二次加工，做不出原创。</p>
+
+    <h4>一、美术资源制作</h4>
+    <ul>
+      <li><b>建模</b>：用 3ds Max / Maya / Blender，掌握多边形建模、布线、UV 拆分。手游对<b>面数预算</b>要求严格，一个英雄主体通常控制在万面以内，所以要做低模 + 法线烘焙，而不是靠堆面数。</li>
+      <li><b>贴图</b>：用 Photoshop / Substance Painter 绘制 <code>Albedo</code>（固有色）、<code>Normal Map</code>（法线）、<code>Roughness</code>（粗糙度）、<code>Metallic</code>（金属度）。</li>
+      <li><b>骨骼与动画</b>：绑定骨骼、刷权重、制作待机/行走/技能动作，导出 FBX。人形角色统一走<b>人形骨骼（Humanoid）</b>，方便动画复用到不同英雄上。</li>
+      <li><b>UI 与特效</b>：绘制 UI 切图（按钮、图标、血条底图），制作技能特效的序列帧或粒子贴图。</li>
+    </ul>
+
+    <h4>二、在 Unity 里落地</h4>
+    <ul>
+      <li><b>导入设置</b>：模型导入后生成 Avatar；贴图设为 <code>Sprite</code> 或 <code>Default</code>，勾选压缩格式（安卓用 ASTC / ETC2），开 <code>mipmap</code> 供远距离显示。</li>
+      <li><b>材质与 Shader</b>：理解 <b>纹理 → 材质 → Shader</b> 三层关系。纹理是原始图片，材质是参数的组合，Shader 是渲染规则。同一个 Shader 换不同参数，就是一个新材质——这是做皮肤换色的基础。</li>
+      <li><b>光照</b>：静态场景用烘焙（Lightmap）保证质感，动态角色用 Light Probe 采样环境光，才不会出现角色走进阴影里还发亮的穿帮。</li>
+    </ul>
+
+    <h4>三、协作与优化</h4>
+    <ul>
+      <li><b>命名与目录规范</b>：按 <code>角色/场景/UI/特效</code> 分目录，统一前缀，让程序能靠名字找到资源。</li>
+      <li><b>图集（Atlas）</b>：同屏多张 UI 图打进一张图集，减少 Draw Call。</li>
+      <li><b>LOD</b>：远景模型换成低面数版本，节省渲染开销。</li>
+      <li><b>性能预算意识</b>：做资源时就要知道这块资源占了多大的内存和渲染开销，而不是做完再交给程序去优化。</li>
+    </ul>
+
+    <div class="key">
+      <span class="t">六个得分点</span>
+      <ul>
+        <li>说清美工不只是「画画」，是<b>资源制作 + 引擎落地 + 优化协作</b>三块</li>
+        <li>点出贴图种类：<b>Albedo / Normal / Roughness / Metallic</b></li>
+        <li>点出引擎关系：<b>纹理 → 材质 → Shader</b> 三层</li>
+        <li>点出<b>面数预算</b>与低模 + 法线烘焙的思路</li>
+        <li>点出<b>图集、LOD、Draw Call</b> 三个优化手段</li>
+        <li>最后一句落到「为性能服务」，体现你不是只会画图</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="q" id="q2">
+  <h3><span class="num">1-2</span>枪战游戏中，枪口的烟火、烟雾以及击中特效怎么实现<span class="pt">6 分</span></h3>
+  <div class="stem">
+    三个效果：<b>枪口火焰</b>、<b>枪口烟雾</b>、<b>击中特效</b>。<br>
+    要求：说清用什么技术、各调哪几个模块、为什么这么调。
+  </div>
+  <div class="ans">
+    <p>三个效果都用 <b>Particle System（粒子系统）</b>做，区别在于参数配置。粒子系统的本质是「用大量小面片模拟不规则、易消散的现象」——火焰、烟雾、火花都是这种特征，用模型做不出来，用动画帧则太占资源。</p>
+
+    <h4>① 枪口火焰：短、亮、一次</h4>
+    <ul>
+      <li><b>Duration</b> 设 0.1 秒左右，<b>Looping</b> 取消——它只该闪一帧到三帧</li>
+      <li><b>Emission</b> 用 <b>Burst</b> 一次性喷 8~15 个粒子，不用 Rate over Time 持续发射</li>
+      <li><b>Shape</b> 选 <b>Cone（圆锥）</b>，角度开小，朝枪口正前方喷</li>
+      <li><b>Color over Lifetime</b>：从白 → 橙 → 透明，模拟温度衰减</li>
+      <li><b>Size over Lifetime</b>：快速缩小到 0</li>
+      <li><b>Renderer</b>：材质用 <b>Additive（叠加）</b>混合模式，才会有发光感；勾 <b>Billboard</b> 让粒子始终面向相机</li>
+    </ul>
+
+    <h4>② 枪口烟雾：慢、淡、飘</h4>
+    <ul>
+      <li>Duration 拉长到 0.5~1 秒，Size over Lifetime 反过来<b>由小变大</b></li>
+      <li>Color over Lifetime 的 <b>Alpha 渐隐到 0</b>，这是烟雾消散的关键</li>
+      <li>Velocity over Lifetime 给一点向上的漂移，加 <b>Noise（噪波）</b>模块让它不规则地翻滚</li>
+      <li>材质用 <b>Alpha Blend</b>（半透明），不用 Additive——烟雾是遮挡光，不是发光</li>
+    </ul>
+
+    <h4>③ 击中特效：在碰撞点生成</h4>
+    <ul>
+      <li>用<b>射线检测</b>（<code>Raycast</code>）拿到命中点与法线，在该点 <code>Instantiate</code> 特效预制体</li>
+      <li>火花的 <b>Renderer 用 Stretched Billboard</b>，按速度方向拉长成条状，看起来才有速度感</li>
+      <li>用 <b>Sub Emitters</b>：主粒子（火花）死亡时触发二级粒子（碎屑、烟），一次配置出复合效果</li>
+      <li>特效朝向对齐命中面的法线，贴墙和贴地才不会穿模</li>
+    </ul>
+
+    <h4>④ 三个工程细节（拉分的地方）</h4>
+    <ul>
+      <li><b>用一个预制体 + 对象池</b>：开枪频率高，不能每次 <code>Instantiate</code> 再 <code>Destroy</code>，改成从池里取、播完 <code>SetActive(false)</code> 还回去</li>
+      <li><b>单个粒子系统</b>用 <code>Play()</code> / <code>Stop()</code> 控制；<b>复合特效</b>（火光 + 烟 + 火花组成一个物体）要用整个 GameObject 的 <code>SetActive()</code> 开关——这是课件 06 明确区分的两种情况</li>
+      <li><b>性能取舍</b>：同屏粒子数设上限（Max Particles），远处特效降频或直接不生成</li>
+    </ul>
+
+    <div class="key">
+      <span class="t">六个得分点</span>
+      <ul>
+        <li>答出技术名：<b>Particle System 粒子系统</b></li>
+        <li>答出至少四个模块名：<b>Emission / Shape / Color over Lifetime / Size over Lifetime / Renderer / Sub Emitters</b></li>
+        <li>火焰用 <b>Burst 一次性发射</b>，不是持续发射</li>
+        <li>火焰用 <b>Additive</b>、烟雾用 <b>Alpha Blend</b>（这一条最能体现你真调过）</li>
+        <li>击中特效靠 <b>Raycast 拿命中点</b>再生成</li>
+        <li>收尾提<b>对象池</b>与 <b>Play/Stop 与 SetActive 的区别</b></li>
+      </ul>
+    </div>
+
+    <div class="note">
+      <b>课件原话可引</b>（Game 06）：over Lifetime 类模块「类似花开花落的一生」，by Speed 类「类似跑龙套」；单个粒子用 Play/Stop，复合粒子 GameObject 用 SetActive。
+    </div>
+  </div>
+</div>
+
+<div class="q" id="q3">
+  <h3><span class="num">1-3</span>动画系统的融合树，在游戏中哪些动画中体现，具体如何实现<span class="pt">6 分</span></h3>
+  <div class="stem">
+    两问：<b>用在哪些动画上</b>（举例）+ <b>怎么实现</b>（步骤与参数）。
+  </div>
+  <div class="ans">
+    <p>先给一句定性：<b>动画混合树在动画状态机中是一个特殊类型的状态</b>，它内部不靠状态切换，而是靠一个数值参数<b>连续混合</b>多个动作。所以它解决的是「同一个动作在不同强度之间平滑变化」的问题，不是「不同动作之间切换」的问题。</p>
+
+    <h4>一、游戏里哪些动画会用融合树</h4>
+    <table class="t">
+      <tr><th style="width:150px">场景</th><th>说明</th></tr>
+      <tr><td><b>走 ↔ 跑</b></td><td>最典型。速度从 0 连续加到 10，动作从走过渡到跑，中间自动生成半走半跑的姿态，不会硬切</td></tr>
+      <tr><td><b>转向</b></td><td>左转走、直走、右转走三套动作，用一个 direction 参数在 −1~1 之间混合</td></tr>
+      <tr><td><b>瞄准姿态</b></td><td>上身竖直 / 侧身 / 蹲姿之间按瞄准角度混合，常配合动画层使用</td></tr>
+      <tr><td><b>受伤程度</b></td><td>轻伤、重伤两套待机，按血量比例混合，血越少动作越踉跄</td></tr>
+      <tr><td><b>坡度适配</b></td><td>上坡、平地、下坡三套走姿，按地形坡度混合（2D Blend Tree）</td></tr>
+    </table>
+
+    <h4>二、怎么实现（以「走跑切换」为例）</h4>
+    <ol>
+      <li><b>参数必须用 Float</b>。在 Animator 面板新建参数 <code>Speed</code>，类型选 <b>Float</b>。Bool 只有真假两态，做不出 0.5 这种中间值，混合就没有过渡。</li>
+      <li><b>建树</b>：在 Animator 里右键 <b>Create State → From New Blend Tree</b>，双击进去，把 walking、running 两个动画拖进 Blend Tree，<b>Blend Type</b> 选 <b>1D</b>。</li>
+      <li><b>设临界点</b>：walking 设 0、running 设 0.8。参数为 0 时是走，0.8 时是跑，中间按比例混合。</li>
+      <li><b>要做两层结构</b>：外层一个 Speed 参数混合「走树」和「跑树」；每棵子树内部再放 walkingleft / walking / walkingright 三个动作，用 <code>direction</code> 参数混合，临界点 −1、0、1。</li>
+      <li><b>改不动临界点怎么办</b>：先<b>取消勾选 Automate Threshold</b>，手动填写数字，填完再勾回去。直接拖是拖不动的。</li>
+      <li><b>代码里赋值</b>：<code>anim.SetFloat("Speed", 0.9f);</code>，数值要和角色实际移动速度<b>同步</b>，否则会出现「腿在飞奔、人却挪得慢」的滑步。</li>
+    </ol>
+
+    <h4>三、一条必须记住的限制</h4>
+    <p><b>「为了使混合过后的动作起作用，必须混合造型和时间相近的动作」</b>——这是课件原话。所以走和走的变体可以放一棵树，跑和跑的变体放另一棵树，但<b>不能把走和跑混在同一棵树里</b>：它们的步幅和周期差太多，混出来会像原地抽搐。</p>
+
+    <div class="key">
+      <span class="t">六个得分点</span>
+      <ul>
+        <li>开头给出定义：<b>融合树是动画状态机中的一种特殊类型的状态</b>（课件原话）</li>
+        <li>举例至少两个：<b>走跑切换</b>、<b>转向</b>（或瞄准、受伤、坡度）</li>
+        <li>参数类型必须 <b>Float</b>，并说明为什么不能用 Bool</li>
+        <li>给出<b>临界点数值</b>（0 和 0.8，或 −1 / 0 / 1）</li>
+        <li>提到 <b>Automate Threshold 要先取消勾选</b>才能改</li>
+        <li>引用限制：<b>只能混合造型和时间相近的动作</b></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="q" id="q4">
+  <h3><span class="num">1-4</span>游戏场景中的工厂、密闭环境，如何实现得更加逼真<span class="pt">6 分</span></h3>
+  <div class="stem">
+    场景：<b>室内工厂、密闭空间</b>。<br>
+    关键词：逼真。要答的是<b>用什么手段做出真实感</b>，不是「多放几个模型」。
+  </div>
+  <div class="ans">
+    <p>密闭环境的真实感来自三件事：<b>光要对、暗部要有细节、空气里要有东西</b>。工厂这种场景真正的难点不是建模，是「没有天光」——全靠人造光源，光一错，整个空间就假。</p>
+
+    <h4>一、光照：这是主战场</h4>
+    <ul>
+      <li><b>主体光用烘焙</b>。工厂的天窗、厂房、管道都不会动，属于静态物体，把它们勾上 <b>Static</b>，方向光 Mode 设 <b>Mixed</b>，用 <b>Baked Lightmap</b> 烘焙。</li>
+      <li><b>顶灯用 Spot Light</b>（聚光灯），模拟厂房高处的工矿灯，配一个向下的 Cookie 投出灯罩的形状。Spot 的 <b>Range</b> 和 <b>Spot Angle</b> 决定光锥，<b>Intensity</b> 决定亮度。</li>
+      <li><b>局部光源用 Point Light</b>，做机器指示灯、仪表盘、角落的应急灯。</li>
+      <li><b>柔和的面光用 Area Light</b>。课件原话：<b>区域光无法用作实时光照，必须烘焙，物体必须静态</b>，用于建立柔和的照明效果——高窗透进来的漫射光正好用它。</li>
+      <li><b>阴影</b>：主光开 <b>Soft Shadows</b>（软阴影，真实但耗性能），次要光源用 <b>Hard Shadows</b> 或干脆关掉。注意 <b>Bias</b> 不能太小，否则物体表面会出现 self-shadow 的黑斑。</li>
+    </ul>
+
+    <h4>二、材质与细节：让表面「不平」</h4>
+    <ul>
+      <li><b>法线贴图（Normal Map）</b>：金属板、砖墙、混凝土地面的凹凸全靠它。实时渲染的多边形预算有限，用贴图做出表面细节，性价比远高于堆高模。</li>
+      <li><b>粗糙度贴图</b>：工厂里油污、水渍、锈迹的反射程度不一样，靠 Roughness 贴图区分，才会「有的地方反光、有的地方发哑」。</li>
+      <li><b>贴花（Decal）</b>：油渍、划痕、警示标线用贴花投在表面，比做进模型里灵活得多。</li>
+    </ul>
+
+    <h4>三、空气感：密闭空间最缺这一层</h4>
+    <ul>
+      <li><b>雾效（Fog）</b>：开启指数雾，给一点灰白色。工厂里空气不干净，远处会被雾「吃掉」，纵深立刻出来。</li>
+      <li><b>粒子做悬浮物</b>：细微的灰尘、蒸汽、管道漏气，用一个低发射率的粒子系统持续飘。</li>
+      <li><b>体积光（Volumetric Light）</b>：从高窗斜射进来的光柱，这是室内场景最出效果的一笔。</li>
+    </ul>
+
+    <h4>四、动态物体的处理</h4>
+    <p>玩家和可移动的机械不能烘焙，把它们的 Static 勾掉走实时光照，同时在场景里布 <b>Light Probe（灯光探测器）</b>，让动态物体从最近的探针插值出环境光。这样角色走进暗角会变暗，走进灯下会变亮，光影是连贯的。</p>
+
+    <div class="key">
+      <span class="t">六个得分点</span>
+      <ul>
+        <li>点出密闭环境的核心难点：<b>没有人造天光，全靠人造光源</b></li>
+        <li>答出光源类型分工：<b>Spot 顶灯 / Point 局部 / Area 柔和面光</b></li>
+        <li>答出 <b>Area Light 不能实时光照、必须烘焙、物体必须静态</b></li>
+        <li>答出烘焙流程关键词：<b>Static 勾选 + Mixed + Generate Lighting</b></li>
+        <li>答出 <b>法线贴图</b>做表面凹凸、<b>雾效</b>做空气感</li>
+        <li>答出 <b>Light Probe 解决动态物体光照</b>——这一条是分水岭</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="q" id="q5">
+  <h3><span class="num">1-5</span>地形中这六个按键的作用<span class="pt">6 分</span></h3>
+  <div class="stem">
+    截图是 Terrain 组件的笔刷下拉菜单，六项：<br>
+    <code>Set Height</code>　<code>Smooth Height</code>　<code>Paint Texture</code>　<code>Paint Holes</code>　<code>Stamp Terrain</code>　<code>Raise or Lower Terrain</code>
+  </div>
+  <div class="ans">
+    <p>这六个是地形组件的<b>笔刷工具</b>，用来在同一个地形上做出高度、纹理、洞口。它们不是并列的六个功能，而是<b>塑形 → 修饰 → 贴图 → 挖洞 → 压模</b>这样一条操作链上的不同环节。</p>
+
+    <table class="t">
+      <tr><th style="width:190px">工具</th><th style="width:78px">中文</th><th>作用</th></tr>
+      <tr>
+        <td><code>Raise or Lower Terrain</code></td><td>升高/降低</td>
+        <td><b>最基础的塑形笔刷</b>。按住左键升高、按住 Shift 降低，用笔刷形状一块块堆出山丘和洼地。地形造型的第一道工序。</td>
+      </tr>
+      <tr>
+        <td><code>Set Height</code></td><td>设定高度</td>
+        <td><b>把笔刷范围内的地形一次性压平到某个绝对高度</b>。用来做平台、台地、断崖的顶面——同一片区域刷完，高度完全一致，这是 Raise 做不到的。</td>
+      </tr>
+      <tr>
+        <td><code>Smooth Height</code></td><td>平滑高度</td>
+        <td><b>抹平棱角</b>。Raise 堆出来的山往往很尖，用平滑笔刷来回刷几遍，就变成自然的缓坡。也可能用来做河床、道路的过渡。</td>
+      </tr>
+      <tr>
+        <td><code>Paint Texture</code></td><td>绘制纹理</td>
+        <td><b>画地表贴图</b>。要先点 <b>Create Layer</b> 添加纹理层（草地、岩石、沙土、雪），然后用笔刷在不同层之间涂——涂到哪块，那块就显示对应的地表。这是地形「看起来像什么」的关键。</td>
+      </tr>
+      <tr>
+        <td><code>Paint Holes</code></td><td>绘制洞</td>
+        <td><b>在地形上打洞</b>，直接挖穿。用来做洞穴入口、地下室、竖井。注意它挖的是「洞」，不是「坑」——用 Raise 做出来的是凹下去的坑，Paint Holes 是真正穿透。</td>
+      </tr>
+      <tr>
+        <td><code>Stamp Terrain</code></td><td>印章</td>
+        <td><b>用一张笔刷图案整体压印地形</b>。相当于把预置好的形状（山峰群、丘陵群）像盖章一样压到地形上，适合快速做出一片有规律的起伏，比一笔一笔刷快得多。</td>
+      </tr>
+    </table>
+
+    <h4>实际制作时的顺序</h4>
+    <p>通常是：<b>Raise or Lower 做大体起伏 → Set Height 压平台地 → Smooth Height 修顺坡面 → Stamp Terrain 批量压出丘陵群 → Paint Texture 分层上地表 → Paint Holes 挖洞口</b>。先塑形后贴图，因为贴图是按高度和坡度分布的，形没定好就贴，后面改形还得重贴。</p>
+
+    <div class="key">
+      <span class="t">六个得分点（一项一分，能全写上就满）</span>
+      <ul>
+        <li><b>Raise or Lower</b>：基础塑形，堆山挖坑，按 Shift 反向</li>
+        <li><b>Set Height</b>：压到指定绝对高度，做平台、台地</li>
+        <li><b>Smooth Height</b>：平滑棱角，做自然缓坡</li>
+        <li><b>Paint Texture</b>：先 <b>Create Layer</b> 再加层，绘制地表贴图</li>
+        <li><b>Paint Holes</b>：挖穿地形，做洞口、地下室</li>
+        <li><b>Stamp Terrain</b>：用图案整体压印，批量塑形</li>
+      </ul>
+    </div>
+
+    <div class="note">
+      <b>答题技巧</b>：这题不用写长，但要<b>一项一句、六个都写</b>。写四项只能拿 4 分，漏掉的两个往往就是最不常用的 Stamp Terrain 和 Paint Holes。最后补一句「先塑形后贴图」的顺序，是加分项。
+    </div>
+  </div>
+</div>
+
+<!-- ============ 第二大题 ============ -->
+<h2>二、编程选择题<span class="ch">2 题 = 15 空 × 2 分 = 30 分　｜　12 选 A~L</span></h2>
+
+<div class="warn">
+  <b>说明</b>：这两题的<b>原文代码考生未完整回忆</b>，下面给出的是「这道题考哪些 API + 每个空的判断依据」，不是原始题干。选项按 A~L 列出，实际考试的字母顺序可能不同，<b>看 API 名比对，不要记字母</b>。
+</div>
+
+<div class="q" id="q6">
+  <h3><span class="num">2-1</span>台球蓄力击打<span class="pt">15 分</span></h3>
+  <div class="stem">
+    场景：<b>实验三 台球</b>。鼠标按住蓄力，松开击球，力度用 UI 显示。<br>
+    考点集中在：输入、蓄力累加、限幅、施加冲量、UI 显示、物理时序。
+  </div>
+  <div class="ans">
+    <h4>这道题会挖的 7 个空（按可能性排序）</h4>
+    <table class="t">
+      <tr><th class="k">序</th><th style="width:210px">答案</th><th>判断依据</th></tr>
+      <tr><td class="k">1</td><td><code>GetMouseButtonDown</code></td><td>按下的一瞬间开始蓄力。要用 <b>Down</b> 不是 <code>GetMouseButton</code>，后者按住每帧都返回 true，蓄力会被反复重置</td></tr>
+      <tr><td class="k">2</td><td><code>GetMouseButtonUp</code></td><td>松开的一瞬间击球。同理要用 <b>Up</b>，只触发一次</td></tr>
+      <tr><td class="k">3</td><td><code>Time.deltaTime</code></td><td>蓄力值累加：<code>power += chargeSpeed * Time.deltaTime</code>。不乘就是「每帧加多少」，帧率一高就瞬间满了</td></tr>
+      <tr><td class="k">4</td><td><code>Mathf.Clamp</code></td><td>把蓄力限制在 0~1（或 0~maxForce）。不限幅，一直按住就爆表，打出去的球会飞出天际</td></tr>
+      <tr><td class="k">5</td><td><code>AddForce</code></td><td>给球施加力。<code>rb.AddForce(dir * power, ForceMode.Impulse)</code></td></tr>
+      <tr><td class="k">6</td><td><code>Impulse</code></td><td><b>ForceMode 选 Impulse</b>（冲量）。台球是一击脱手，不是持续推——用 Force 会变成「一直推着球走」，用 VelocityChange 则忽略质量</td></tr>
+      <tr><td class="k">7</td><td><code>fixedDeltaTime</code> 或 <code>FixedUpdate</code></td><td>物理相关写在 <code>FixedUpdate</code> 里，用 <code>Time.fixedDeltaTime</code></td></tr>
+    </table>
+
+    <h4>其他可能出现的空</h4>
+    <table class="t">
+      <tr><th style="width:210px">API</th><th>用在哪</th></tr>
+      <tr><td><code>Raycast</code> / <code>ScreenPointToRay</code></td><td>鼠标点击选中球体：把屏幕坐标转成射线，打中哪个球就操作哪个</td></tr>
+      <tr><td><code>GetComponent&lt;Rigidbody&gt;()</code></td><td>拿到刚体才能加力</td></tr>
+      <tr><td><code>fillAmount</code></td><td>蓄力条：Image 的 ImageType 设「过滤填充」，改 fillAmount（0~1）显示力度</td></tr>
+      <tr><td><code>slider.value</code></td><td>另一种做法：用 Slider 显示力度，删掉 Handle 就是一根血条式的力度条</td></tr>
+      <tr><td><code>normalized</code></td><td>方向向量单位化，只留方向不要长度</td></tr>
+      <tr><td><code>velocity</code></td><td>读球的速度，判断是否停下（小于阈值就允许再次击打）</td></tr>
+    </table>
+
+    <h4>参考实现</h4>
+<pre><code><span class="kw">public</span> Rigidbody rb;
+<span class="kw">public</span> Image powerBar;
+<span class="kw">public float</span> chargeSpeed = 1.2f;
+<span class="kw">public float</span> maxForce = 15f;
+<span class="kw">private float</span> power = 0f;
+<span class="kw">private bool</span> charging = <span class="kw">false</span>;
+
+<span class="kw">void</span> Update(){
+    <span class="cm">// 按下开始蓄力</span>
+    <span class="kw">if</span> (Input.<span class="blk">(1)</span>(0)) { charging = <span class="kw">true</span>; power = 0f; }
+
+    <span class="cm">// 蓄力中累加，并限幅</span>
+    <span class="kw">if</span> (charging) {
+        power += chargeSpeed * Time.<span class="blk">(3)</span>;
+        power = Mathf.<span class="blk">(4)</span>(power, 0f, 1f);
+        powerBar.fillAmount = power;
+    }
+
+    <span class="cm">// 松开击球</span>
+    <span class="kw">if</span> (Input.<span class="blk">(2)</span>(0) &amp;&amp; charging) {
+        charging = <span class="kw">false</span>;
+        Vector3 dir = Camera.main.transform.forward.normalized;
+        rb.<span class="blk">(5)</span>(dir * power * maxForce, ForceMode.<span class="blk">(6)</span>);
+        powerBar.fillAmount = 0f;
+    }
+}</code></pre>
+
+    <div class="key">
+      <span class="t">四个真正的考点</span>
+      <ul>
+        <li><b>Down / Up 与「按住」的区别</b>：蓄力必须用一次性事件，不能用持续检测</li>
+        <li><b>乘 deltaTime</b>：蓄力是「每秒加多少」，必须与帧率解耦</li>
+        <li><b>Clamp 限幅</b>：不限幅一定会爆表</li>
+        <li><b>ForceMode.Impulse</b>：一击脱手用冲量，不是持续力</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="q" id="q7">
+  <h3><span class="num">2-2</span>UI 中的两个 Toggle 组件控制声音的播放<span class="pt">15 分</span></h3>
+  <div class="stem">
+    场景：<b>实验四 unitychan</b> 的设置面板。两个 Toggle，一个控制背景音乐，一个控制音效。<br>
+    考点集中在：Toggle 的取值、事件绑定、AudioSource 属性、跨场景保存。
+  </div>
+  <div class="ans">
+    <h4>这道题会挖的 8 个空</h4>
+    <table class="t">
+      <tr><th class="k">序</th><th style="width:230px">答案</th><th>判断依据</th></tr>
+      <tr><td class="k">1</td><td><code>isOn</code></td><td>读 Toggle 当前状态。<b>不是 value、不是 checked</b>——UGUI 的 Toggle 用 <code>isOn</code></td></tr>
+      <tr><td class="k">2</td><td><code>onValueChanged</code></td><td>状态变化时的事件，用 <code>AddListener</code> 挂方法</td></tr>
+      <tr><td class="k">3</td><td><code>AddListener</code></td><td><code>toggle.onValueChanged.AddListener(方法)</code>。注意方法要带 <b>bool 参数</b>（Toggle 传过来的是新值）</td></tr>
+      <tr><td class="k">4</td><td><code>mute</code></td><td>静音开关，最直接：<code>audioSource.mute = !on</code></td></tr>
+      <tr><td class="k">5</td><td><code>volume</code></td><td>调音量 0~1，可做渐弱：<code>audioSource.volume = on ? 1f : 0f</code></td></tr>
+      <tr><td class="k">6</td><td><code>Play</code> / <code>PlayOneShot</code></td><td>打开音效时播放：BGM 用 <code>Play()</code>，短音效用 <code>PlayOneShot()</code>（可叠加、不打断）</td></tr>
+      <tr><td class="k">7</td><td><code>PlayerPrefs</code></td><td>保存设置：<code>PlayerPrefs.SetInt / GetInt</code>，下次进游戏还记着</td></tr>
+      <tr><td class="k">8</td><td><code>AudioListener.volume</code></td><td>全局音量（范围 0~1），一次改所有声音</td></tr>
+    </table>
+
+    <h4>参考实现</h4>
+<pre><code><span class="kw">public</span> Toggle bgmToggle;
+<span class="kw">public</span> Toggle sfxToggle;
+<span class="kw">public</span> AudioSource bgmSource;
+<span class="kw">public</span> AudioSource sfxSource;
+
+<span class="kw">void</span> Start(){
+    <span class="cm">// 读档，默认开着是 true</span>
+    bgmToggle.isOn = PlayerPrefs.GetInt(<span class="str">"BGM"</span>, 1) == 1;
+    sfxToggle.isOn = PlayerPrefs.GetInt(<span class="str">"SFX"</span>, 1) == 1;
+
+    <span class="cm">// 绑定事件（方法必须带 bool 参数）</span>
+    bgmToggle.<span class="blk">(2)</span>.<span class="blk">(3)</span>(OnBgmChanged);
+    sfxToggle.onValueChanged.AddListener(OnSfxChanged);
+}
+
+<span class="kw">void</span> OnBgmChanged(<span class="kw">bool</span> on){
+    bgmSource.<span class="blk">(5)</span> = on ? 1f : 0f;
+    <span class="kw">if</span> (on &amp;&amp; !bgmSource.isPlaying) bgmSource.<span class="blk">(6)</span>();
+    PlayerPrefs.SetInt(<span class="str">"BGM"</span>, on ? 1 : 0);
+}
+
+<span class="kw">void</span> OnSfxChanged(<span class="kw">bool</span> on){
+    sfxSource.<span class="blk">(4)</span> = !on;
+    PlayerPrefs.SetInt(<span class="str">"SFX"</span>, on ? 1 : 0);
+}</code></pre>
+
+    <h4>三个容易错的地方</h4>
+    <ul>
+      <li><b>监听方法的签名必须是 <code>void 方法名(bool)</code></b>。写成无参方法不会报编译错，但运行时会抛异常或者根本不响应——这是最常踩的坑。</li>
+      <li><b><code>isOn</code> 不是 <code>value</code></b>。Slider 用 <code>value</code>，Toggle 用 <code>isOn</code>，两个控件的属性名不同，很容易填混。</li>
+      <li><b>BGM 的 AudioSource 必须把 Spatial Blend 拖到 2D（0）</b>。背景音乐不随位置衰减，用 3D 会让它跟着相机距离忽大忽小。</li>
+    </ul>
+
+    <div class="key">
+      <span class="t">四个真正的考点</span>
+      <ul>
+        <li><b>isOn</b>：Toggle 的状态属性名</li>
+        <li><b>onValueChanged.AddListener</b>：事件绑定，方法带 bool 参数</li>
+        <li><b>mute / volume 二选一</b>：静音用 mute，渐弱用 volume</li>
+        <li><b>Play 与 PlayOneShot 的区别</b>：Play 会打断，PlayOneShot 可叠加</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 第三大题 ============ -->
+<h2>三、游戏综合设计题<span class="ch">10 + 15 + 15 = 40 分　｜　三道全来自《课程设计执行计划书》的 20 个选题</span></h2>
+
+<div class="q" id="q8">
+  <h3><span class="num">3-1</span>防御塔守基地<span class="pt">10 分 · 3 小问</span></h3>
+  <div class="stem">
+    敌人从出生点沿路线走向基地，玩家在路旁放置防御塔攻击敌人，敌人死亡后掉金币。<b>3D 场景。</b><br>
+    (1) 用到哪些预制体<br>
+    (2) 如何实现敌人沿固定路径移动，以及防御塔如何攻击敌人<br>
+    (3) 敌人脚本 enemy.cs 的业务逻辑
+  </div>
+  <div class="ans">
+    <h4>(1) 预制体清单（4 分）</h4>
+    <p>这个游戏里「会被反复创建」的东西，都应该做成预制体：</p>
+    <table class="t">
+      <tr><th style="width:180px">预制体</th><th>说明</th></tr>
+      <tr><td><b>防御塔</b></td><td>包含塔基、炮塔、射程指示圈。炮塔要能单独旋转，所以和塔基分成父子节点</td></tr>
+      <tr><td><b>敌人</b></td><td>含模型、碰撞体、Animator、状态机脚本</td></tr>
+      <tr><td><b>子弹 / 弹丸</b></td><td>塔生成的攻击物，含 Rigidbody + Collider（勾 Is Trigger）+ 命中特效</td></tr>
+      <tr><td><b>金币</b></td><td>敌人死亡时掉落，Collider 勾 <b>Is Trigger</b>，玩家走过自动拾取</td></tr>
+      <tr><td><b>死亡特效</b></td><td>粒子预制体，敌人死亡时在尸体位置播放</td></tr>
+      <tr><td><b>血条</b></td><td>敌人头顶的血条（世界空间 Canvas 或 Quad），随敌人移动</td></tr>
+      <tr><td><b>路径点</b></td><td>空物体，只用来标记路线拐点</td></tr>
+    </table>
+
+    <h4>(2) 固定路径 + 塔的攻击（3 分）</h4>
+    <p><b>固定路径</b>有两种做法，二选一写清即可：</p>
+    <ul>
+      <li><b>Waypoint 路径点法</b>：把路径点按顺序存进一个 <code>List&lt;Transform&gt;</code>，敌人每帧朝 <code>waypoints[index]</code> 走，用 <code>Vector3.MoveTowards</code> 或 <code>transform.Translate</code>；走到距离小于阈值就 <code>index++</code>，走到最后一个点就算到达基地。</li>
+      <li><b>NavMesh 寻路法</b>：把整片地形烘成 NavMesh，敌人挂 <code>NavMeshAgent</code>，每帧 <code>agent.SetDestination(当前路点)</code>，靠寻路算法自动绕开障碍。</li>
+    </ul>
+    <p><b>塔的攻击流程</b>，四步：</p>
+    <ol>
+      <li><b>找目标</b>：用 <code>Physics.OverlapSphere(塔位置, 攻击半径, 敌人层掩码)</code> 一次查出范围内所有敌人，不要遍历全场景</li>
+      <li><b>选目标</b>：按离塔最近、或血量最低、或最靠近基地来排序——这是玩法设计的一部分，写清你的选择</li>
+      <li><b>转向</b>：<code>Quaternion.LookRotation(目标 - 塔)</code> 算出朝向，再用 <code>Quaternion.Slerp</code> 平滑转过去，不要一帧硬转</li>
+      <li><b>开火</b>：冷却计时（<code>cd -= Time.deltaTime</code>）到 0 就生成子弹，子弹命中后给敌人扣血；子弹同样走对象池</li>
+    </ol>
+
+    <h4>(3) enemy.cs 的业务逻辑（3 分）</h4>
+    <p>面试式答法：<b>说清这个脚本管什么、不管什么</b>。</p>
+<pre><code><span class="kw">public class</span> Enemy : MonoBehaviour
+{
+    <span class="kw">public float</span> maxHp = 100f;      <span class="cm">// 血量</span>
+    <span class="kw">public float</span> moveSpeed = 2f;    <span class="cm">// 移动速度</span>
+    <span class="kw">public int</span> reward = 10;         <span class="cm">// 死亡掉落金币数</span>
+    <span class="kw">public GameObject</span> coinPrefab;   <span class="cm">// 金币预制体</span>
+    <span class="kw">private float</span> hp;
+    <span class="kw">private int</span> index = 0;          <span class="cm">// 当前走到第几个路点</span>
+
+    <span class="kw">void</span> Start(){ hp = maxHp; }
+
+    <span class="kw">void</span> Update(){
+        <span class="cm">// ① 沿路点移动</span>
+        MoveAlongPath();
+    }
+
+    <span class="cm">// ② 受击：外部只能通过这个方法扣血</span>
+    <span class="kw">public void</span> TakeDamage(<span class="kw">float</span> dmg){
+        hp -= dmg;
+        <span class="kw">if</span> (hp &lt;= 0) Die();
+    }
+
+    <span class="cm">// ③ 死亡：掉金币、播特效、回收进池</span>
+    <span class="kw">void</span> Die(){
+        GameManager.Instance.AddCoin(reward);       <span class="cm">// 或掉落金币预制体</span>
+        Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        GameManager.Instance.OnEnemyDead(<span class="kw">this</span>);
+        PoolManager.Instance.Return(gameObject);     <span class="cm">// 对象池回收，不 Destroy</span>
+    }
+
+    <span class="cm">// ④ 走到终点：扣基地血量</span>
+    <span class="kw">void</span> ReachBase(){
+        GameManager.Instance.DamageBase(1);
+        PoolManager.Instance.Return(gameObject);
+    }
+}</code></pre>
+    <p>要点：血量私有、只能通过 <code>TakeDamage</code> 改；死亡不 <code>Destroy</code> 而是<b>还给对象池</b>；金币既可以<code>Instantiate</code>实体掉落，也可以<b>直接加数值</b>——后者性能更好，前者更有反馈感，答的时候说明你的取舍。</p>
+
+    <div class="key">
+      <span class="t">得分点</span>
+      <ul>
+        <li>(1) 预制体<b>至少写五个</b>，含塔、敌人、子弹、金币、特效；金币要提到 <b>Is Trigger</b></li>
+        <li>(2) 路径写 <b>Waypoint 数组 + 索引递增</b>或 <b>NavMeshAgent</b>；攻击写 <b>OverlapSphere 找目标 + 冷却 + 生成子弹</b></li>
+        <li>(2) 提到<b>转向用 LookRotation + Slerp</b>，不是瞬间对准</li>
+        <li>(3) 业务逻辑覆盖<b>移动、受击、死亡、到基地</b>四件事，并提<b>对象池</b></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="q" id="q9">
+  <h3><span class="num">3-2</span>敌人巡逻 / 追击 / 攻击三状态 + 玩家第一人称<span class="pt">15 分 · 3 小问</span></h3>
+  <div class="stem">
+    玩家走进敌人的攻击范围，敌人有<b>巡逻、追击、攻击</b>三种状态。<br>
+    (1) 玩家如何实现第一人称视角、视角转动，用到哪些组件<br>
+    (2) 三种状态的切换条件<br>
+    (3) 玩家脚本 player.cs 的业务逻辑
+  </div>
+  <div class="ans">
+    <h4>(1) 第一人称：移动和视角是两套东西（6 分）</h4>
+    <table class="t">
+      <tr><th style="width:150px">部分</th><th style="width:210px">用什么</th><th>怎么做</th></tr>
+      <tr>
+        <td><b>移动</b></td>
+        <td><code>CharacterController</code><br>（或 Rigidbody + CapsuleCollider）</td>
+        <td>读 <code>GetAxis("Horizontal")</code> 和 <code>GetAxis("Vertical")</code> 算方向，<code>controller.Move(dir * speed * Time.deltaTime)</code>。CharacterController 自带碰撞与爬坡，不用自己处理重力以外的物理</td>
+      </tr>
+      <tr>
+        <td><b>水平视角</b></td>
+        <td>转<b>整个角色</b></td>
+        <td><code>Input.GetAxis("Mouse X")</code> → <code>transform.Rotate(0, mx * 灵敏度, 0)</code>。人转身，相机跟着转</td>
+      </tr>
+      <tr>
+        <td><b>垂直视角</b></td>
+        <td>只转<b>相机</b></td>
+        <td><code>Input.GetAxis("Mouse Y")</code> → 累加到 <code>xRotation</code> 变量，<b>Clamp 到 −90°~90°</b>，再赋给相机的 localRotation</td>
+      </tr>
+    </table>
+
+    <p><b>三个必须说的细节，正是这题的分数所在：</b></p>
+    <ol>
+      <li><b>垂直只能转相机，不能转身体。</b>身体跟着抬头的方向转，人就会整个翻过去，看到自己倒立的腿。</li>
+      <li><b>垂直角度必须 Clamp 在 ±90°。</b>不卡住的话，鼠标一直往上甩，视角会越过头顶转到背后。</li>
+      <li><b>不能用 <code>transform.localEulerAngles.x -= ...</code> 直接改。</b>欧拉角会自动回绕，转到 270 会突然跳回 90，表现为视角猛地一弹。要用一个 <code>float xRotation</code> 变量自己累加，再赋回去。</li>
+    </ol>
+    <p>另外两个配套设置：<code>Cursor.lockState = CursorLockMode.Locked;</code> 把鼠标锁在窗口内，否则视角转到一半鼠标跑出屏幕；相机作为玩家的<b>子物体</b>，位置放在头部高度。</p>
+
+    <h4>(2) 三种状态的切换条件（5 分）</h4>
+    <p>用<b>有限状态机（FSM）</b>：一个枚举 <code>enum EnemyState { Patrol, Chase, Attack }</code>，四<b>条转移，四个条件</b>：</p>
+    <table class="t">
+      <tr><th style="width:190px">转移</th><th>条件</th></tr>
+      <tr><td>巡逻 → 追击</td><td>玩家进入<b>视野半径</b>（距离 &lt; sightRange），或射线检测发现玩家</td></tr>
+      <tr><td>追击 → 攻击</td><td>玩家进入<b>攻击半径</b>（距离 &lt; attackRange）</td></tr>
+      <tr><td>攻击 → 追击</td><td>玩家<b>跑出攻击半径</b>但仍在视野内</td></tr>
+      <tr><td>追击 → 巡逻</td><td><b>丢失目标</b>（距离 &gt; 视野半径，或超出寻路范围）</td></tr>
+    </table>
+    <p>实现上用 <code>switch(state)</code> 分派，或在状态切换时做<b>进入/退出动作</b>：进入 Attack 要 <code>agent.isStopped = true</code> 停下来，退出再恢复，否则敌人会边跑边打，动作和位移打架。<b>不要写成一堆嵌套 if</b>，敌人一多就没法维护。</p>
+
+    <h4>(3) player.cs 的业务逻辑（4 分）</h4>
+    <p>按「输入 → 移动 → 视角 → 状态 → 交互」五段说：</p>
+<pre><code><span class="kw">public class</span> Player : MonoBehaviour
+{
+    <span class="kw">public float</span> moveSpeed = 5f;
+    <span class="kw">public float</span> mouseSensitivity = 2f;
+    <span class="kw">public</span> Transform cameraPivot;
+    <span class="kw">private</span> CharacterController cc;
+    <span class="kw">private float</span> xRotation = 0f;
+    <span class="kw">private float</span> verticalSpeed = 0f;
+
+    <span class="kw">void</span> Start(){
+        cc = GetComponent&lt;CharacterController&gt;();
+        Cursor.lockState = CursorLockMode.Locked;   <span class="cm">// 锁鼠标</span>
+    }
+
+    <span class="kw">void</span> Update(){
+        Look();      <span class="cm">// 视角</span>
+        Move();      <span class="cm">// 移动</span>
+    }
+
+    <span class="kw">void</span> Look(){
+        <span class="kw">float</span> mx = Input.GetAxis(<span class="str">"Mouse X"</span>) * mouseSensitivity;
+        <span class="kw">float</span> my = Input.GetAxis(<span class="str">"Mouse Y"</span>) * mouseSensitivity;
+
+        transform.Rotate(0f, mx, 0f);              <span class="cm">// 水平：转身体</span>
+        xRotation -= my;                            <span class="cm">// 垂直：只转相机</span>
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        cameraPivot.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+
+    <span class="kw">void</span> Move(){
+        <span class="kw">float</span> h = Input.GetAxis(<span class="str">"Horizontal"</span>);
+        <span class="kw">float</span> v = Input.GetAxis(<span class="str">"Vertical"</span>);
+        Vector3 dir = transform.right * h + transform.forward * v;
+        cc.Move(dir * moveSpeed * Time.deltaTime);
+    }
+}</code></pre>
+    <p>业务逻辑还要补两点：<b>重力</b>（<code>verticalSpeed += gravity * Time.deltaTime</code>，再一起交给 <code>cc.Move</code>），以及<b>与敌人的交互</b>（进入敌人攻击范围时给玩家扣血 / 触发受击反馈）。</p>
+
+    <div class="key">
+      <span class="t">得分点</span>
+      <ul>
+        <li>(1) 组件写 <b>CharacterController + Camera（子物体）</b>，或 <b>Rigidbody + Collider</b></li>
+        <li>(1) <b>水平转身体、垂直只转相机</b>，这一句是核心</li>
+        <li>(1) 提 <b>Clamp ±90°</b> 和 <b>Cursor.lockState</b></li>
+        <li>(2) <b>四条转移、四个条件</b>写全，缺一条少一分</li>
+        <li>(2) 点出<b>状态机的进入/退出动作</b>（停/开寻路）</li>
+        <li>(3) player.cs 覆盖<b>输入、移动、视角、重力</b>四块</li>
+      </ul>
+    </div>
+
+    <div class="note">
+      <b>题干的一处说明</b>：题目说「玩家走进敌人的攻击范围内，有三种状态」，但巡逻/追击/攻击是<b>敌人的状态</b>，不是玩家的。考试时按「<b>敌人三状态 + 玩家第一人称</b>」分开答就对了，不要被题干绕进去。
+    </div>
+  </div>
+</div>
+
+<div class="q" id="q10">
+  <h3><span class="num">3-3</span>3D 无限跑酷<span class="pt">15 分 · 含 4 小问</span></h3>
+  <div class="stem">
+    3D 无限跑酷游戏。<br>
+    ① 用到的预制体和组件<br>
+    ② <b>为什么不是一次性生成整个跑道资源，而是分段加入游戏场景</b><br>
+    ③ 玩家前进、左右移动怎么实现<br>
+    ④ 碰撞该选 Trigger 触发器还是普通碰撞体
+  </div>
+  <div class="ans">
+    <h4>① 预制体与组件（4 分）</h4>
+    <table class="t">
+      <tr><th style="width:170px">对象</th><th style="width:190px">预制体</th><th>组件</th></tr>
+      <tr><td><b>玩家</b></td><td>角色模型（含动画）</td><td><code>CharacterController</code>（或 Rigidbody + CapsuleCollider）、<code>Animator</code>、<code>AudioSource</code>；相机作为子物体跟随</td></tr>
+      <tr><td><b>跑道路块</b></td><td><b>路块是最关键的预制体</b>，每段等长，带障碍物槽位</td><td><code>BoxCollider</code>，<b>不挂刚体</b>（静态碰撞体）</td></tr>
+      <tr><td><b>障碍物</b></td><td>栏杆、低墙、高墙、移动障碍</td><td><code>BoxCollider</code>，不挂刚体</td></tr>
+      <tr><td><b>可收集物</b></td><td>金币、加速道具</td><td><code>Collider</code> 勾 <b>Is Trigger</b></td></tr>
+      <tr><td><b>特效</b></td><td>撞击火花、拾取光效</td><td><code>Particle System</code></td></tr>
+    </table>
+
+    <h4>② 为什么分段加载（4 分，本题最重的一问）</h4>
+    <p>核心原因是<b>无限跑酷在时间上无限，而内存在物理上是有限的</b>。四条理由，按重要性排：</p>
+    <ol>
+      <li><b>内存不可能装下整条跑道。</b>玩家可以一直往前跑，跑道理论上无限长；如果一次性生成全部路块，内存会持续增长直到崩溃。<b>分段 + 循环复用</b>让内存恒定在几段路块的大小。</li>
+      <li><b>性能与帧率。</b>场景里的 GameObject 越多，渲染、物理、脚本的每帧开销越大。<b>一次只保留玩家附近 5~8 段</b>，远处的销毁或回收，同屏对象数固定，帧率才稳。</li>
+      <li><b>逻辑上根本不需要那么多。</b>摄像机看得到的只有前方几十米，身后已经跑过的路段玩家再也看不见——生成出来纯属浪费。这是<b>渲染的视野可见性</b>原则。</li>
+      <li><b>玩法需要随机性。</b>分段之后，每段路块的内容可以在生成时随机抽取（障碍物位置、金币分布），无限跑酷的重复可玩性就是靠这个。一次生成好就固定了，玩两遍就腻。</li>
+    </ol>
+    <p><b>具体做法：对象池 + 循环复用。</b>预先创建 8~10 段路块排成一条线；玩家每前进一段，把<b>最后面那一段</b>移动到<b>最前面</b>接上（<code>transform.position</code> 平移一个路块长度），并重新随机它的内容。这样<b>全程不 Instantiate 也不 Destroy</b>，没有 GC 卡顿，内存恒定。</p>
+    <div class="note">
+      <b>这段话能拿满的关键</b>：不要只说「节省内存」。要说出「<b>无限 vs 有限</b>」这个矛盾，并给出「<b>对象池 + 路段循环复用</b>」这个解法，再说一句「每段新生成时重新随机内容，保证可玩性」。
+    </div>
+
+    <h4>③ 前进与左右移动（4 分）</h4>
+    <ul>
+      <li><b>自动前进</b>：不用玩家按键。每帧 <code>controller.Move(Vector3.forward * speed * Time.deltaTime)</code>，速度随时间<b>逐渐加快</b>（<code>speed += accel * Time.deltaTime</code>）制造难度曲线。</li>
+      <li><b>左右移动</b>，三选一，说清取舍即可：
+        <ul>
+          <li><b>三车道式</b>：目标 x 只有 −2 / 0 / 2 三个值，按左右键切换目标车道，<code>Mathf.Lerp</code> 平滑移过去。手感干脆，是主流跑酷的做法。</li>
+          <li><b>自由滑动式</b>：按住左右键持续加 x 位移，用 <code>Mathf.Clamp(x, -roadHalfWidth, roadHalfWidth)</code> 限制在跑道内。</li>
+          <li><b>侧向速度式</b>：给 x 方向一个速度，松开时给阻尼让它回正。</li>
+        </ul>
+      </li>
+      <li><b>跳跃</b>：<code>GetKeyDown(Space)</code> 触发一次，赋 Y 方向初速度；用<b>射线检测</b>判断是否落地（从脚下向下 <code>Raycast</code>，命中地面才允许跳），防止空中连跳。</li>
+    </ul>
+
+    <h4>④ Trigger 还是普通碰撞体（3 分）</h4>
+    <p><b>两者都用，按功能分开——这正是这题要考的判断力。</b></p>
+    <table class="t">
+      <tr><th style="width:190px">对象</th><th style="width:150px">用哪种</th><th>为什么</th></tr>
+      <tr><td><b>跑道路块</b></td><td><b>普通碰撞体</b>（不勾 Trigger）</td><td>必须挡住玩家，否则人会直接穿进地面掉下去</td></tr>
+      <tr><td><b>障碍物</b></td><td><b>普通碰撞体</b></td><td>撞上去要有阻挡和扣血判定，是「硬的」</td></tr>
+      <tr><td><b>金币 / 加速带</b></td><td><b>Trigger</b>（勾 Is Trigger）</td><td>只需检测玩家经过，不挡路。勾了以后回调走 <code>OnTriggerEnter</code>，参数是 <code>Collider</code></td></tr>
+      <tr><td><b>终点线 / 检查点</b></td><td><b>Trigger</b></td><td>穿过去就触发事件，不能让玩家撞停</td></tr>
+    </table>
+    <p>判断标准一句话：<b>要「挡住」就用普通碰撞体（回调 <code>OnCollisionEnter</code>），只要「检测经过」就用 Trigger（回调 <code>OnTriggerEnter</code>）。</b>两者互斥，同一个碰撞体不可能既阻挡又触发。</p>
+    <p>按课件口径补一句：发生碰撞的必要条件是<b>一个为刚体、另一个为碰撞体</b>；若要有力的相互作用，则<b>双方都必须有刚体</b>；<b>触发检测只需双方有一个刚体即可</b>。</p>
+
+    <div class="key">
+      <span class="t">得分点</span>
+      <ul>
+        <li>① 预制体写出<b>路块、障碍物、玩家、金币、特效</b>；路块<b>不挂刚体</b></li>
+        <li>② 说出 <b>无限 vs 有限内存</b> 的矛盾（这一句单独就有 2 分）</li>
+        <li>② 给出 <b>对象池 + 路段循环复用 + 重新随机内容</b></li>
+        <li>③ 前进用 <code>Move/Translate</code> 乘 <b>deltaTime</b>，左右用 <b>Lerp 或 Clamp</b></li>
+        <li>③ 跳跃配 <b>射线检测判断落地</b>，防连跳</li>
+        <li>④ <b>两种都要用</b>：路块障碍用普通碰撞体，金币终点用 Trigger</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 复盘 ============ -->
+<h2>附：这份卷子对上多少<span class="ch">考后复盘，也是给下一届的经验</span></h2>
+
+<div class="q">
+  <table class="t">
+    <tr><th style="width:230px">原题</th><th style="width:230px">出处</th><th>复习时是否覆盖</th></tr>
+    <tr><td>一.1 王者荣耀美工</td><td>课件 04 + 美工专项</td><td>✅ 完全覆盖</td></tr>
+    <tr><td>一.2 枪口烟火与击中特效</td><td>课件 06 粒子系统</td><td>✅ 完全覆盖（模拟卷五套都考过）</td></tr>
+    <tr><td>一.3 融合树</td><td>课件 07 p17~p19</td><td>✅ 专门押过</td></tr>
+    <tr><td>一.4 工厂密闭环境</td><td>课件 03 光源 + 烘焙</td><td>✅ 完整讲过一遍</td></tr>
+    <tr><td>一.5 地形六按键</td><td>课件 03 地形</td><td>✅ 背诵手册附录有</td></tr>
+    <tr><td>二.1 台球蓄力</td><td>实验三</td><td>✅ 模拟卷五考过同源代码</td></tr>
+    <tr><td>二.2 Toggle 控声音</td><td>实验四</td><td>✅ 组件属性清单有 Toggle</td></tr>
+    <tr><td>三.1 塔防</td><td>课设题目 4</td><td>✅ 第四套第 9 题原题</td></tr>
+    <tr><td>三.2 状态机 + 第一人称</td><td>课设题目 3/9</td><td>✅ 第五套第 9 题</td></tr>
+    <tr><td>三.3 3D 无限跑酷</td><td>课设题目 5</td><td>✅ 第五套第 10 题</td></tr>
+  </table>
+
+  <div class="note">
+    <b>三条可以确认的规律</b>（下一届直接照这个复习）：<br>
+    ① <b>录音里点名的五大块就是第一大题的题库</b>：美工、粒子特效、动画（融合树）、地形、灯光声音。五道题一个不多一个不少。<br>
+    ② <b>第二大题必定来自四个实验</b>：贪吃蛇（输入/集合）、赛车（输入/相机/音量）、台球（刚体/冲量）、unitychan（动画/UI）。<br>
+    ③ <b>第三大题必定来自课设 20 个选题</b>，且问法固定为「预制体 → 组件 → 怎么实现 → 业务逻辑」四段。
+  </div>
+
+  <div class="warn">
+    <b>给下一届的提醒</b>：编程题的原文代码来自实验文档，实验报告正文全是截图，文字提不出来，所以只能靠<b>上课时把代码敲一遍</b>。这套卷子里 30 分的编程题，全部是实验里出现过的 API，没有一个是课外知识。
+  </div>
+</div>
+
+<footer>
+  <div>整理自 2026-10-30 考场回忆，答案依据课件（Game 02~08）、四份实验文档、《课程设计执行计划书》20 选题。</div>
+  <div>编程题原文未完整回忆，所列 API 为考点推断，非原始题干。标字母仅供对照，实际考试以 API 名为准。</div>
+</footer>
+
+</div>
+</body>
+</html>

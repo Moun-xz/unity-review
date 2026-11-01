@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Unity 常用组件属性速查清单 · 游戏开发技术</title>
+<style>
+:root{
+  --ink:#1b2733; --ink2:#3d4d5c; --ink3:#6b7c8c;
+  --line:#dde5ec; --bg:#f5f7fa; --card:#ffffff;
+  --accent:#1668a8; --accent-soft:#e8f2fa;
+  --warn:#b4530a; --warn-soft:#fdf3e7;
+  --ok:#0f7a5a; --ok-soft:#e8f6f1;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 18px 60px;
+  background:var(--bg); color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+  font-size:13.5px; line-height:1.72;
+}
+.wrap{max-width:1080px; margin:0 auto}
+
+/* 页头 */
+header{
+  background:linear-gradient(135deg,#1668a8 0%,#1e88c7 55%,#2fa3d6 100%);
+  color:#fff; border-radius:14px; padding:22px 26px 20px;
+  box-shadow:0 6px 20px rgba(22,104,168,.18);
+}
+header h1{margin:0 0 6px; font-size:22px; letter-spacing:.5px; font-weight:700}
+header .sub{font-size:12.5px; opacity:.9; letter-spacing:.3px}
+header .meta{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px}
+header .meta span{
+  background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.28);
+  border-radius:999px; padding:2px 11px; font-size:11.5px;
+}
+
+/* 用法条 */
+.howto{
+  margin:16px 0 22px; background:var(--card); border:1px solid var(--line);
+  border-left:3px solid var(--accent); border-radius:8px; padding:12px 16px;
+  font-size:12.5px; color:var(--ink2);
+}
+.howto b{color:var(--accent)}
+.howto .em{color:var(--warn); font-weight:700}
+
+/* 章节 */
+h2{
+  font-size:16px; margin:30px 0 12px; padding-left:11px;
+  border-left:4px solid var(--accent); line-height:1.4; color:var(--ink);
+}
+h2 .ch{font-size:11.5px; color:var(--ink3); font-weight:400; margin-left:8px; letter-spacing:.2px}
+
+/* 组件卡片 */
+.comp{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  margin-bottom:14px; overflow:hidden;
+  box-shadow:0 1px 3px rgba(27,39,51,.04);
+}
+.comp>.head{
+  display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+  padding:10px 16px; background:#fafcfd; border-bottom:1px solid var(--line);
+}
+.comp>.head .name{font-size:14.5px; font-weight:700; color:var(--accent); letter-spacing:.2px}
+.comp>.head .cn{font-size:12.5px; color:var(--ink2)}
+.comp>.head .src{margin-left:auto; font-size:11px; color:var(--ink3)}
+.comp>.head .tag{
+  font-size:10.5px; padding:1px 8px; border-radius:999px;
+  background:var(--warn-soft); color:var(--warn); border:1px solid #f0d9be;
+}
+
+table{width:100%; border-collapse:collapse; font-size:12.5px}
+th{
+  text-align:left; padding:7px 14px; font-weight:600; font-size:11.5px;
+  color:var(--ink3); background:#fbfdfe; border-bottom:1px solid var(--line);
+  letter-spacing:.3px;
+}
+td{padding:8px 14px; border-bottom:1px solid #eef3f7; vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.p{width:23%; font-weight:600; color:#0f5f96; font-family:Consolas,"Courier New",monospace; font-size:12px}
+td.c{width:13%; color:var(--ink2)}
+td.w{color:var(--ink)}
+td.w b{color:var(--warn)}
+td.w .v{color:var(--ok); font-weight:600}
+code{
+  background:#eef4f8; color:#0f5f96; padding:1px 5px; border-radius:4px;
+  font-family:Consolas,"Courier New",monospace; font-size:11.5px;
+}
+
+/* 提示框 */
+.note{
+  background:var(--accent-soft); border:1px solid #cfe4f3; border-radius:8px;
+  padding:10px 14px; font-size:12.5px; color:var(--ink2); margin:10px 0 0;
+}
+.note b{color:var(--accent)}
+.note.warn{background:var(--warn-soft); border-color:#f0d9be}
+.note.warn b{color:var(--warn)}
+.note.ok{background:var(--ok-soft); border-color:#cbe8dd}
+.note.ok b{color:var(--ok)}
+
+/* 两列小表 */
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media(max-width:820px){ .grid2{grid-template-columns:1fr} }
+
+/* 错误清单 */
+.err{background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden}
+.err .row{display:flex; gap:12px; padding:9px 16px; border-bottom:1px solid #eef3f7; font-size:12.5px}
+.err .row:last-child{border-bottom:none}
+.err .row .n{
+  flex:0 0 22px; height:22px; line-height:22px; text-align:center;
+  background:var(--warn-soft); color:var(--warn); border-radius:50%;
+  font-size:11px; font-weight:700;
+}
+.err .row .t{flex:1; color:var(--ink)}
+.err .row .t b{color:var(--warn)}
+
+/* 覆盖率表 */
+.cover th{background:#f2f7fb}
+.cover td:first-child{font-weight:600; color:var(--ink)}
+.cover .mk{color:var(--ok); font-weight:700}
+
+footer{
+  margin-top:34px; padding-top:16px; border-top:1px dashed #ccd8e3;
+  font-size:11.5px; color:var(--ink3); text-align:center; line-height:1.9;
+}
+
+@media print{
+  body{background:#fff; padding:0; font-size:10pt}
+  header{box-shadow:none; border-radius:0; padding:14px 16px}
+  header h1{font-size:16pt}
+  .comp{box-shadow:none; page-break-inside:avoid}
+  h2{page-break-after:avoid}
+  .howto{page-break-inside:avoid}
+  table{font-size:9pt}
+  td,th{padding:5px 8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Unity 常用组件与属性速查清单</h1>
+  <div class="sub">按「组件 → 属性 → 作用 → 设错会怎样」排列 · 全部出自课件与实验</div>
+  <div class="meta">
+    <span>游戏开发技术 · 期末</span>
+    <span>授课教师</span>
+    <span>数媒24-1 · 伊全智</span>
+    <span>17 个组件 · 132 条属性</span>
+  </div>
+</header>
+
+<div class="howto">
+<b>怎么用这份清单</b>：不要背表格，背<b>第三列和第四列</b>。第三列「作用」是答题时的定性句，第四列「设错会怎样」是老师最想看的<b>判断力</b>——案例题里那句“为什么这么设”就从这里出。<br>
+<span class="em">每条都标了出处</span>（如 <code>课件05 p4</code> = Game 05 第 4 页），考场上说“课件上讲过 Rigidbody 的 Mass 是质量”，比含糊地说“我记得好像有个质量参数”要稳得多。
+</div>
+
+<!-- ========== 一 ========== -->
+<h2>一、Transform<span class="ch">每个物体都有，最基础也最容易答漏</span></h2>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Transform</span><span class="cn">变换组件</span>
+    <span class="tag">每个 GameObject 必有且不可删除</span>
+    <span class="src">课件02 p43 · 课件03 p8</span>
+  </div>
+  <table>
+    <tr><th>属性 / 方法</th><th>中文</th><th>作用与答题用语</th><th>设错会怎样</th></tr>
+    <tr><td class="p">position</td><td class="c">世界坐标</td><td class="w">物体在<b>世界坐标系</b>中的位置。父子关系存在时，改它是由引擎反算本地坐标</td><td class="w">父物体旋转后直接改 position，子物体会被“带偏”</td></tr>
+    <tr><td class="p">localPosition</td><td class="c">本地坐标</td><td class="w">相对<b>父物体</b>的位置。UI 和挂点（枪口、头顶血条）一律用它</td><td class="w">给子物体用 position 做跟随，父物体一动就错位</td></tr>
+    <tr><td class="p">eulerAngles</td><td class="c">欧拉角</td><td class="w">用 (x,y,z) 三个角度表示朝向，直观、可读</td><td class="w">角度跨 0/360 时插值会“绕远路”转一大圈</td></tr>
+    <tr><td class="p">localScale</td><td class="c">缩放</td><td class="w">相对父物体的缩放倍数，可做“挤压拉伸”动效</td><td class="w">父物体 scale 为 0 时子物体整个消失，且无法靠改自身救回</td></tr>
+    <tr><td class="p">RotateAround(point, axis, angle)</td><td class="c">绕点旋转</td><td class="w">绕世界空间中某点、某轴旋转指定角度；<b>公转</b>用它（太阳-地球-月亮案例）</td><td class="w">用 Rotate 做公转，物体会原地自转，位置不变</td></tr>
+    <tr><td class="p">LookAt(target)</td><td class="c">朝向目标</td><td class="w">让物体正前方（Z 轴）对准目标点；炮塔、NPC 面向玩家</td><td class="w">2D 里用 LookAt 会把物体绕 X 轴翻过去（2D 只有 XY 平面）</td></tr>
+    <tr><td class="p">Center / Pivot</td><td class="c">轴心点</td><td class="w">Center＝包围盒中心，Pivot＝模型自带轴心；<b>只影响编辑器里的操作手感，不改实际坐标</b></td><td class="w">以为改了 Pivot 就能改物体位置——不会，运行时毫无影响</td></tr>
+  </table>
+  <div class="note"><b>一句话答题</b>：Transform 决定物体“在哪、朝哪、多大”，是所有组件里唯一不可移除的；父子关系形成变换层级，子物体的世界变换 = 父变换 × 本地变换。</div>
+</div>
+
+<!-- ========== 二 ========== -->
+<h2>二、物理：Rigidbody · Collider · 物理材质<span class="ch">第 5 章，编程题与案例题双重必考</span></h2>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Rigidbody</span><span class="cn">刚体</span>
+    <span class="tag">3D</span>
+    <span class="src">课件05 p4~p6</span>
+  </div>
+  <table>
+    <tr><th>属性</th><th>中文</th><th>作用与答题用语</th><th>设错会怎样</th></tr>
+    <tr><td class="p">Mass</td><td class="c">质量</td><td class="w">决定物体惯性大小。同等的力，质量越大加速度越小（<code>F=ma</code>）</td><td class="w">台球质量设成 100，一杆打上去纹丝不动</td></tr>
+    <tr><td class="p">Drag</td><td class="c">空气阻力</td><td class="w">平移运动的阻力。<span class="v">0</span>＝无阻力（太空、冰面），值大＝很快停下</td><td class="w">赛车 Drag 设太大，油门踩到底也提不起速</td></tr>
+    <tr><td class="p">Angular Drag</td><td class="c">角阻力</td><td class="w">受扭矩旋转时的阻力。值极大时物体<b>立即停止转动</b></td><td class="w">设成 0，被撞一下能转到天荒地老</td></tr>
+    <tr><td class="p">Use Gravity</td><td class="c">受重力</td><td class="w">是否受场景重力影响（默认 9.81）</td><td class="w">俯视/太空题材忘了取消，物体会往下掉</td></tr>
+    <tr><td class="p">Is Kinematic</td><td class="c">运动学</td><td class="w"><b>只受 Transform 与动画驱动，不受力影响</b>；仍能与动态刚体产生碰撞事件</td><td class="w">门想要“能开但撞不飞”，就是勾它；<b>两个 Kinematic 之间不产生碰撞</b></td></tr>
+    <tr><td class="p">Interpolate</td><td class="c">插值</td><td class="w">平滑帧间的 Transform，消除抖动，<b>一般用于主角/相机这类主要对象</b>。None / Interpolate（按前帧内插）/ Extrapolate（按后帧外插）</td><td class="w">所有物体都开，白费性能；主角不开，高速移动时会“一顿一顿”</td></tr>
+    <tr><td class="p">Collision Detection</td><td class="c">碰撞检测精度</td><td class="w">Discrete（慢速/静止）/ Continuous（可能与高速物碰撞）/ Continuous Dynamic（本身是高速物）</td><td class="w">子弹用 Discrete 会<b>直接穿墙</b>——一帧位移超过墙的厚度，检测不到</td></tr>
+    <tr><td class="p">Constraints</td><td class="c">约束</td><td class="w">冻结某些轴的运动/旋转，如 Freeze Rotation Z 防打转、Freeze Position Y 防下坠</td><td class="w">2D 忘了冻结 Z 旋转，箱子被推着会自己转圈</td></tr>
+    <tr><td class="p">velocity</td><td class="c">速度</td><td class="w">直接读写刚体速度（向量）。改它比 AddForce 更“硬”，适合冲刺、弹跳</td><td class="w">每帧累加 AddForce 又不用 Drag，速度会失控</td></tr>
+  </table>
+  <div class="note"><b>常用方法</b>：<code>AddForce()</code> 加力 · <code>AddTorque()</code> 加力矩 · <code>AddForceAtPosition()</code> 点力（同时产生力矩）· <code>Sleep()</code> 休眠 / <code>WakeUp()</code> 唤醒（课件05 p6）。<br>
+  <b>关键铁律</b>：物理相关代码写 <code>FixedUpdate</code>，不写 Update——FixedUpdate 是固定步长的真实时间，与物理引擎同步（课件02 p30）。</div>
+</div>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Rigidbody2D</span><span class="cn">2D 刚体</span>
+    <span class="tag">2D · 实验一贪吃蛇</span>
+    <span class="src">Unity 2022 界面</span>
+  </div>
+  <table>
+    <tr><th>属性</th><th>中文</th><th>作用与答题用语</th><th>与 3D 的差别</th></tr>
+    <tr><td class="p">Body Type</td><td class="c">刚体类型</td><td class="w">Dynamic（受力运动）/ Kinematic（脚本驱动、不受力）/ Static（完全不动）</td><td class="w">3D 里这个三档是靠「有无刚体 + Is Kinematic」组合表达的</td></tr>
+    <tr><td class="p">Gravity Scale</td><td class="c">重力倍数</td><td class="w"><span class="v">1</span>＝正常，<span class="v">0</span>＝完全失重</td><td class="w">3D 是开关（Use Gravity），2D 是<b>倍数</b>，能做“半重力”</td></tr>
+    <tr><td class="p">Linear Drag</td><td class="c">线性阻力</td><td class="w">2D 版的 Drag。2021 起由 Drag 改名为 Linear Drag</td><td class="w">看旧教程找“Drag”找不到，就是它</td></tr>
+    <tr><td class="p">Freeze Rotation Z</td><td class="c">冻结 Z 旋转</td><td class="w">在 Constraints 里勾选，防止 2D 物体被撞得打转</td><td class="w">2D 只该冻结 Z，冻 X/Y 会让物体无法移动</td></tr>
+  </table>
+</div>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Collider</span><span class="cn">碰撞体</span>
+    <span class="tag">最常考的一个勾选框</span>
+    <span class="src">课件05 p7~p9</span>
+  </div>
+  <table>
+    <tr><th>属性</th><th>中文</th><th>作用与答题用语</th><th>设错会怎样</th></tr>
+    <tr><td class="p">Is Trigger</td><td class="c">触发器</td><td class="w">勾选＝<b>取消物理阻挡</b>，只做区域检测，进 <code>OnTriggerEnter</code>；不勾＝正常碰撞，进 <code>OnCollisionEnter</code></td><td class="w">两个回调<b>互斥，不能同时存在</b>（课件05 p9 原话）。想挡人却勾了它，箱子会被穿过去</td></tr>
+    <tr><td class="p">Material</td><td class="c">物理材质</td><td class="w">指定摩擦和弹性。台球要 Bounciness 高，冰面要摩擦低</td><td class="w">用默认材质，球撞上去像撞棉花</td></tr>
+    <tr><td class="p">Center / Size</td><td class="c">中心/尺寸</td><td class="w">碰撞体的形状参数，可在 Scene 里拖绿线调</td><td class="w">人物碰撞体比模型大一圈，走过去会被空气墙卡住</td></tr>
+    <tr><td class="p">Mesh Collider → Convex</td><td class="c">凸包</td><td class="w">勾上变成凸包，代价是凹形内部被填平</td><td class="w"><b>不勾 Convex 就不能挂动态刚体</b>，会报错</td></tr>
+  </table>
+  <div class="note warn"><b>碰撞 vs 触发，判据只有一条</b>（课件05 p8~p9）：
+  <br>① 发生<b>碰撞</b>的必要条件：一个为刚体，另一个为碰撞体。
+  <br>② 碰撞且<b>存在力的相互作用</b>：必须两个对象都有刚体。
+  <br>③ 触发：双方<b>至少一方</b>有刚体即可，勾选一方 Is Trigger 就生效。
+  <br>④ 静态碰撞体之间<b>永远不会</b>产生碰撞事件——这是新手第一大坑。
+  <br>⑤ 勾了 Trigger 后刚体物体会下坠穿透，可用 Constraints 约束 Y 方向防止（课件05 p9 原话）。</div>
+</div>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Physic Material</span><span class="cn">物理材质</span>
+    <span class="tag">注意：它是「资源」不是组件</span>
+    <span class="src">课件05 p13</span>
+  </div>
+  <table>
+    <tr><th>属性</th><th>中文</th><th>作用与答题用语</th><th>典型配置</th></tr>
+    <tr><td class="p">Dynamic Friction</td><td class="c">动摩擦</td><td class="w">移动过程中的摩擦力，<span class="v">0~1</span>。<span class="v">0</span> 像冰，<span class="v">1</span> 很快停</td><td class="w">冰面 0.05 / 橡胶 0.9</td></tr>
+    <tr><td class="p">Static Friction</td><td class="c">静摩擦</td><td class="w">静止时克服的摩擦力，<span class="v">0~1</span></td><td class="w">坡道上物体不下滑靠它</td></tr>
+    <tr><td class="p">Bounciness</td><td class="c">弹性</td><td class="w"><span class="v">0</span> 不反弹，<span class="v">1</span> 反弹不损耗能量</td><td class="w">台球 0.95 / 金属 0.2</td></tr>
+    <tr><td class="p">Friction Combine</td><td class="c">摩擦组合</td><td class="w">两个物体都有材质时怎么算：Average 平均 / Min / Max / Multiply 乘积</td><td class="w">默认 Average；想“最滑者说了算”用 Min</td></tr>
+    <tr><td class="p">Bounce Combine</td><td class="c">反弹组合</td><td class="w">同上，作用于弹性</td><td class="w">打砖块里想让球始终高弹，用 Max</td></tr>
+  </table>
+  <div class="note ok"><b>四组现成配方（课件05 p13）</b>：冰面＝低摩擦低弹性 · 橡胶＝高摩擦高弹性 · 金属＝中等摩擦低弹性 · 蹦床＝中等摩擦高弹性。</div>
+</div>
+
+<!-- ========== 三 ========== -->
+<h2>三、场景表现：Camera · Light · Terrain<span class="ch">第 3 章，老师录音里点名「地形、灯光都会考」</span></h2>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Camera</span><span class="cn">摄像机</span>
+    <span class="src">课件01 p52 · 课件03 p22 · 课件08 p6</span>
+  </div>
+  <table>
+    <tr><th>属性</th><th>中文</th><th>作用与答题用语</th><th>设错会怎样</th></tr>
+    <tr><td class="p">Field of View</td><td class="c">视野角度</td><td class="w">透视相机的张角，<span class="v">60</span> 为默认，值越大越广角、越容易晕</td><td class="w">FOV 调到 100，边缘拉伸成鱼眼</td></tr>
+    <tr><td class="p">Projection</td><td class="c">投影方式</td><td class="w">Perspective 透视（近大远小）/ Orthographic 正交（无透视，2D 与等距用）</td><td class="w">2D 游戏用透视，远处的精灵会变形</td></tr>
+    <tr><td class="p">Clear Flags / Background</td><td class="c">清屏/背景</td><td class="w">Skybox 天空盒 / Solid Color 纯色（课件01 p52 案例就改成 Solid Color）/ Depth only</td><td class="w">两个相机叠加时下层没设 Depth only，会把上层画面擦掉</td></tr>
+    <tr><td class="p">Depth</td><td class="c">渲染深度</td><td class="w"><b>值小的先画</b>。UI 相机 <span class="v">0</span>、游戏相机 <span class="v">-1</span>（课件08 p6 原话）</td><td class="w">设反了 UI 会被 3D 场景盖住</td></tr>
+    <tr><td class="p">Culling Mask</td><td class="c">剔除遮罩</td><td class="w">决定这个相机<b>只渲染哪些 Layer</b></td><td class="w">小地图相机不剔除 UI 层，小地图上会糊一层血条</td></tr>
+    <tr><td class="p">Target Texture</td><td class="c">渲染目标</td><td class="w">把画面输出到 Render Texture 而非屏幕——<b>小地图、监控画面、镜面</b>都靠它（课件04 p21）</td><td class="w">忘了建 Render Texture，相机拍了没地方放</td></tr>
+    <tr><td class="p">Plane Distance</td><td class="c">平面距离</td><td class="w">Screen Space-Camera 模式下 UI 与相机的距离（课件08 p6）</td><td class="w">距离小于场景物体，UI 会被模型挡住</td></tr>
+  </table>
+  <div class="note"><b>相机跟随的两种口径（别混）</b>：讲<b>原理/更稳做法</b>答 <code>LateUpdate</code>（课件02 p32「跟随物体的相机可以在 LateUpdate 里实现」）；<b>代码挖空</b>照实验二与课件03 p27 原文填 <code>Update</code>。理由：LateUpdate 在所有 Update 之后执行，能拿到本帧最终位置，避免“永远差一帧”。</div>
+</div>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Light</span><span class="cn">光源</span>
+    <span class="tag">必考</span>
+    <span class="src">课件03 p33~p37</span>
+  </div>
+  <table>
+    <tr><th>属性</th><th>中文</th><th>作用与答题用语</th><th>设错会怎样</th></tr>
+    <tr><td class="p">Type</td><td class="c">类型</td><td class="w">Directional 平行光（太阳，位置无关只关朝向）/ Point 点光（灯泡，全向）/ Spot 聚光（手电、路灯）/ Area 面光</td><td class="w"><b>Area Light 不能实时光照</b>，只能烘焙——这是爱考的冷知识</td></tr>
+    <tr><td class="p">Range</td><td class="c">范围</td><td class="w">光照半径。<b>Point 和 Spot 必须调这个参数</b>（课件03 p33 原话）</td><td class="w">Directional 没有 Range，改它没反应</td></tr>
+    <tr><td class="p">Intensity</td><td class="c">强度</td><td class="w">亮度。室内场景靠它压出明暗层次</td><td class="w">全靠它提亮会导致过曝、失去阴影</td></tr>
+    <tr><td class="p">Color</td><td class="c">颜色</td><td class="w">光源色。暖黄＝黄昏，冷蓝＝夜晚</td><td class="w">只调环境光不调色温，画面一片灰</td></tr>
+    <tr><td class="p">Cookie</td><td class="c">遮罩贴图</td><td class="w">带 alpha 的纹理，做出树影、窗格光斑。Spot/Directional 用 2D 图，Point 必须用 Cubemap</td><td class="w">忘了把贴图的 <b>Alpha Source 设为 From Gray Scale</b>，Cookie 不生效（课件03 p33 原话）</td></tr>
+    <tr><td class="p">Cookie Size</td><td class="c">遮罩尺寸</td><td class="w">缩放 Cookie 投影。<b>只有 Directional 有这个参数</b></td><td class="w">在 Point 上找它，找不到</td></tr>
+    <tr><td class="p">Render Mode</td><td class="c">渲染模式</td><td class="w">Auto 自动 / Important 逐像素（重要光源）/ Not Important 顶点级（最快）</td><td class="w">十几盏灯全设 Important，帧率直接腰斩</td></tr>
+    <tr><td class="p">Shadow Type</td><td class="c">阴影类型</td><td class="w">No Shadows / Hard Shadows 硬阴影（次要光源）/ Soft Shadows 软阴影（<b>主要光源</b>，耗计算）</td><td class="w">所有灯都开软阴影，性能扛不住</td></tr>
+    <tr><td class="p">Strength / Resolution</td><td class="c">阴影强度/分辨率</td><td class="w">阴影黑度和贴图精度</td><td class="w">Resolution 太低，阴影边缘呈锯齿块</td></tr>
+    <tr><td class="p">Bias</td><td class="c">偏移</td><td class="w">灯控像素位置与阴影贴图比较的偏移，范围 <span class="v">0~0.5</span></td><td class="w"><b>过小→物体表面出现 self-shadow 黑斑；过大→阴影严重偏离物体</b>（课件03 p35 原话）</td></tr>
+    <tr><td class="p">Culling Mask</td><td class="c">剔除遮罩</td><td class="w">只照亮指定 Layer 的物体</td><td class="w">角色层被排除，人物站在灯下是黑的</td></tr>
+    <tr><td class="p">Mode（Baked/Realtime/Mixed）</td><td class="c">烘焙模式</td><td class="w">Mixed 表示<b>静态物体用烘焙、非静态用实时</b>（课件03 p37 原话）</td><td class="w">全设 Baked，移动的角色走过不会有影子</td></tr>
+  </table>
+  <div class="note warn"><b>烘焙四步（课件03 p37，直接当答题步骤写）</b>：① 保存场景 → Edit ▸ Project Settings ▸ Player ▸ Other Settings，<b>Color Space 改 Linear</b>；② Window ▸ Rendering ▸ Lighting Settings，新建并选中 <b>Baked Lightmap</b> 设置；③ 方向光 Mode 设 <b>Mixed(Baked)</b>，场景中<b>不动的物体勾上 Static</b>（运行时无法运动）；④ 点 <b>Generate Lighting</b> 生成资源。</div>
+</div>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Terrain</span><span class="cn">地形</span>
+    <span class="tag">必考 · 代码少但操作步骤多</span>
+    <span class="src">课件03 p11~p19</span>
+  </div>
+  <table>
+    <tr><th>属性 / 操作</th><th>中文</th><th>作用与答题用语</th><th>要点</th></tr>
+    <tr><td class="p">Set Height / Flatten</td><td class="c">设定高度/压平</td><td class="w"><b>Flatten 整体设置高度</b>，可提前整体抬升做湖泊（课件03 p14）</td><td class="w">做湖：SetHeight 设 <span class="v">10</span> → Flatten 抬升 → Raise/Lower，<b>Shift 是下陷</b></td></tr>
+    <tr><td class="p">Paint Texture → Layer → Create</td><td class="c">绘制贴图</td><td class="w">创建图层，<b>第一层是基础层，后续可叠加</b>雪山、砂石、道路；Replace 可整体替换</td><td class="w">创建图层会自动生成对应资源文件</td></tr>
+    <tr><td class="p">Brush Size / Opacity</td><td class="c">笔刷大小/不透明度</td><td class="w">不透明度类似“压力”，控制单次落笔强度</td><td class="w">压着不动会一直往下陷</td></tr>
+    <tr><td class="p">Smooth（Blur Direction）</td><td class="c">平滑</td><td class="w">方向 <span class="v">0</span> 全处理，<span class="v">-1</span> 只处理突出部分，<span class="v">1</span> 只处理凹进部分</td><td class="w">课件写作 Blue Direction，实为 Blur（模糊）</td></tr>
+    <tr><td class="p">Pixel Error</td><td class="c">像素容差</td><td class="w">地形像素容差，<b>越小地形越逼真</b>、开销越大</td><td class="w">调太小，大场景地形吃满显存</td></tr>
+    <tr><td class="p">Base Map Dist</td><td class="c">基础贴图距离</td><td class="w">超出距离的远地形用低清贴图，牺牲远景换性能</td><td class="w">调太大，远处地形也在画高清图</td></tr>
+    <tr><td class="p">Detail Distance / Density</td><td class="c">细节距离/密度</td><td class="w">花草离镜头超过距离不再绘制；密度默认 <span class="v">1</span>，调小则过密的细节不绘制</td><td class="w">草地场景最先该压的就是这两个</td></tr>
+    <tr><td class="p">Tree Distance</td><td class="c">树木距离</td><td class="w">超过该距离的树不被绘制</td><td class="w">树林卡顿，先调它和 LOD</td></tr>
+    <tr><td class="p">Cast Shadows</td><td class="c">投射阴影</td><td class="w">地形是否产生影子</td><td class="w">大面积地形开影，烘焙时间暴涨</td></tr>
+    <tr><td class="p">WindZone</td><td class="c">风区</td><td class="w">Mode＝Spherical 球形（仅影响半径内，由中心向外衰减）/ Directional 方向（影响整个场景某一方向）；Radius 半径；Wind Main 主风（柔和变化）；Turbulence 紊流（瞬息万变）</td><td class="w">树动了草没动，是没给细节对象设风的影响</td></tr>
+  </table>
+  <div class="note"><b>导入环境包报错怎么办（课件03 p12 原话）</b>：只修<b>版本相关</b>的错误，<b>其余直接 Clear 清除即可</b>。这句话很适合写进“遇到问题怎么处理”的答案里。</div>
+</div>
+
+<!-- ========== 四 ========== -->
+<h2>四、渲染资源：Mesh Renderer · 贴图 · 材质<span class="ch">第 4 章，老师录音第一个点名的就是「美工」</span></h2>
+
+<div class="grid2">
+<div class="comp">
+  <div class="head"><span class="name">Mesh Renderer</span><span class="cn">网格渲染器</span><span class="src">课件04 p10 p12</span></div>
+  <table>
+    <tr><th>属性</th><th>作用</th></tr>
+    <tr><td class="p">Materials</td><td class="w">材质列表，决定物体“长什么样”。<b>材质丢失时物体显示紫色</b></td></tr>
+    <tr><td class="p">Cast Shadows</td><td class="w">是否投射阴影</td></tr>
+    <tr><td class="p">Receive Shadows</td><td class="w">是否接收他人投来的阴影</td></tr>
+    <tr><td class="p">Probes</td><td class="w">Off 不用 / Blend Probes 混合光探针 / Use Proxy Volume</td></tr>
+    <tr><td class="p">Mesh Filter</td><td class="w">从资源中取出网格并交给 Mesh Renderer 渲染——<b>Filter 拿形状，Renderer 负责画</b></td></tr>
+  </table>
+</div>
+
+<div class="comp">
+  <div class="head"><span class="name">Texture 导入设置</span><span class="cn">贴图</span><span class="src">课件04 p18 p19 p21</span></div>
+  <table>
+    <tr><th>属性</th><th>作用</th></tr>
+    <tr><td class="p">Texture Type</td><td class="w">Texture / Normal Map 法线 / GUI / Sprite 2D and UI / Cursor / Cookie 灯光遮罩 / Lightmap / Cubemap</td></tr>
+    <tr><td class="p">大小</td><td class="w">Unity 默认缩放为 <b>2 的幂次方</b>（如 512→512、300→256）</td></tr>
+    <tr><td class="p">Alpha Source</td><td class="w">Cookie 用图必须设 <b>From Gray Scale</b>，否则不生效</td></tr>
+    <tr><td class="p">Read/Write</td><td class="w">勾上才能用代码读写像素，代价是内存翻倍</td></tr>
+  </table>
+</div>
+</div>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Material</span><span class="cn">材质</span>
+    <span class="tag">三层关系必背</span>
+    <span class="src">课件04 p16 p23 p24</span>
+  </div>
+  <table>
+    <tr><th>属性</th><th>中文</th><th>作用与答题用语</th><th>设错会怎样</th></tr>
+    <tr><td class="p">Shader</td><td class="c">着色器</td><td class="w">决定材质的<b>渲染算法</b>，是“质感的算法来源”</td><td class="w">选到 Unlit 类，物体不再受光，怎么打灯都不亮</td></tr>
+    <tr><td class="p">Main Color / Albedo</td><td class="c">主色</td><td class="w">材质球的基础颜色，与贴图<b>相乘</b></td><td class="w">颜色设成灰色，白底贴图整个被压暗</td></tr>
+    <tr><td class="p">Base (RGB) / Main Tex</td><td class="c">基础贴图</td><td class="w">主纹理，表现基础颜色与花纹</td><td class="w">—</td></tr>
+    <tr><td class="p">Normal Map</td><td class="c">法线贴图</td><td class="w">用像素记录法线方向，模拟<b>表面凹凸</b>，不增加多边形</td><td class="w">当普通贴图用（Texture Type 没选 Normal Map），凸起方向全错</td></tr>
+    <tr><td class="p">Height Map</td><td class="c">高度贴图</td><td class="w">视差效果的深度信息，近处细节更“立体”</td><td class="w">—</td></tr>
+    <tr><td class="p">Specular / Gloss</td><td class="c">高光</td><td class="w">控制表面光滑程度，金属、瓷器靠它</td><td class="w">木头也调高光，看起来像塑料</td></tr>
+  </table>
+  <div class="note"><b>三层关系一句话</b>（课件04 p16 原话）：<b>材质包含贴图，贴图包含纹理</b>。纹理是最基本的数据输入单位（位图）；贴图额外包含 UV 坐标与输入输出控制；材质是数据集，由 Shader 实现。<br>
+  <b>四类材质分类</b>（课件04 p24）：漫反射 Diffuse / 凹凸漫反射 Bumped Diffuse（多一张 normal map）/ 高光 Specular / 凹凸高光 Bumped Specular。<br>
+  <b>铁律</b>：Unity 内置对象的<b>默认材质无法修改</b>，要改必须先新建材质再拖上去（课件04 p23）。</div>
+</div>
+
+<!-- ========== 五 ========== -->
+<h2>五、声音：Audio Source · Audio Listener<span class="ch">第 3 章，编程题必考方向之一</span></h2>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Audio Source</span><span class="cn">音频源</span>
+    <span class="tag">必考</span>
+    <span class="src">课件03 p40~p44</span>
+  </div>
+  <table>
+    <tr><th>属性</th><th>中文</th><th>作用与答题用语</th><th>设错会怎样</th></tr>
+    <tr><td class="p">Audio Clip</td><td class="c">音频剪辑</td><td class="w">要播放的声音文件。长背景音乐用 <b>mp3 / ogg</b>，短音效用 <b>wav / aiff</b></td><td class="w">音效存成 mp3，起点有编码延迟，打击感全毁</td></tr>
+    <tr><td class="p">Play On Awake</td><td class="c">唤醒即播</td><td class="w">场景加载就播；<b>取消则必须用脚本 <code>Play()</code> 启动</b></td><td class="w">想做按键触发音效却忘了取消，一进场景全响一遍</td></tr>
+    <tr><td class="p">Loop</td><td class="c">循环</td><td class="w">播完自动重头，BGM 必开</td><td class="w">音效开了 Loop，一次爆炸响个不停</td></tr>
+    <tr><td class="p">Volume</td><td class="c">音量</td><td class="w"><span class="v">0~1</span> 范围（脚本里赋 <code>0.2f</code> 也是这个区间）</td><td class="w">按 0~100 去赋值，全部被钳到 1</td></tr>
+    <tr><td class="p">Pitch</td><td class="c">音调</td><td class="w">加速/减速播放。随机 ±0.1 可让重复音效不呆板</td><td class="w">Pitch 调太低，音效变成慢放怪声</td></tr>
+    <tr><td class="p">Stereo Pan</td><td class="c">左右声道</td><td class="w">2D 声音的左右偏移</td><td class="w">—</td></tr>
+    <tr><td class="p">Spatial Blend</td><td class="c">空间混合</td><td class="w">拖到 2D＝不随距离衰减（BGM、UI 音效）；拖到 3D＝在 Min/Max Distance 之间近大远小</td><td class="w">BGM 设成 3D，走远了就没声了</td></tr>
+    <tr><td class="p">Min / Max Distance</td><td class="c">最小/最大距离</td><td class="w">Min 之内保持最响，Min 之外开始衰减；<b>超过 Max 停止衰减</b>。调大 Min 可让声音在 3D 世界更响</td><td class="w">Min 设 1，站两米外就听不清</td></tr>
+    <tr><td class="p">Spread / Doppler Level</td><td class="c">扩散/多普勒</td><td class="w">扬声器空间传播角度 / 移动声源的高低音变化</td><td class="w">赛车开普勒拉满会听出“电子音”</td></tr>
+    <tr><td class="p">Load Type</td><td class="c">加载方式</td><td class="w">Decompress on Load（短音效，占内存不占 CPU）/ Compressed in Memory（中等）/ Streaming（长 BGM，边播边读）</td><td class="w">BGM 用 Decompress on Load，进场景卡一下</td></tr>
+  </table>
+  <div class="note"><b>脚本常用</b>（课件03 p44）：<code>audio.isPlaying</code> 判在播 · <code>audio.loop = true</code> · <code>audio.volume = 0.2f</code> · <code>Play()</code> / <code>Stop()</code> · <code>Resources.Load&lt;AudioClip&gt;("Brightman")</code> 动态加载。<br>
+  <b>Play 与 PlayOneShot 的区别</b>：<code>Play()</code> 会<b>打断</b>当前正在播的同一个音源；<code>PlayOneShot(clip)</code> 可<b>叠加</b>播放，适合连发枪声、多次撞击。<br>
+  <b>Audio Listener</b>：挂在<b>相机</b>上，相当于“耳朵”，<b>一个场景只能有一个</b>，多了会报警告（课件03 p40）。</div>
+</div>
+
+<!-- ========== 六 ========== -->
+<h2>六、特效与动画：Particle System · Animator<span class="ch">第 6、7 章，录音点名两项</span></h2>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Particle System</span><span class="cn">粒子系统</span>
+    <span class="tag">模块化，按六大类记</span>
+    <span class="src">课件06 p6~p14</span>
+  </div>
+  <table>
+    <tr><th>模块</th><th>中文</th><th>作用与答题用语</th></tr>
+    <tr><td class="p">基础模块</td><td class="c">Main</td><td class="w">Duration 持续、Looping 循环、Start Lifetime 生命周期、Start Speed、Start Size、Start Color、Simulation Space（Local/World）、Max Particles</td></tr>
+    <tr><td class="p">Renderer</td><td class="c">渲染模块</td><td class="w">决定粒子“长什么样”：Material 材质、Render Mode（Billboard/Stretched）、Sort Mode、Order in Layer</td></tr>
+    <tr><td class="p">Emission</td><td class="c">发射模块</td><td class="w">控制<b>单次发射数</b>（按时间 Rate over Time 或按距离 Rate over Distance）与发射时间</td></tr>
+    <tr><td class="p">Shape</td><td class="c">形状模块</td><td class="w">发射器的形状：Sphere 球 / 半球 / Cone 锥 / Box 盒 / Mesh 网格。<b>改它决定粒子从哪儿飞出来</b></td></tr>
+    <tr><td class="p">Sub Emitters</td><td class="c">子发射器</td><td class="w">给粒子再加发射器（爆炸的碎片再冒烟），分 Birth / Collision / Death 三种触发时机</td></tr>
+    <tr><td class="p">Velocity over Lifetime</td><td class="c">生命周期速度</td><td class="w">粒子存活期间改速度——可做减速、绕圈</td></tr>
+    <tr><td class="p">Limit Velocity over Lifetime</td><td class="c">限速</td><td class="w">控制粒子最大速度，防止飞太远</td></tr>
+    <tr><td class="p">Force over Lifetime</td><td class="c">生命周期力</td><td class="w">持续施加力，可做上升的烟雾、飘落的灰烬</td></tr>
+    <tr><td class="p">Color over Lifetime</td><td class="c">颜色渐变</td><td class="w">从亮黄→橙→透明黑，是火焰/爆炸的灵魂</td></tr>
+    <tr><td class="p">Size over Lifetime</td><td class="c">大小渐变</td><td class="w">先大后小＝消散，先小后大＝膨胀</td></tr>
+    <tr><td class="p">Rotation over Lifetime</td><td class="c">旋转渐变</td><td class="w">让碎片翻滚</td></tr>
+    <tr><td class="p">Color / Size / Rotation <b>by Speed</b></td><td class="c">按速度</td><td class="w"><b>满足速度条件才执行</b>，用于尾焰、冲刺拖影</td></tr>
+    <tr><td class="p">Texture Sheet Animation</td><td class="c">帧动画</td><td class="w">让粒子播序列帧，做成翻页式爆炸</td></tr>
+    <tr><td class="p">Noise</td><td class="c">噪音</td><td class="w">给粒子加不规则运动，风中的烟、雪花</td></tr>
+    <tr><td class="p">Trails</td><td class="c">拖尾</td><td class="w">显示粒子运动轨迹，流星、子弹</td></tr>
+    <tr><td class="p">Inherit Velocity</td><td class="c">速度继承</td><td class="w">继承父物体的移动速度。<b>需要把 Simulation Space 改为 World</b>（课件06 p13）</td></tr>
+    <tr><td class="p">External Forces</td><td class="c">外力</td><td class="w">配合 Particle System Force Field 组件用（风、吸引力）</td></tr>
+    <tr><td class="p">Collision / Triggers</td><td class="c">碰撞/触发</td><td class="w">粒子撞到物体后的表现 / 进出触发器区域时的效果</td></tr>
+    <tr><td class="p">Lights</td><td class="c">粒子光照</td><td class="w">给粒子加实时光，让爆炸照亮周围</td></tr>
+  </table>
+  <div class="note warn"><b>必背的那句对比（课件06 p11 原话）</b>：<b>over Lifetime 类似花开花落的一生</b>——从头到尾持续变化；<b>by Speed 类似跑龙套</b>——当满足条件才执行。<br>
+  <b>数值设置三种</b>（课件06 p6）：① 权重（<span class="v">0~1</span>）② 固定参数 ③ <b>参数曲线</b>——粒子系统千变万化的根源。<br>
+  <b>代码控制</b>：<code>Play()</code> 播放 / <code>Stop()</code> 停止 / <code>Clear()</code> 清空已有粒子。</div>
+</div>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Animator</span><span class="cn">动画组件</span>
+    <span class="tag">参数类型是常考点</span>
+    <span class="src">课件07 p8~p25</span>
+  </div>
+  <table>
+    <tr><th>属性 / 方法</th><th>中文</th><th>作用与答题用语</th></tr>
+    <tr><td class="p">Controller</td><td class="c">动画控制器</td><td class="w">指定 Animator Controller 资源，<b>不挂它角色就是“植物人”</b></td></tr>
+    <tr><td class="p">Avatar</td><td class="c">替身</td><td class="w">人形骨骼映射，是<b>动画复用（Retargeting）</b>的前提：同一套动作给不同模型用</td></tr>
+    <tr><td class="p">Apply Root Motion</td><td class="c">根运动</td><td class="w">让动画自带的位移驱动物体移动。勾上则不要再用代码平移，否则位移翻倍</td></tr>
+    <tr><td class="p">Culling Mode</td><td class="c">剔除模式</td><td class="w">Always Animate / Cull Update Transforms / Cull Completely——看不见时不更新，省性能</td></tr>
+    <tr><td class="p">SetFloat / SetBool / SetInteger / SetTrigger</td><td class="c">设参数</td><td class="w">向状态机传值。<b>类型必须与 Controller 里定义的一致</b>：整数参数用 <code>SetFloat</code> 设置，动画机一声不响什么都不做</td></tr>
+    <tr><td class="p">参数类型：Trigger vs Bool</td><td class="c">触发 vs 布尔</td><td class="w"><b>Trigger 触发一次自动复位</b>，适合跳跃/攻击；<b>Bool 保持状态</b>，适合跑/走。用 Bool 做攻击会连续触发，用 Trigger 做跑步会跑一步就停</td></tr>
+    <tr><td class="p">Transition → Has Exit Time</td><td class="c">退出时间</td><td class="w">勾上必须等当前动画播完才切；攻击/受击这类要立即响应的一律取消</td></tr>
+    <tr><td class="p">Transition Duration</td><td class="c">过渡时长</td><td class="w">两个动作的混合时间，<span class="v">0.1~0.2</span> 自然，<span class="v">0</span> 生硬切换</td></tr>
+    <tr><td class="p">Blend Tree + Threshold</td><td class="c">融合树/临界点</td><td class="w">用参数在不同动作间平滑混合（走路→跑）。<b>先取消 Automate Threshold 手动设值，设完再重新勾上</b>（课件07 p18）</td></tr>
+    <tr><td class="p">Layer + Body Mask + Weight</td><td class="c">层/遮罩/权重</td><td class="w">分部位控制动画：下半身走路、上半身举手。<b>层序号从 0 开始</b>，权重 <span class="v">1</span> 表示该层完全生效</td></tr>
+    <tr><td class="p">Loop Time / Loop Pose / Bake Into Pose</td><td class="c">循环设置</td><td class="w">勾上保证动作首尾衔接平滑；<b>LoopMatch 显示绿色</b>说明匹配成功（课件07 p13）</td></tr>
+  </table>
+</div>
+
+<!-- ========== 七 ========== -->
+<h2>七、UI：Canvas · Rect Transform · 控件<span class="ch">第 8 章，录音点名的第五块</span></h2>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Canvas</span><span class="cn">画布</span>
+    <span class="tag">三种 Render Mode 必背</span>
+    <span class="src">课件08 p5~p6</span>
+  </div>
+  <table>
+    <tr><th>属性</th><th>中文</th><th>作用与答题用语</th><th>要点</th></tr>
+    <tr><td class="p">Render Mode<br>Screen Space-Overlay</td><td class="c">屏幕空间-覆盖</td><td class="w">UI 渲染在屏幕最前，永远盖住 3D；<b>分辨率变化时画布自动适配</b></td><td class="w">最常用，HUD/血条就是它</td></tr>
+    <tr><td class="p">Render Mode<br>Screen Space-Camera</td><td class="c">屏幕空间-相机</td><td class="w">为 UI 指定相机，<b>可以给 UI 加粒子特效</b>；相机设置会影响 UI 显示</td><td class="w">要 UI 上有特效时选它，plane distance 控制 UI 与相机距离</td></tr>
+    <tr><td class="p">Render Mode<br>World Space</td><td class="c">世界空间</td><td class="w">3D UI，像一块面片，<b>不随相机移动</b></td><td class="w">NPC 头顶血条、场景里的机器面板</td></tr>
+    <tr><td class="p">Canvas Scaler</td><td class="c">画布缩放</td><td class="w">Constant Pixel Size（不缩放）/ Scale With Screen Size（按参考分辨率缩放）/ Constant Physical Size</td><td class="w">做自适应必选 Scale With Screen Size，参考分辨率设 <span class="v">1920×1080</span></td></tr>
+    <tr><td class="p">Pixel Perfect</td><td class="c">像素对齐</td><td class="w">像素更清晰，但会牺牲一点位置精度</td><td class="w">像素风游戏开，其他可关</td></tr>
+    <tr><td class="p">Sort Order</td><td class="c">排序</td><td class="w">同一模式下多个 Canvas 的绘制顺序，值大的在上面</td><td class="w">弹窗盖不住主界面，多半是这个</td></tr>
+  </table>
+  <div class="note warn"><b>两个硬规则</b>（课件08 p5~p6）：① 所有 UI 控件<b>必须是画布的子对象</b>；② Overlay 模式下<b>不能修改 Canvas 的 XY 值</b>，要用先切 World Space。③ 两个 UI 重叠时，<b>后添加的显示在前面</b>。④ 场景中<b>只能有一个 EventSystem</b>，否则按钮点不动。</div>
+</div>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">Rect Transform</span><span class="cn">UI 变换</span>
+    <span class="tag">锚点与中心点</span>
+    <span class="src">课件08 p6 p17 p18</span>
+  </div>
+  <table>
+    <tr><th>属性</th><th>中文</th><th>作用与答题用语</th><th>设错会怎样</th></tr>
+    <tr><td class="p">Anchor</td><td class="c">锚点</td><td class="w"><b>相对于父容器的一种相对定位技术</b>，是屏幕自适应的解决方案。四个三角形</td><td class="w">按钮锚点设在中心，换分辨率后跑到屏幕外</td></tr>
+    <tr><td class="p">Pivot</td><td class="c">中心点</td><td class="w">控件<b>自身旋转与缩放的位置依据</b>，蓝色小圆圈；X/Y 是两方向比例</td><td class="w">Pivot 在角落时做缩放动画，会往一边“甩”出去</td></tr>
+    <tr><td class="p">Pos X / Pos Y</td><td class="c">位置</td><td class="w">相对锚点的偏移</td><td class="w">—</td></tr>
+    <tr><td class="p">Width / Height</td><td class="c">宽高</td><td class="w">控件尺寸；拉伸模式下变成 Left/Right/Top/Bottom 边距</td><td class="w">锚点选 Stretch 后改了 Width 没反应，得改边距</td></tr>
+    <tr><td class="p">Scale</td><td class="c">缩放</td><td class="w">做按钮按下动效常用它（课件08 p13 的 Transition=Animation 案例）</td><td class="w">改 Width 做动效会让文字跟着挤变形</td></tr>
+  </table>
+</div>
+
+<div class="comp">
+  <div class="head">
+    <span class="name">常用 UI 控件</span><span class="cn">Text / Image / Button / Slider / Toggle / InputField</span>
+    <span class="src">课件08 p4 p13 p19</span>
+  </div>
+  <table>
+    <tr><th>控件</th><th>关键属性</th><th>作用与答题用语</th></tr>
+    <tr><td class="p">Text</td><td class="c">Text / Font Size / Color / Alignment / Best Fit / Rich Text / Raycast Target</td><td class="w">显示文字；<b>Best Fit</b> 让字号自适应框高，防止文字溢出；<b>Rich Text</b> 支持简单标记（如变色加粗）；<b>Raycast Target 建议去掉勾选</b>（课件08 p08 原话，文字不该接收点击）</td></tr>
+    <tr><td class="p">Image</td><td class="c">Source Image / Image Type / Set Native Size / Preserve Aspect / Raycast Target</td><td class="w">显示图片（贴图必须是 <b>Sprite</b> 类型，支持 PNG 透明）。<b>ImageType 四种（课件原文）：普通、切片、平铺、过滤填充</b>——<b>切片＝九宫格</b>，四角不拉伸，圆角按钮拉大不变形；<b>过滤填充</b>按比例裁切，做血条与冷却。另有 <b>SetNativeSize</b>（还原图片原始尺寸）、<b>Preserve Aspect</b>（保持原始比例不变）；纯装饰图把 <b>Raycast Target</b> 去掉，不挡点击</td></tr>
+    <tr><td class="p">RawImage</td><td class="c">Texture</td><td class="w">直接显示任意 Texture/Render Texture（小地图画面）。<b>与 Image 的区别：Raw Image 可显示任何纹理，Image 只能显示一个精灵；Raw Image 不能做动画控制和填充控制</b>（课件08 p11）</td></tr>
+    <tr><td class="p">Button</td><td class="c">Interactable / Transition / OnClick()</td><td class="w">可交互性、<b>过渡方式</b>（Color Tint 换色 / Sprite Swap 换图 / Animation 播动画，后者需 Auto Generate Animation 生成控制器）、点击事件列表</td></tr>
+    <tr><td class="p">Slider</td><td class="c">Min/Max/Value / Whole Numbers / OnValueChanged</td><td class="w">数值滑动条，音量、难度、灵敏度全靠它；勾 Whole Numbers 只取整数。<b>删掉 Handle 就能直接拿来当血条</b>（课件08 p15 原话）；代码取用 <code>GetComponent&lt;Slider&gt;().value = 0.5f</code></td></tr>
+    <tr><td class="p">Toggle</td><td class="c">Is On / Group / OnValueChanged</td><td class="w">复选/单选，全屏开关、音效开关；放进 Toggle Group 变单选</td></tr>
+    <tr><td class="p">InputField</td><td class="c">Text / Content Type / Character Limit</td><td class="w">输入框，<b>由 Text 与 Placeholder 组成，输入后 Placeholder 自动失效</b>（课件08 p09）；登录名/分数录入；Content Type 设为 Password 可打码</td></tr>
+    <tr><td class="p">Panel</td><td class="c">Image 背景 + Rect Transform</td><td class="w">容器，用来做弹窗/分组；<b>空 Image 也要保留 Raycast Target 才能挡住背后点击</b></td></tr>
+  </table>
+  <div class="note warn"><b>九宫格（课件写作「切片」，课件08 p10 原话「ImageType：普通、切片、平铺、过滤填充」）</b>：解决的是<b>图片拉大后四角变形、边框变粗</b>。做法是在 Sprite Editor 里拖出四条 Border 边界把圆角框住，再把 Image Type 设成<b>切片</b>——四个角保持原始像素不动，只让四条边单向拉伸、中间双向拉伸。一张 100×100 的小图能撑出全屏对话框。取消 <b>Fill Center</b> 则只画边框、中间透空，做暂停面板最省事。<br>
+  <b>2D 里同样能用</b>：Sprite Renderer 的 Draw Mode 选 Sliced，就能做任意拉长但两端不糊的激光柱、平台、管子。</div>
+</div>
+
+<!-- ========== 八 ========== -->
+<h2>八、最容易答错的 12 处<span class="ch">这 12 条就是案例题里的「判断力」</span></h2>
+
+<div class="err">
+  <div class="row"><span class="n">1</span><span class="t"><b>Is Trigger 不是“两边都勾才生效”</b>——勾一方就够了，一旦勾上就<b>不再产生物理阻挡</b>，OnCollision 与 OnTrigger <b>互斥</b>。</span></div>
+  <div class="row"><span class="n">2</span><span class="t"><b>静态碰撞体之间永远不产生碰撞事件</b>——必须至少一方有刚体。地面不挂刚体是为了省性能，人物挂刚体就够（课件05 p9 原话）。</span></div>
+  <div class="row"><span class="n">3</span><span class="t"><b>Inspector 右上角的 Static 不是物理开关</b>——它管的是光照烘焙、遮挡剔除、静态批处理，和“物体会不会被推动”无关。</span></div>
+  <div class="row"><span class="n">4</span><span class="t"><b>物理代码写 FixedUpdate</b>，不是 Update。FixedUpdate 是固定步长的真实时间，与物理解算同步。</span></div>
+  <div class="row"><span class="n">5</span><span class="t"><b>相机跟随后写 LateUpdate 更稳</b>（能拿到本帧最终位置），但<b>实验二原文写的是 Update</b>——考代码挖空照原文填。</span></div>
+  <div class="row"><span class="n">6</span><span class="t"><b>Area Light 不能实时光照</b>，只能烘焙。这题几乎年年有。</span></div>
+  <div class="row"><span class="n">7</span><span class="t"><b>Cookie 贴图必须把 Alpha Source 设为 From Gray Scale</b>，否则拉了图也没效果（课件03 p33）。</span></div>
+  <div class="row"><span class="n">8</span><span class="t"><b>烘焙前必须把 Color Space 改成 Linear</b>，且参与烘焙的物体要勾 Static，最后点 Generate Lighting。</span></div>
+  <div class="row"><span class="n">9</span><span class="t"><b>Mesh Collider 不勾 Convex 就不能挂动态刚体</b>；建筑这类复杂模型用多个 Box Collider 拼比 Mesh Collider 快得多。</span></div>
+  <div class="row"><span class="n">10</span><span class="t"><b>Play() 会打断，PlayOneShot() 会叠加</b>。连发枪声用后者，BGM 切换用前者。</span></div>
+  <div class="row"><span class="n">11</span><span class="t"><b>Animator 参数类型要对</b>：整数参数必须用 <code>SetFloat</code> 也是不行的——类型不匹配时<b>编译不报错、运行没反应</b>，最难查。</span></div>
+  <div class="row"><span class="n">12</span><span class="t"><b>Overlay 模式不能改 Canvas 的 XY</b>；UI 控件必须是 Canvas 子对象；一个场景只能有一个 EventSystem。</span></div>
+</div>
+
+<!-- ========== 九 ========== -->
+<h2>九、这张清单怎么对应到卷面上<span class="ch">案例 30 + 编程 30 + 设计 40</span></h2>
+
+<table class="cover">
+  <tr><th>题型</th><th>会用到本清单的哪几块</th><th>答题时怎么用</th></tr>
+  <tr>
+    <td>案例题<br><span style="font-weight:400;color:#6b7c8c;font-size:11.5px">30 分 · 5 题</span></td>
+    <td>二（物理）、三（灯光地形）、四（材质贴图）、六（粒子动画）、七（UI）</td>
+    <td>每道题先写<b>组件名 + 关键属性名 + 数值</b>（如“Rigidbody 的 Mass 设 0.5、Drag 设 0.8”），再补一句<b>为什么这么设</b>。前者证明做过，后者拿分。</td>
+  </tr>
+  <tr>
+    <td>编程选择题<br><span style="font-weight:400;color:#6b7c8c;font-size:11.5px">30 分 · 15 空</span></td>
+    <td>主要是二、五、六的<b>方法名与属性名</b></td>
+    <td>空里填的是 API 名字：<code>AddForce</code>、<code>SetBool</code>、<code>PlayOneShot</code>、<code>GetAxis</code>、<code>CompareTag</code>…… 看到 <b>Mass / Drag / Is Trigger / SetXxx</b> 这些词能条件反射出上下文就够了。</td>
+  </tr>
+  <tr>
+    <td>综合设计题<br><span style="font-weight:400;color:#6b7c8c;font-size:11.5px">40 分 · 3 题</span></td>
+    <td>全部，但<b>只用第二层</b></td>
+    <td><b>规则 → 机制 → 数值</b>。组件属性出现在“机制”层当证据，不要把它当答案主体。先讲玩家玩什么、什么算赢，再说用什么组件实现，最后给具体数字。</td>
+  </tr>
+</table>
+
+<div class="note ok" style="margin-top:14px">
+<b>最后一句实话</b>：这份清单有 132 条，明早不可能全记住，也不需要。真正高频的只有 <span style="color:#b4530a;font-weight:700">30 条左右</span>——Rigidbody 的 Mass / Drag / Is Kinematic / Constraints、Collider 的 Is Trigger、物理材质的 Bounciness、光源的 Type / Range / Shadow Type、粒子的 Shape / Color over Lifetime、Animator 的 SetBool / Trigger 与 Bool、Canvas 三种 Render Mode、Rect Transform 的 Anchor / Pivot。先把这 30 条背到能脱口而出，剩下的考前扫一眼有印象就能写。
+</div>
+
+<footer>
+依据：课件 01~08（2026 版）· 实验一~四 · 课程设计执行计划书<br>
+标注格式 <code>课件05 p4</code> 指 Game 05 课件第 4 页；正文中的属性说明除注明外均为课件原文表述
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+MIT License
+
+Copyright (c) 2026 伊全智
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+适用范围说明 / Scope
+
+上述 MIT 许可仅覆盖本仓库作者本人撰写的内容，包括复习手册、模拟试卷、
+速查表、真题回忆与参考答案，以及 README、导航页等文档。
+
+课程相关的原始教学材料——包括但不限于课件 PPT、教学视频、实验指导书与
+模板、实验素材包、课程设计选题——版权归授课教师与学校所有，未包含在本
+仓库中，不在本许可的授权范围内。文中引用课件内容的段落均已标注出处，
+仅用于学习与说明。
+
+The MIT license above applies only to the original content authored by this
+repository's owner. Course teaching materials (slides, lecture videos, lab
+handouts, asset packs, assignment topics) are the property of the course
+instructor and the university; they are not included in this repository and
+are not covered by this license.

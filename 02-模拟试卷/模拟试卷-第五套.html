@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>游戏开发技术 · 模拟试卷（第五套）</title>
+<style>
+:root{
+  --bg:#fbfaf6; --panel:#fff; --ink:#20242a; --sub:#5c6673; --line:#e4e0d6;
+  --accent:#1f5f8b; --accent-soft:#eaf1f7; --warm:#b4530a; --warm-soft:#fdf3e7;
+  --red:#b3352b; --red-soft:#fbeceb; --green:#1c6f4a; --green-soft:#eef6ea;
+  --purple:#6b3fa0; --purple-soft:#f4eefb;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",system-ui,sans-serif;
+  font-size:15px;line-height:1.8}
+main{max-width:920px;margin:0 auto;padding:32px 40px 100px}
+header{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:10px;text-align:center}
+h1{font-size:22px;margin:0 0 6px;letter-spacing:1px}
+header .meta{font-size:12.5px;color:var(--sub);line-height:1.8}
+h2{font-size:18px;margin:34px 0 8px;padding:7px 0;border-bottom:2px solid var(--accent);color:var(--accent)}
+h2 .sc{float:right;font-size:12.5px;color:var(--warm);font-weight:600;padding-top:6px}
+h3{font-size:14.8px;margin:22px 0 6px;padding-left:9px;border-left:3px solid var(--accent);color:#1b2027}
+h3 .src{font-size:11.5px;color:var(--sub);font-weight:400;margin-left:8px}
+p{margin:6px 0}
+ul,ol{padding-left:22px;margin:6px 0}
+li{margin:4px 0}
+code{font-family:Consolas,"Courier New",monospace;font-size:13px;
+  background:#f4f2ea;border:1px solid #ded9cc;border-radius:3px;padding:0 4px}
+.blk{color:#b4530a;font-weight:700;letter-spacing:.3px}
+.v{color:var(--green);font-weight:600}
+pre{background:#f7f5ed;border:1px solid #ded9cc;border-radius:6px;padding:10px 14px;
+  overflow-x:auto;margin:8px 0;font-size:13px;line-height:1.62}
+pre code{background:none;border:none;padding:0;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13.5px;background:#fff}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-weight:600;font-size:13px}
+td.k{font-weight:600;background:#fcfbf7;width:16%}
+.tip{background:var(--accent-soft);border-left:3px solid var(--accent);padding:8px 14px;
+  border-radius:0 6px 6px 0;margin:10px 0;font-size:13.5px}
+.warn{background:var(--red-soft);border-left:3px solid var(--red);padding:8px 14px;
+  border-radius:0 6px 6px 0;margin:10px 0;font-size:13.5px}
+.ok{background:var(--green-soft);border-left:3px solid var(--green);padding:8px 14px;
+  border-radius:0 6px 6px 0;margin:10px 0;font-size:13.5px}
+.opts{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 16px;
+  margin:8px 0;font-size:13.5px;line-height:2}
+.opts b{display:inline-block;width:26px;color:var(--purple);font-family:Consolas,monospace}
+@page{size:A4;margin:11mm 10mm}
+@media print{
+  main{max-width:none;padding:0}
+  body{background:#fff;font-size:9pt;line-height:1.55}
+  h1{font-size:15pt}
+  h2{font-size:12pt;margin:12px 0 4px;padding:4px 0;page-break-after:avoid}
+  h3{font-size:10.2pt;margin:9px 0 3px;page-break-after:avoid}
+  pre{font-size:7.2pt;line-height:1.3;padding:6px 9px;page-break-inside:avoid}
+  table{font-size:8.2pt;page-break-inside:avoid}
+  th,td{padding:3px 6px}
+  .tip,.warn,.ok{padding:5px 10px;margin:5px 0;font-size:8.3pt;page-break-inside:avoid}
+  .opts{font-size:8.4pt;line-height:1.75;padding:6px 10px}
+  .ansbox{page-break-inside:avoid}
+  .ansbtn,.topbar{display:none}
+  #p2q{page-break-before:always}
+  #p3q{page-break-before:always}
+}
+/* 题目旁按钮，答案默认收起 */
+.ansbtn{float:right;font-family:inherit;font-size:11.5px;font-weight:400;line-height:1.6;
+  padding:1px 10px;border-radius:999px;border:1px solid var(--accent);
+  background:var(--accent-soft);color:var(--accent);cursor:pointer;margin-left:10px;
+  white-space:nowrap;transition:background .15s,color .15s}
+.ansbtn:hover{background:var(--accent);color:#fff}
+.ansbtn.on{background:var(--accent);color:#fff}
+.ansbox{display:none;border:1px solid #d7e3ee;border-left:3px solid var(--accent);
+  border-radius:0 8px 8px 0;background:#fbfdff;padding:9px 15px 5px;margin:8px 0 16px}
+.ansbox.on{display:block}
+.abhd{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:.3px;margin:0 0 2px}
+.tag{font-size:11.5px;font-weight:400;color:var(--purple);background:var(--purple-soft);
+  border:1px solid #d9cbe8;border-radius:3px;padding:0 5px;margin-left:6px;white-space:nowrap}
+.topbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--sub);
+  border-bottom:1px solid var(--line);padding:7px 0;margin:0 0 10px}
+.topbar button{font-family:inherit;font-size:12px;padding:3px 12px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent)}
+.topbar button:hover{background:var(--accent);color:#fff}
+.qs{margin:4px 0 2px;font-weight:400}
+</style>
+</head>
+<body>
+<main>
+
+<header>
+<h1>游戏开发技术 · 期末考试　模拟试卷（第五套）</h1>
+<div class="meta">
+安徽理工大学 　数媒 24-1 　闭卷 　考试时间 120 分钟 　满分 100 分<br>
+姓名 <span style="display:inline-block;width:110px;border-bottom:1px solid #c9c4b6"></span>　学号 <span style="display:inline-block;width:130px;border-bottom:1px solid #c9c4b6"></span>　得分 <span style="display:inline-block;width:70px;border-bottom:1px solid #c9c4b6"></span>
+</div>
+</header>
+
+<div class="topbar"><span>答案默认收起：点每题右侧「看答案」就地展开，不跳转</span>
+<button id="ans-open-all" type="button">全部展开</button>
+<button id="ans-close-all" type="button">全部收起</button></div>
+
+<table>
+<tr><th style="width:14%">题号</th><th style="width:22%">题型</th><th style="width:16%">分值</th><th>构成</th></tr>
+<tr><td class="k">一</td><td>案例分析</td><td><b>30 分</b></td><td>5 小题 × 6 分，覆盖第 1 ~ 8 章（<b>身份 + 需求 + 你怎么做</b>）</td></tr>
+<tr><td class="k">二</td><td>编程选择题</td><td><b>30 分</b></td><td>7 空（14 分）+ 8 空（16 分），每空 2 分；<b>每题 12 个候选</b></td></tr>
+<tr><td class="k">三</td><td>游戏综合设计</td><td><b>40 分</b></td><td>10 分（2 小问）+ 15 分（3 小问）+ 15 分（3 小问），<b>每小问 5 分，不写代码</b></td></tr>
+</table>
+
+<div class="warn"><b>本卷与前四套的差别</b>：前四套的 60 个空<b>一个都没有重复</b>，本卷 15 空继续全新——考的是 <code>ScreenToWorldPoint</code>、<code>Raycast</code>、<code>LookRotation</code>、<code>Slerp</code>、<code>MoveTowards</code> 这一批「数学 + 查询」类的 API。第三大题三题取自课设选题 <b>题目 18 节奏音乐 / 题目 9 街机格斗 / 题目 11 海岛生存</b>，与前四套取的 16 / 4 / 5 / 1 / 6 / 3 / 14 / 12 不重叠。</div>
+
+<!-- ================= 一 ================= -->
+<h2>一、案例分析题<span class="sc">30 分 · 每题 6 分</span></h2>
+
+<h3><button class="ansbtn" type="button" data-target="a1">看答案</button>第 1 题（6 分）· 你是<b>技术美术</b><span class="src">第 1、4、7 章</span></h3>
+<p>美术在 3ds Max 里做了一个主角，导出 <code>.fbx</code> 交给你。你要让他在 Unity 里<b>能动、能穿、能打</b>。</p>
+<ol>
+<li>模型拖进工程后，第一件要检查的是什么？要让同一套动作能复用到别的角色上，必须做什么？</li>
+<li>角色身上的贴图有三张，程序问你这三张分别是什么类型，<b>导入设置</b>上有什么区别？</li>
+<li>角色有「身体 / 衣服 / 武器」三块，材质球要怎么组织才不至于拖慢帧率？</li>
+</ol>
+
+<div class="ansbox" id="a1">
+<div class="abhd">参考答案<span class="tag">第 1 章 · 资源导入｜第 4 章 · 贴图与材质｜第 7 章 · Avatar</span></div>
+<p><b>① 先查朝向和缩放，再做 Avatar。</b>3ds Max 是 <b>Z 轴向上</b>，Unity 是 <b>Y 轴向上</b>，导进来经常是躺着的或转了 90°；缩放也要核对，模型单位不一致会让角色变成巨人或蚂蚁。这两项在模型的 Import 设置里改，不要靠后面调 Scale 硬拉——硬拉会让物理和碰撞体的数值全部失真。然后是最关键的一步：把 <b>Rig 的 Animation Type 设为 Humanoid</b>，Unity 会据此<b>生成 Avatar（替身）</b>，也就是把模型自己的骨骼映射到一套标准人形骨架上。生成了 Avatar 才能做 <b>Retargeting（动画复用）</b>——同一套走路、攻击动作可以直接给别的角色用，不用重新做。生成后要打开 Configure 界面看一眼，<b>骨骼映射有红叉就说明没对上</b>，必须手动拖。</p>
+<p><b>② 三张贴图三种类型。</b>一张是<b>基础色（Albedo / Base Color）</b>，Texture Type 用默认的 <b>Default</b>，压缩开、Mipmap 开；一张是<b>法线贴图（Normal Map）</b>，Texture Type 必须改成 <b>Normal map</b>——这一步不能省，如果当普通贴图导入，Unity 不会把它转成切线空间的法线格式，表面的凹凸方向会全部出错，光照一打就发现凹凸是反的；第三张是<b>高光 / 遮罩（Specular / Metallic）</b>，要注意把它在导入设置里关掉 sRGB（Color Space 选 Linear），因为它是数据图不是颜色图，按颜色处理会让数值失真。另外三张图要<b>共用一套 UV</b>，UV 是在建模软件里展开好的，进 Unity 只是按 UV 采样。</p>
+<p><b>③ 材质合并成一套。</b>三个部件不要各给一个材质球。每个材质球在渲染时就是一次 <b>Draw Call</b>，一个角色拆成三份，场上二十个角色就是六七十次绘制调用。做法是：三张图<b>打成一张图集（Atlas）</b>，角色只用一个材质球、指定一个 Shader，靠 UV 落在图集的不同区域来区分部位。这样场上所有角色可以<b>合批</b>，绘制次数大幅下降。如果确实需要不同质感（比如武器是金属、衣服是布料），那就分成两个材质，但每个材质内部一定用图集。判断标准很简单：<b>材质数量决定 Draw Call 数量，图集是压在最低的那个手段。</b></p>
+</div>
+
+<h3><button class="ansbtn" type="button" data-target="a2">看答案</button>第 2 题（6 分）· 你是<b>特效师</b><span class="src">第 6 章</span></h3>
+<p>要做一个技能释放的<b>爆炸</b>：中心一团火光，向外崩碎片，碎片落地后再冒一股烟。这个特效在混战中<b>同时可能出现二十个</b>。</p>
+<ol>
+<li>这个特效至少要用到哪几个粒子模块？「碎片落地后再冒烟」这一步靠什么实现？</li>
+<li>火光从亮黄迅速变橙、最后变成黑烟散去，是哪两个模块配合的结果？</li>
+<li>二十个同时播放怎么保证不掉帧？说出至少四个手段。</li>
+</ol>
+
+<div class="ansbox" id="a2">
+<div class="abhd">参考答案<span class="tag">第 6 章 · 粒子系统</span></div>
+<p><b>① 模块与二级发射。</b>基础模块定 Duration、Start Lifetime、Start Speed；<b>Emission 用 Burst</b> 一次性喷一簇（爆炸不是持续喷，是瞬间爆开，所以不用 Rate over Time）；<b>Shape 用 Sphere</b> 让粒子向四面八方飞；<b>Color over Lifetime</b> 加 <b>Size over Lifetime</b> 做消散；碎片部分再加 <b>Velocity over Lifetime</b> 给它一个抛物线感。<b>「碎片落地后再冒烟」用 Sub Emitters（子发射器）</b>——它能在主粒子的 <b>Birth / Collision / Death</b> 三个时机触发一个新的发射器，这里要的是 Death（碎片消失时）或 Collision（撞到地面时）触发烟雾。这是「一级特效带出二级特效」的标准做法，不需要写代码。</p>
+<p><b>② 颜色两段式。</b><b>Color over Lifetime</b> 负责颜色本身：新建一个渐变，色标依次摆上亮黄（255,255,200）→ 橙（255,140,0）→ 暗红（120,20,0）→ 黑，同时把 <b>Alpha 从 255 渐到 0</b>，这样它不只是变黑，而是「变黑的同时淡出」。<b>Size over Lifetime</b> 负责体积：先用一条「快速放大再缓慢收缩」的曲线，让火光先炸开再散掉。两个模块叠起来，才有「炸一下、扩出去、散掉」的完整过程。这里用的一定是 <b>over Lifetime</b> 类模块——它描述的是<b>单个粒子从生到死的一生</b>，像花开花落；而 <b>by Speed</b> 类（Color by Speed、Size by Speed）是按速度条件触发，像跑龙套的，用在这里反而不对。</p>
+<p><b>③ 四个手段。</b>第一，<b>Max Particles 设上限</b>，比如 60，超过就自动丢弃，这是防止连续爆炸堆到几千个粒子的最后一道闸；第二，<b>Renderer 的 Render Mode 用 Billboard</b>（面向相机），不要用 Mesh 模式，Net 一个粒子一个网格会把顶点数打爆；第三，<b>把光照和碰撞关掉</b>——粒子的 Lights 模块和 Collision 模块都很贵，混战里不需要每个爆炸都照亮周围、也不需要真的算碰撞；第四，<b>整个特效做成 Prefab 放进对象池</b>，播完 <code>SetActive(false)</code> 还回去，不要在运行时反复 Instantiate/Destroy。再加一条：<b>整套粒子共用一张图集</b>，避免每个粒子系统各占一个材质。</p>
+</div>
+
+<h3><button class="ansbtn" type="button" data-target="a3">看答案</button>第 3 题（6 分）· 你是<b>角色动画师</b><span class="src">第 7 章</span></h3>
+<p>主角要能<b>边跑边开枪</b>：<b>下半身一直在跑，上半身独立瞄准并开枪</b>，两个动作不能互相打断。</p>
+<ol>
+<li>用什么机制让上下半身各播各的动画？需要配一个什么资源？</li>
+<li>上下半身的<b>切换时机</b>怎么对齐？如果不对齐会出现什么现象？</li>
+<li>如果瞄准还要分左、中、右三个方向，这一层内部该用什么？</li>
+</ol>
+
+<div class="ansbox" id="a3">
+<div class="abhd">参考答案<span class="tag">第 7 章 · 动画层与融合树</span></div>
+<p><b>① 用动画层 + 身体遮罩。</b>在 Animator Controller 左上角<b>新建一层</b>（Layer），第 0 层叫 Base Layer 放跑步、待机这些全身动作，第 1 层叫 Upper Layer 放瞄准、开枪。<b>关键在同一层要挂一个 Avatar Mask（身体遮罩）</b>——遮罩里只勾选上半身的骨骼（脊椎以上、手臂、头），这样第 1 层的动画<b>只驱动上半身</b>，下半身仍然由第 0 层控制。如果不挂遮罩，上层动画会把全身覆盖掉，角色就变成「站着不动光开枪」。层权重用 <code>SetLayerWeight(1, 1f)</code> 打开，权重为 1 表示该层完全生效，0 表示完全被下层覆盖——开枪时从 0 淡到 1 就有了「抬起枪」的过渡。</p>
+<p><b>② 对齐时机，否则会「腿和手打架」。</b>两层各自有独立的时间轴，如果跑步动作的步频和开枪动作的节奏对不上，看起来就像上半身在抽搐、下半身在原地蹬。解决办法有两个：一是给上层勾 <b>Sync</b> 或调整上层的 <b>Speed</b>，让两层的关键帧大致同相；二是干脆让开枪动作<b>不带位移、不带腿部动画</b>，只做上半身的骨骼动画，从源头上避免冲突。<b>不对齐的典型现象是：抬枪的瞬间腿会「卡一下」</b>，因为上层动画在那一帧对下半身也产生了权重影响。</p>
+<p><b>③ 层内用融合树。</b>瞄准的左、中、右不是三个状态之间的切换，而是<b>同一个动作在不同方向上的连续变化</b>，所以该用 <b>Blend Tree</b>：一个 <code>direction</code> 参数（Float，取值 −1 到 1）混合 aimLeft、aimCenter、aimRight 三个动作，临界点设 −1、0、1。玩家往左推摇杆，上半身就平滑偏向左，中间没有硬切。判断标准还是那句：<b>能在「一半左一半中」之间连续变化 → 用融合树；只能是其中之一 → 用状态机。</b>这两者是包含关系，融合树是状态机里的一个特殊类型的状态，不是替代关系。</p>
+</div>
+
+<h3><button class="ansbtn" type="button" data-target="a4">看答案</button>第 4 题（6 分）· 你是<b>关卡美术</b><span class="src">第 3 章</span></h3>
+<p>要用 Terrain 从零搭一块 <b>500×500 的野外战场</b>：有起伏的丘陵、草地和土路两种地表、成片的树林和草、还要能让草随风摆动。</p>
+<ol>
+<li>从建工程到地形能看，第一步是什么？导入环境包时报了一堆红错，怎么处理？</li>
+<li>「一片丘陵」怎么刷出来？草和树的「距离」参数各自控制什么？</li>
+<li>怎么让草动起来？如果草不动，最可能是哪两处没设？</li>
+</ol>
+
+<div class="ansbox" id="a4">
+<div class="abhd">参考答案<span class="tag">第 3 章 · 地形系统</span></div>
+<p><b>① 先导入 Environment 包。</b>Unity 5.x 之后不再内置标准资源，要先从 Asset Store 或官方下载 <b>Environment</b> 包导入，地形的笔刷贴图、树、草资源都在里面。<b>导入时报错只修「版本相关」的那几个，其余直接 Clear 清除即可</b>——这是课件原话。因为包里带的很多是旧版本 API 的示例脚本，Unity 只是提示它们过时，不影响地形功能；真正会阻断的是「包版本与当前 Unity 版本不匹配」那类，需要按提示升级或换版本。清完之后在菜单里 <b>GameObject → 3D Object → Terrain</b> 建出地形，再把 Terrain 的尺寸改成 500×500。</p>
+<p><b>② 造型与距离参数。</b>丘陵的做法是<b>先定基准再堆细节</b>：<b>Set Height 设一个基准高度（比如 10）→ 用 Flatten 把整片抬平 → 再用 Raise/Lower 局部堆出山脊 → 最后用 Smooth 修坡</b>。先 Flatten 是为了让整块地面高度一致，否则后面怎么刷都是歪的。地表用 <b>Paint Texture → Create Layer</b> 一层层叠：第一层铺草地作为基础层，再叠一层土路用画刷刷出路径。<b>草和树各有自己的距离参数</b>：草的 <b>Detail Distance</b> 是「多远以外的草不再绘制」，<b>Detail Density</b> 是「同一范围内画多少比例」（默认 1，调小则过密的草被跳过）；树的 <b>Tree Distance</b> 是「多远以外的树不再绘制」。这两个是<b>大地形不卡的第一道闸</b>，比减模型面数有效得多。</p>
+<p><b>③ 风区，以及它为什么不动。</b>在场景里加一个 <b>WindZone</b>（独立 GameObject，不是地形的子物体）。<b>Mode 选 Directional</b> 表示整个战场统一朝一个方向吹；如果只想让山谷口那块起风，选 <b>Spherical</b> 并调 <b>Radius</b> 限定范围。风力上，<b>Wind Main</b> 给基础风压，<b>Turbulence</b> 加紊流让风变乱，<b>Pulse Magnitude / Pulse Frequency</b> 控制阵风的强弱和节奏——只调 Wind Main 会得到匀速风，不像自然风。<br>
+<b>如果加了风区草还是不动，最可能是两处没设</b>：一是草的渲染设置里没有开启受风影响；二是如果想让<b>粒子</b>（比如落叶、沙尘）也被吹动，粒子系统必须<b>开启 External Forces（外力）模块</b>，不开的话风区对它完全无效。</p>
+</div>
+
+<h3><button class="ansbtn" type="button" data-target="a5">看答案</button>第 5 题（6 分）· 你是<b>音频设计</b><span class="src">第 3、8 章</span></h3>
+<p>测试时玩家抱怨：<b>「打起来太吵，根本听不出敌人从哪边过来。」</b></p>
+<ol>
+<li>让音效「有方向感」，AudioSource 上要调哪几个参数？</li>
+<li>背景音乐为什么不能用同一套设置？</li>
+<li>设置面板里的音量滑条，怎么和音频系统接起来？</li>
+</ol>
+
+<div class="ansbox" id="a5">
+<div class="abhd">参考答案<span class="tag">第 3 章 · 音频技术｜第 8 章 · Slider</span></div>
+<p><b>① 三个参数决定方向感。</b>第一是 <b>Spatial Blend</b>，必须从 2D 拖到 <b>3D</b> 一端——在 2D 状态下声音没有位置，左右声道一样响，玩家当然分不清方向。第二是 <b>Min Distance / Max Distance</b>：<b>Min 之内保持最响，Min 之外开始衰减，超过 Max 停止衰减</b>。Min 设得太大会让近处的敌人和远处的敌人一样响，方向感就没了，一般设 3~8 米；Max 要按场景尺度设，不然隔着半张地图还能听见。第三是 <b>Spread（扩散）</b>，控制声音在扬声器空间的传播角度，调小一点能让声源「更集中」，方向判断更准。<br>
+如果还嫌吵，再补一条：把不重要的音效（脚步、环境杂音）的 Volume 压低，只让枪声、脚步这类<b>需要定位</b的声音保持高音量——音频上的「信息层级」比单纯调总音量有效。</p>
+<p><b>② 背景音乐必须是 2D。</b>BGM 没有空间位置，它的作用是铺底氛围。如果 Spatial Blend 拖到 3D，玩家走远一点音乐就衰减、换个位置音量就变，听起来像「音乐在场景某个角落放」，非常出戏。所以 BGM 的音源<b>Spatial Blend 保持 2D（值为 0）</b>，同时勾 <b>Loop</b>、<b>Load Type 选 Streaming</b>（长音频边播边读，不占内存）。另外整个场景<b>只有一个 Audio Listener，挂在主相机上</b>，它是「耳朵」；如果场景里多挂了一个，引擎会警告并且声音会重复播放，听起来像有回声。</p>
+<p><b>③ 滑条接音频。</b>在设置面板放一个 <b>Slider</b>（Min 0、Max 1，取消 Whole Numbers），把它的 <b>OnValueChanged</b> 事件拖到某个管理脚本上的公有方法，方法参数是 <code>float</code>（滑条的 Value 正好是 float，能直接接上）。方法体里两件事：给音源赋 <code>audioSource.volume = value</code>（<b>范围就是 0~1</b>，按 0~100 赋值会被钳到 1），或者更好的是写进 <b>Audio Mixer</b> 的 exposed parameter，这样一次能控制一整组音效，而不是逐个音源改。要做「音乐 / 音效」两个独立滑条，就在 Mixer 里分两个 Group，各自暴露一个参数。想持久化的话，把值存进 <code>PlayerPrefs</code>，下次进游戏读回来。</p>
+</div>
+
+<!-- ================= 二 ================= -->
+<h2 id="p2q">二、编程选择题<span class="sc">30 分 · 每空 2 分</span></h2>
+
+<div class="tip"><b>作答说明</b>：每题下方有 <b>12 个候选</b>（A ~ L），每个空只能选一个。同一编号出现两次的，<b>两处必须填同一个答案</b>才算对。</div>
+
+<h3><button class="ansbtn" type="button" data-target="a6">看答案</button>第 6 题（7 空，14 分）· 台球：瞄准线与击球力度<span class="src">实验三</span></h3>
+<p class="qs">下面的脚本挂在球杆上。功能是：<b>鼠标位置画出瞄准线</b>，<b>松开鼠标时按拖拽距离决定力度击球</b>，并检测球离台面多高。</p>
+<pre><code>public class CueControl : MonoBehaviour
+{
+    public Transform cueBall;
+    public LineRenderer aimLine;
+    public float maxPower = 2f;
+
+    private Vector3 mouseWorld;
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = cueBall.GetComponent&lt;Rigidbody&gt;();
+    }
+
+    void Update()
+    {
+        // 鼠标的屏幕坐标 → 世界坐标
+        mouseWorld = Camera.main.<span class="blk">(1)</span>(Input.mousePosition);
+
+        Vector3 dir = (mouseWorld - cueBall.position).normalized;
+
+        // 拖得越远，力度越大
+        float power = Vector3.<span class="blk">(2)</span>(mouseWorld, cueBall.position);
+        if (power &gt; maxPower) power = maxPower;
+
+        // 画瞄准线：起点在球心，终点沿方向延伸
+        aimLine.<span class="blk">(3)</span>(0, cueBall.position);
+        aimLine.<span class="blk">(3)</span>(1, cueBall.position + dir * 5f);
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            rb.<span class="blk">(4)</span> = dir * power * 3f;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        // 台呢摩擦：每个物理步把速度衰减一点
+        rb.<span class="blk">(4)</span> *= 1f / (1f + 2f * Time.<span class="blk">(7)</span>);
+
+        // 向下打一条射线，看球离台面多高
+        Ray ray = new Ray(cueBall.position, Vector3.down);
+        <span class="blk">(5)</span> hit;
+        if (Physics.<span class="blk">(6)</span>(ray, out hit, 10f))
+            Debug.Log("离台面 " + hit.distance);
+    }
+}</code></pre>
+
+<div class="opts">
+<b>A</b> Distance　<b>B</b> ViewportToWorldPoint　<b>C</b> ScreenToWorldPoint　<b>D</b> SetWidth<br>
+<b>E</b> velocity　<b>F</b> Dot　<b>G</b> SetPosition　<b>H</b> RaycastHit<br>
+<b>I</b> position　<b>J</b> fixedDeltaTime　<b>K</b> Raycast　<b>L</b> deltaTime
+</div>
+
+<div class="ansbox" id="a6">
+<div class="abhd">参考答案</div>
+<table>
+<tr><th style="width:9%">空</th><th style="width:8%">答案</th><th>为什么</th></tr>
+<tr><td class="k">(1)</td><td><b>C</b></td><td><b>ScreenToWorldPoint</b> 把屏幕像素坐标转成世界坐标。<code>Input.mousePosition</code> 给的是屏幕坐标（左下角原点、单位是像素），不转换的话算出来的方向和距离全是错的。<code>ViewportToWorldPoint</code>（B）是视口坐标（0~1 比例），起点不一样。</td></tr>
+<tr><td class="k">(2)</td><td><b>A</b></td><td><b>Vector3.Distance(a, b)</b> 返回两点间的实际距离，是个标量。这里要的正是「鼠标离球多远」，越远力度越大。用 <code>Dot</code>（F）得到的是投影长度，方向反了会变负，不适合当力度。</td></tr>
+<tr><td class="k">(3)</td><td><b>G</b></td><td><b>LineRenderer.SetPosition(下标, 位置)</b> 设置线段的某个端点。下标 0 是起点、1 是终点，所以<b>本空出现两次</b>：一次设起点、一次设终点，两处都填它才算对。这是画瞄准线、轨迹线的标准写法。</td></tr>
+<tr><td class="k">(4)</td><td><b>E</b></td><td><b>Rigidbody.velocity</b> 是刚体速度向量，<b>直接赋值就是「立刻给这个速度」</b>，比 AddForce 更硬、更没有延迟，适合击球这种瞬时动作。<b>本空出现两次</b>（Update 里赋值、FixedUpdate 里衰减），两处都填它才算对。</td></tr>
+<tr><td class="k">(5)</td><td><b>H</b></td><td><b>RaycastHit</b> 是射线的结果结构体，里面装着命中点 <code>point</code>、法线 <code>normal</code>、距离 <code>distance</code>。<code>out hit</code> 要求这里声明的类型必须和 <code>Physics.Raycast</code> 的输出参数类型一致，写成别的直接编译报错。</td></tr>
+<tr><td class="k">(6)</td><td><b>K</b></td><td><b>Physics.Raycast(射线, out 命中信息, 最大距离)</b> 发射线并检测。<b>射线检测只判断「有没有碰到、碰到哪」，不产生物理反作用</b>，所以不会把球弹飞——这正是它和 Collider 碰撞的根本区别。</td></tr>
+<tr><td class="k">(7)</td><td><b>J</b></td><td><b>Time.fixedDeltaTime</b> 是物理步长，专门配 <code>FixedUpdate</code> 用。代码在 FixedUpdate 里，如果填 <code>deltaTime</code>（L），衰减量会随渲染帧率变化，同一杆球在不同机器上滚的距离不一样。<b>FixedUpdate 里算物理量，一律用 fixedDeltaTime。</b></td></tr>
+</table>
+<p><b>这题的三个坑</b>：① <code>(3)</code> 和 <code>(4)</code> <b>都出现两次</b>，只填对一处不给分；② <code>(7)</code> 在 FixedUpdate 里，很容易顺手选 <code>deltaTime</code>；③ <code>ScreenToWorldPoint</code> 和 <code>ViewportToWorldPoint</code> 都是「转世界坐标」，区别只在输入坐标系，属于同一类 API 的干扰项。</p>
+</div>
+
+<h3><button class="ansbtn" type="button" data-target="a7">看答案</button>第 7 题（8 空，16 分）· 角色：朝向目标与动作切换<span class="src">实验四 + 课件 04</span></h3>
+<p class="qs">下面的脚本挂在角色身上。功能是：<b>判断目标在身前还是身后</b>、<b>平滑转向目标</b>、<b>靠近目标时动作放慢</b>、<b>按开火键播开枪动作</b>。</p>
+<pre><code>public class CharControl : MonoBehaviour
+{
+    public Transform target;
+    public float moveSpeed = 3f;
+    public float turnSpeed = 5f;
+
+    private Animator anim;
+    private Rigidbody rb;
+
+    void Start()
+    {
+        anim = GetComponent&lt;Animator&gt;();
+        rb = GetComponent&lt;Rigidbody&gt;();
+    }
+
+    void Update()
+    {
+        Vector3 to = (target.position - transform.position).normalized;
+
+        // 点乘为负说明目标在背后
+        if (Vector3.<span class="blk">(8)</span>(transform.forward, to) &lt; 0)
+            Debug.Log("目标在身后");
+
+        // 朝向目标，平滑转过去
+        Quaternion rot = Quaternion.<span class="blk">(9)</span>(to);
+        transform.rotation = Quaternion.<span class="blk">(10)</span>(transform.rotation, rot, turnSpeed * Time.deltaTime);
+
+        // 朝目标移动
+        Vector3 next = Vector3.<span class="blk">(11)</span>(transform.position, target.position, moveSpeed * Time.deltaTime);
+        rb.MovePosition(next);
+
+        // 越接近目标，动作越慢
+        float d = (target.position - transform.position).magnitude;
+        anim.<span class="blk">(12)</span> = Mathf.<span class="blk">(13)</span>(d / 5f);
+
+        if (Input.<span class="blk">(14)</span>("Fire"))
+            anim.<span class="blk">(15)</span>("Shoot", 0.1f);
+    }
+}</code></pre>
+
+<div class="opts">
+<b>A</b> Cross　<b>B</b> Dot　<b>C</b> Euler　<b>D</b> LookRotation<br>
+<b>E</b> Lerp　<b>F</b> Slerp　<b>G</b> Translate　<b>H</b> MoveTowards<br>
+<b>I</b> Clamp01　<b>J</b> speed　<b>K</b> CrossFade　<b>L</b> GetButtonDown
+</div>
+
+<div class="ansbox" id="a7">
+<div class="abhd">参考答案</div>
+<table>
+<tr><th style="width:9%">空</th><th style="width:8%">答案</th><th>为什么</th></tr>
+<tr><td class="k">(8)</td><td><b>B</b></td><td><b>Vector3.Dot</b> 是点乘，<b>结果为正说明夹角小于 90°，为负说明在后方</b>。这是课件里判断前后关系的标准写法（<code>if (Vector3.Dot(forward, v) &lt; 0) print("在后方")</code>）。用 <code>Cross</code>（A）叉乘得到的是同时垂直于两者的向量，用来求旋转轴或平面朝向，判断不了前后。</td></tr>
+<tr><td class="k">(9)</td><td><b>D</b></td><td><b>Quaternion.LookRotation(方向)</b> 把一个方向向量转成对应的四元数朝向。输入必须是<b>方向</b>而不是目标位置，所以上面先算了 <code>to</code>。用 <code>Euler</code>（C）是从欧拉角构造，三步都不同，接不上。</td></tr>
+<tr><td class="k">(10)</td><td><b>F</b></td><td><b>Quaternion.Slerp(当前, 目标, t)</b> 是<b>四元数的球面插值</b>，转动的角速度均匀，看起来顺。<b>四元数必须用 Slerp，不能用 Lerp</b>（E）——用线性插值会导致转速忽快忽慢，甚至出现翻转。用 <code>Lerp</code> 插位置没问题，插旋转是典型错误。</td></tr>
+<tr><td class="k">(11)</td><td><b>H</b></td><td><b>Vector3.MoveTowards(当前, 目标, 最大步长)</b> 匀速挪过去，<b>永远不会越过目标点</b>。和 <code>Lerp</code> 的区别在于：Lerp 是「每次走剩余距离的一部分」，会越走越慢、永远差一点点；MoveTowards 是「每次走固定距离」，到站就停，适合移动速度固定的角色。<code>Translate</code>（G）是相对自身坐标系平移，不吃目标位置。</td></tr>
+<tr><td class="k">(12)</td><td><b>J</b></td><td><b>Animator.speed</b> 是动画播放速度倍数，1 为正常、0.5 为半速。<b>它控制的是「动画播多快」，不是「角色走多快」</b>——这个区别很关键，改 <code>speed</code> 不会让角色位移变慢，只会让动作变慢。</td></tr>
+<tr><td class="k">(13)</td><td><b>I</b></td><td><b>Mathf.Clamp01(值)</b> 把结果夹在 <span class="v">0~1</span> 之间。<code>d / 5f</code> 在距离超过 5 米时会大于 1，动画速度倍率大于 1 会变成快放，所以要夹住。<b>本空是唯一一个纯「防止越界」的保险</b>，去掉它代码能跑，但远处目标会让角色动作鬼畜。</td></tr>
+<tr><td class="k">(14)</td><td><b>L</b></td><td><b>Input.GetButtonDown("Fire")</b>：按下那一帧返回 true，参数是 <b>Input Manager 里定义的按钮名</b>，不是 KeyCode。课件里 <code>Input.GetButtonDown("Jump")</code> 就是这个写法。用 KeyCode 系列（GetKeyDown）参数得传枚举，接不上字符串。</td></tr>
+<tr><td class="k">(15)</td><td><b>K</b></td><td><b>Animator.CrossFade(状态名, 过渡时间)</b> 从当前状态<b>直接混合</b>到目标状态，不需要在状态机里连转移线，适合「临时插播一个动作」。第二个参数 <span class="v">0.1</span> 是混合时长，给 0 会硬切。注意这不是 <code>SetTrigger</code>——CrossFade 绕过了转移条件，直接按名字切。</td></tr>
+</table>
+<p><b>这题的四个坑</b>：① <code>Slerp</code> 与 <code>Lerp</code> 的取舍是最高频的错；② <code>MoveTowards</code> 与 <code>Lerp</code> 的区别（匀速到站 vs 越走越慢）；③ <code>GetButtonDown</code> 的字符串参数是<b>按钮名</b>不是键名；④ <code>CrossFade</code> 和 <code>SetTrigger</code> 都能切动画，但前者不需要状态机里连线。</p>
+</div>
+
+<!-- ================= 三 ================= -->
+<h2 id="p3q">三、游戏综合设计题<span class="sc">40 分 · 不写代码</span></h2>
+
+<div class="tip">本大题三题均取自《课程设计执行计划书》的 20 个选题，答题时可以直接借用你自己项目（题目 1 太空射击）的经验，但要用<b>通用说法</b>讲。</div>
+
+<h3><button class="ansbtn" type="button" data-target="a8">看答案</button>第 8 题（10 分）· <b>节奏打击音乐游戏</b><span class="src">课设题目 18</span></h3>
+<p>选题要求：<b>音符跟随音乐节奏下落，玩家在正确时机按键得分；有判定分级与连击；界面要随节奏动态生成。</b>涉及技术：<b>AudioSource 音乐同步、List 存储音符时间戳、UI 动态生成</b>。</p>
+<ol>
+<li>（5 分）音符的「正确时机」以什么为基准来判定？为什么不用 <code>Time.time</code>？</li>
+<li>（5 分）一首歌几百个音符，数据怎么存、界面上的音符对象怎么管理？</li>
+</ol>
+
+<div class="ansbox" id="a8">
+<div class="abhd">参考答案<span class="tag">题目 18 · 节奏打击音乐游戏</span></div>
+<p><b>① 基准必须是音乐自己播到哪了。</b>用 <code>AudioSource.time</code> 作为时间基准，不能用 <code>Time.time</code>（游戏启动到现在过了多久）或 <code>Time.deltaTime</code> 累加。原因有三个：一是<b>音乐会被人为延迟</b>——玩家点了开始、加载资源、再真正 <code>Play()</code>，中间那几百毫秒游戏时间在走、音乐没走，用 Time.time 判定就会整体偏移；二是<b>暂停/恢复</b>时音乐停了，游戏时间不一定停；三是<b>音频解码本身有延迟</b>，尤其是 mp3 这类有编码前导的格式，实际出声比 <code>Play()</code> 晚几十毫秒。<br>
+所以判定逻辑是：每帧读 <code>audioSource.time</code>，和谱面里音符的时间戳比差值。<b>判定窗口分级</b>：差值在 ±0.05 秒内是 Perfect，±0.12 秒内是 Good，超过就是 Miss（具体数值可按难度调）。另外一定要给玩家一个<b>全局延迟校准</b>选项——不同设备的音频输出延迟不一样，耳机和外放的偏移能差到几十毫秒，让他自己按几下取平均值，存进 <code>PlayerPrefs</code>。没有这个校准，再准的判定也会被设备拖垮。</p>
+<p><b>② 数据用 List，对象用池。</b>谱面在编辑器里做成一份数据（ScriptableObject 或 JSON），运行时读进 <code>List&lt;Note&gt;</code>，每个 Note 里存 <b>时间戳、轨道号、类型</b>。之所以用 List 而不是数组，是因为要<b>频繁按下标取、还要按时间顺序遍历</b>，List 的动态扩容和索引访问都合适；也不用 Dictionary，因为这里没有「按 key 查」的需求。<br>
+运行时<b>不要一次性把所有音符都实例化</b>——一首歌三百个音符全生成出来，界面会被三百个 UI 对象压住。正确做法是<b>滑动窗口</b>：只生成「未来 2 秒内会出现」的音符，过了判定线就回收。回收走<b>对象池</b>：预先 Instantiate 十几个音符预制体、立刻 <code>SetActive(false)</code> 存起来，需要时取一个、<code>SetActive(true)</code> 并设好位置，判完再关掉还回去。这样整个游戏的 UI 对象数量恒定在十几个，不会随时间增长。<br>
+<b>UI 动态生成</b>指的是音符的横坐标按轨道数均分（四轨就占 1/4 宽），纵坐标由「当前音乐时间与音符时间戳的差值」线性映射——差值越小越靠下。这个映射关系必须是<b>纯函数</b>，才能保证不同帧率下音符位置一致。</p>
+</div>
+
+<h3><button class="ansbtn" type="button" data-target="a9">看答案</button>第 9 题（15 分）· <b>2D 街机格斗游戏</b><span class="src">课设题目 9</span></h3>
+<p>选题要求：<b>两名角色近身对战，有轻重攻击、可格挡、有连招；判定要精准，不能出现「明明打中了却掉血」。</b>涉及技术：<b>Animator 状态机（精细的帧事件触发攻击判定）、BoxCollider2D 攻击盒与受击盒分离、输入缓冲区（Input Buffer）</b>。</p>
+<ol>
+<li>（5 分）攻击判定应该在动作的哪一刻生效？用什么机制实现？为什么不能在按下按键的瞬间就判定？</li>
+<li>（5 分）「攻击盒」和「受击盒」为什么要分成两个碰撞体？不分会出什么问题？</li>
+<li>（5 分）「输入缓冲区」解决的是什么问题？怎么做？</li>
+</ol>
+
+<div class="ansbox" id="a9">
+<div class="abhd">参考答案<span class="tag">题目 9 · 2D 街机格斗</span></div>
+<p><b>① 判定要挂在动作的关键帧上，不是按键那一刻。</b>玩家按下攻击键，角色先要有一个<b>抬手的前摇</b>（几帧到十几帧），然后才是<b>打击生效的判定帧</b>，最后是<b>收招硬直</b>。如果按键瞬间就判定伤害，就会出现「手还没挥出去对方已经掉血」，格斗游戏的手感立刻崩掉。实现机制是 <b>Animation Event（动画事件）</b>：在攻击动画的判定帧上插一个事件，事件回调里才打开攻击盒、结算伤害，判定结束再插一个事件把它关掉。这样<b>判定的时间窗口由美术的动画帧决定，而不是由代码里的延时决定</b>——动作改了、判定跟着改，不用重新调数字。<br>
+另一种做法是用协程里 <code>WaitForSeconds(0.15f)</code> 硬等，但那是「按时间猜」，一旦动画速度变化就会错位，不如帧事件可靠。</p>
+<p><b>② 攻击盒和受击盒必须分开。</b><b>受击盒（Hurtbox）</b>挂在角色身上，始终存在，表示「我身上哪里能被别人打到」，一般比模型略大一点点，让玩家觉得好打；<b>攻击盒（Hitbox）</b>平时是关闭的，只在判定帧打开，表示「我这一拳打到哪里」，位置和大小随招式变化。分开之后，判定逻辑就变成<b>「攻击盒与受击盒是否重叠」</b>，一次 Overlap 查询就能出结果，不依赖物理引擎的碰撞回调。<br>
+<b>不分开的后果</b>：如果一个碰撞体既当身体又当攻击判定，那角色站着不动时也会「撞到」对方，双方会莫名其妙掉血；而且受击盒和攻击盒的尺寸要求是相反的（受击盒要略大、攻击盒只覆盖拳头），一个碰撞体满足不了。另外两个角色互相靠近时，两个身体碰撞体会产生物理推动，格斗游戏里角色应该能穿过对方，这也要求身体碰撞体不能参与物理推挤。</p>
+<p><b>③ 输入缓冲解决「按早了」。</b>格斗游戏的连招窗口很窄，玩家经常在<b>上一个动作还没结束时就按了下一个键</b>。如果没有缓冲，这次按键会被直接丢弃，玩家会觉得「我明明按了但没出招」，判定成「不跟手」。<b>缓冲区的做法</b>：按键时不是立刻执行，而是把「按了什么键 + 按下时的时间戳」存进一个小队列（容量 2~3 个就够）；每个动作结束、回到可行动状态时，去队列里找<b>最近 N 帧内（比如 8 帧）</b>有没有待执行的输入，有就立刻接上。这样玩家提前一点点按也能接出连招。<br>
+配套还要有<b>输入缓冲的反面：卡帧（Hitstop）</b>——命中瞬间把双方动画和物理暂停几帧（<code>Time.timeScale = 0</code> 或降低 animator 速度），打击感会明显变重。但要注意暂停期间要接受输入缓冲，否则连招会断。</p>
+</div>
+
+<h3><button class="ansbtn" type="button" data-target="a10">看答案</button>第 10 题（15 分）· <b>海岛荒野生存探险</b><span class="src">课设题目 11</span></h3>
+<p>选题要求：<b>一座可自由探索的海岛，有昼夜变化、有会追击玩家的野生动物、有采集与建造；氛围要让人感到孤独和压迫。</b>涉及技术：<b>Terrain（地形系统）、NavMesh 敌人寻路、第一/第三人称控制器、Audio Mixer 音效混音</b>。</p>
+<ol>
+<li>（5 分）这座岛的地形怎么搭？从一块空地到「有山、有沙滩、有树林」，步骤是什么？</li>
+<li>（5 分）动物怎么在岛上追玩家？NavMesh 需要先做什么？遇到断崖、河流怎么处理？</li>
+<li>（5 分）「孤独和压迫」这个氛围怎么用声音做出来？为什么需要 Audio Mixer 而不是直接改音量？</li>
+</ol>
+
+<div class="ansbox" id="a10">
+<div class="abhd">参考答案<span class="tag">题目 11 · 海岛荒野生存</span></div>
+<p><b>① 地形三步走。</b>先导入 <b>Environment</b> 包建出 Terrain，尺寸按岛的规模定（比如 500×500）。造型用「<b>先定基准、再堆细节</b>」：<b>Set Height 设一个基准高度 → Flatten 把整片抬平 → Raise/Lower 堆出中央山脉 → 用 Smooth 把山脚修成缓坡</b>。海岸线的做法是把边缘刷低到接近水平面，再用水面（或 Terrain 的湖水功能）盖住，就有了沙滩到海的过渡。地表用 <b>Paint Texture → Create Layer</b> 分层：第一层沙滩作为基础层，往上叠草地、岩石、泥土，用画刷按高度和坡度刷——山脚铺草、山顶露岩、海边是沙，视觉上自然分层。然后 <b>Paint Trees / Paint Details</b> 刷树林和草丛，一定要配合 <b>Tree Distance 和 Detail Distance</b> 控制绘制距离，否则几千棵树会把帧率吃光。最后加 <b>WindZone</b>（方向模式）让草和树动起来，海岛的风感靠这个。</p>
+<p><b>② NavMesh 先烘焙，再谈追人。</b>NavMesh 是「可行走区域」的预计算网格，<b>必须先烘焙（Bake）</b>，NavMeshAgent 才知道哪里能走。烘焙前要把地形、岩石、建筑标记为 <b>Navigation Static</b>，再在 Navigation 面板里 Bake，调好 Agent Radius（体型越大值越大，决定它能挤过多窄的缝）和 Agent Height。<br>
+动物身上挂 <b>NavMeshAgent</b>，追击就是每帧把 <code>destination</code> 设成玩家位置——Agent 会自动绕开障碍物寻路，不需要自己写 A*。<b>断崖和河流</b>有两种处理：一是烘焙时就让这些区域不可行走（把水面设成 Not Walkable），动物会自动绕路，代价是它可能绕很远；二是用 <b>Off Mesh Link</b> 手动连一条「跳跃/涉水」的通道，让它在特定位置能跨过去，并配一个跳跃动画。想做出「追到悬崖边停下」的效果，就把断崖边缘排除在 NavMesh 外，Agent 走到边界自然停住。<br>
+性能上要注意：玩家离得远的动物<b>关掉 Agent</b>（<code>enabled = false</code>）或降低更新频率，不然一岛几十只动物同时寻路会卡。</p>
+<p><b>③ 用 Audio Mixer 做分层，不是调音量。</b>氛围的核心是「<b>声音的远近和有无</b>」，不是「声音大小」。做法是建一个 <b>Audio Mixer</b>，把声音分成几组：<b>Ambience（环境底噪：海浪、风）、Foley（脚步、采集）、Creature（动物叫声）、Music（音乐）</b>，每组有独立的音量和效果。<br>
+「孤独感」靠 Ambience：海浪声<b>全程铺底但音量压得很低</b>，让玩家一直有环境存在感；「压迫感」靠 Creature：白天的鸟叫很稀疏，到了夜晚把 Creature 组的音量<b>整体推高</b>，加入低沉的呼吸声和远处的嚎叫，同时把 Ambience 压低——<b>不是加声音，是换声音的配比</b>。这一整套切换用 Mixer 的 <b>Snapshot（快照）</b> 实现：做一个「白天」快照、一个「夜晚」快照，切换时用 <code>TransitionToSnapshots</code> 平滑过渡，几行代码就能完成整套氛围切换。<br>
+<b>为什么不能直接改 AudioSource.volume</b>：场景里可能有几十个音源，逐个改既麻烦又会漏；而且「同时降低所有环境音」这种需求在没有分组的情况下做不出来。Mixer 的意义就是<b>把音量管理从「一个个音源」提升到「一个个类别」</b>。另外空间感上，海浪用 2D（不需要方向），动物叫声必须用 <b>3D + Min/Max Distance</b>，玩家才能靠听判断它从哪个方向来——这恰恰是压迫感的来源。</p>
+</div>
+
+<!-- ================= 自查 ================= -->
+<h2>附：覆盖面自查表</h2>
+<table>
+<tr><th style="width:9%">题号</th><th style="width:16%">覆盖章节</th><th style="width:26%">出处</th><th>对应老师点名的板块</th></tr>
+<tr><td class="k">案例 1</td><td>第 1、4、7 章</td><td>课件 04 p18/p23/p24 · 课件 07 p8/p27</td><td><b>美工</b>（模型导入、贴图、材质、Avatar）</td></tr>
+<tr><td class="k">案例 2</td><td>第 6 章</td><td>课件 06 p9~p11、p12~p15</td><td><b>粒子系统</b>（模块 + Sub Emitters + 性能）</td></tr>
+<tr><td class="k">案例 3</td><td>第 7 章</td><td>课件 07 p15、p21~p25</td><td><b>动画系统</b>（动画层、Body Mask、融合树）</td></tr>
+<tr><td class="k">案例 4</td><td>第 3 章</td><td>课件 03 p11~p19</td><td><b>地形</b>（导入包、造型、植被、风区）</td></tr>
+<tr><td class="k">案例 5</td><td>第 3、8 章</td><td>课件 03 p40~p44 · 课件 08 p15</td><td><b>灯光声音</b>（音频）+ UI（Slider）</td></tr>
+<tr><td class="k">编程 6</td><td>第 2、4、5 章</td><td>实验三台球 · 课件 04 p7</td><td>刚体（velocity、FixedUpdate）+ 射线</td></tr>
+<tr><td class="k">编程 7</td><td>第 2、7 章</td><td>实验四 unitychan · <b>课件 04 p6、p8</b></td><td>动画（CrossFade、speed）+ 数学（Dot、LookRotation、Slerp）</td></tr>
+<tr><td class="k">设计 8</td><td>第 3、8 章</td><td>课设题目 18 · 课件 03 p44</td><td>音频同步 + List + UI 动态生成</td></tr>
+<tr><td class="k">设计 9</td><td>第 5、7 章</td><td>课设题目 9 · 课件 07 p12</td><td>动画状态机 + 碰撞盒分离</td></tr>
+<tr><td class="k">设计 10</td><td>第 3、5、7 章</td><td>课设题目 11 · 课件 03 p11~p19</td><td>地形 + NavMesh + Audio Mixer</td></tr>
+</table>
+
+<div class="ok"><b>覆盖核对</b>：八个章节全部出现（第 2 章由编程第 6、7 题的数学 API 承担，第 5 章由刚体与碰撞盒承担）；录音 1:31 点名的<b>美工、粒子系统、动画系统、地形、灯光声音</b>五块各出现一次以上；编程题覆盖了<b>玩家控制（第 7 题）、刚体（第 6 题）、动画（第 7 题）、声音（案例 5 与设计 8）</b>四个方向。</div>
+
+<div class="warn"><b>15 个空与前四套无一重复</b>：本卷用掉了 <code>ScreenToWorldPoint</code>、<code>Distance</code>、<code>SetPosition</code>、<code>velocity</code>、<code>RaycastHit</code>、<code>Raycast</code>、<code>fixedDeltaTime</code>、<code>Dot</code>、<code>LookRotation</code>、<code>Slerp</code>、<code>MoveTowards</code>、<code>speed</code>、<code>Clamp01</code>、<code>GetButtonDown</code>、<code>CrossFade</code>。前四套的 GetComponent / FixedUpdate / GetAxis / AddForce / Update / OnCollisionEnter / PlayOneShot / Sleep / Destroy / SetFloat / SetTrigger / Random.Range / List / Count / RemoveAt / SetActive / Resources / SetBool / Rotate / Clamp / CompareTag / Instantiate / foreach / Lerp / timeScale / SetInteger / Play / volume / StartCoroutine / WaitForSeconds 等，本卷一个都没再用。</div>
+
+</main>
+
+<script>
+(function(){
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.ansbtn'));
+  function apply(b, on){
+    var t = document.getElementById(b.getAttribute('data-target'));
+    if(!t) return;
+    if(on){ t.classList.add('on'); b.classList.add('on'); b.textContent = '收起答案'; }
+    else  { t.classList.remove('on'); b.classList.remove('on'); b.textContent = '看答案'; }
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      apply(b, !b.classList.contains('on'));
+    });
+  });
+  var oa = document.getElementById('ans-open-all');
+  var ca = document.getElementById('ans-close-all');
+  if(oa) oa.addEventListener('click', function(){ btns.forEach(function(b){ apply(b, true); }); });
+  if(ca) ca.addEventListener('click', function(){ btns.forEach(function(b){ apply(b, false); }); });
+})();
+</script>
+</body>
+</html>

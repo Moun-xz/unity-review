@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>游戏开发技术 · 背诵手册（按 PPT 原话）</title>
+<style>
+:root{
+  --bg:#fbfaf6; --panel:#fff; --ink:#20242a; --sub:#5c6673; --line:#e4e0d6;
+  --accent:#1f5f8b; --accent-soft:#eaf1f7; --warm:#b4530a; --warm-soft:#fdf3e7;
+  --red:#b3352b; --red-soft:#fbeceb; --green:#1c6f4a; --green-soft:#eef6ea;
+  --code:#f4f2ea; --code-line:#ded9cc;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",system-ui,sans-serif;
+  font-size:15px;line-height:1.8}
+main{max-width:920px;margin:0 auto;padding:34px 40px 120px}
+header{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+h1{font-size:24px;margin:0;letter-spacing:.5px}
+header .meta{font-size:12.5px;color:var(--sub)}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:9px 14px;margin:14px 0 6px;font-size:13px;color:var(--sub);position:sticky;top:0;z-index:9}
+.toolbar button{font-family:inherit;font-size:13px;padding:5px 12px;border-radius:6px;
+  border:1px solid var(--line);background:#fff;color:#2a333d;cursor:pointer}
+.toolbar button:hover{border-color:var(--accent);color:var(--accent)}
+.toolbar button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+h2{font-size:19px;margin:38px 0 6px;padding:6px 0 7px;border-bottom:2px solid var(--accent);
+  color:var(--accent)}
+h2 .cnt{float:right;font-size:12px;color:var(--sub);font-weight:400;padding-top:6px}
+h3{font-size:15px;margin:24px 0 6px;color:#2a333d;padding-left:9px;border-left:3px solid var(--line)}
+p{margin:6px 0}
+ul,ol{padding-left:22px;margin:6px 0}
+li{margin:4px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:#fff;margin:10px 0;padding:10px 15px}
+.card.miss{border-left:3px solid var(--red);background:#fffdfd}
+.card.hot{border-left:3px solid var(--warm)}
+.q{font-weight:600;font-size:14.5px;margin-bottom:5px;color:#1b2027}
+.a{font-size:14px;color:#333b45;line-height:1.78;cursor:pointer;border-radius:4px;transition:background .1s}
+.a b{color:var(--accent);font-weight:600}
+.a em{font-style:normal;color:var(--green);font-weight:600}
+.a.hide{background:#e9e5da;box-shadow:0 0 0 4px #e9e5da}
+.a.hide,.a.hide *{color:transparent !important;border-color:transparent !important;background-image:none !important}
+.a.hide b,.a.hide em{color:transparent !important}
+.a.hide code{background:transparent !important;border-color:transparent !important}
+.tag{display:inline-block;font-size:11px;padding:0 6px;border-radius:3px;margin-left:6px;
+  vertical-align:1.5px;font-weight:400;white-space:nowrap}
+.tag.miss{background:var(--red-soft);color:var(--red);border:1px solid #e6c4c2}
+.tag.hot{background:var(--warm-soft);color:var(--warm);border:1px solid #e8d3b3}
+.tag.src{background:#f1efE8;color:#5c6673;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13.5px;background:#fff}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-weight:600;white-space:nowrap;font-size:13px}
+td.k{background:#faf8f2;font-weight:600;white-space:nowrap}
+td.c{text-align:center;white-space:nowrap}
+code{background:var(--code);border:1px solid var(--code-line);border-radius:4px;
+  padding:1px 5px;font-family:Consolas,"Courier New",monospace;font-size:12.8px;color:#2c3138}
+pre{background:var(--code);border:1px solid var(--code-line);border-radius:7px;
+  padding:10px 13px;overflow-x:auto;font-family:Consolas,"Courier New",monospace;
+  font-size:12.8px;line-height:1.65;margin:8px 0;color:#2c3138}
+pre code{background:none;border:none;padding:0}
+.tip{background:var(--accent-soft);border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;padding:9px 14px;margin:14px 0;font-size:13.5px}
+.warn{background:var(--red-soft);border-left:3px solid var(--red);
+  border-radius:0 6px 6px 0;padding:9px 14px;margin:14px 0;font-size:13.5px}
+.ok{background:var(--green-soft);border-left:3px solid var(--green);
+  border-radius:0 6px 6px 0;padding:9px 14px;margin:14px 0;font-size:13.5px}
+.bad{color:var(--red);font-weight:600}
+.good{color:var(--green);font-weight:600}
+.mono{font-family:Consolas,"Courier New",monospace;font-size:13px}
+@page{size:A4;margin:13mm 11mm}
+@media print{
+  .toolbar{display:none}
+  main{max-width:none;padding:0}
+  body{background:#fff;font-size:10.2pt;line-height:1.7}
+  .a{background:none !important;box-shadow:none !important;cursor:auto}
+  .a.hide,.a.hide *{color:#333 !important}
+  h1{font-size:19pt}
+  h2{font-size:13.5pt;page-break-after:avoid}
+  .card{page-break-inside:avoid;margin:6px 0;padding:8px 12px}
+  pre{page-break-inside:avoid}
+  .tip,.warn,.ok{page-break-inside:avoid}
+  table{page-break-inside:avoid;font-size:9.5pt}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div>
+    <h1>游戏开发技术 · 背诵手册</h1>
+    <div class="meta">全部按课件 PPT 原话整理 · 8 章 · 77 条<br>考试 <b>10-30（周五）10:00~12:00 · 天宫 102 · 闭卷</b> · 题型 <b>案例 30 / 编程选择 30 / 综合设计 40</b></div>
+  </div>
+  <div class="meta">安徽理工大学 数媒24-1 伊全智</div>
+</header>
+
+<div class="toolbar">
+  <button class="primary" id="allHide">遮住全部答案</button>
+  <button id="allShow">显示全部</button>
+  <span style="flex:1"></span>
+  <button onclick="window.print()">打印 / 存 PDF</button>
+</div>
+
+<div class="tip"><b>怎么用这份东西</b><br>
+① <b>点任意一条答案，它会被灰条盖住</b>——这就是你的默写模式，再点一下恢复。<br>
+② 右上角的按钮可以一次性遮住/显示全部，用来做整章自测。<br>
+③ 带 <span class="tag miss">今天错</span> 的是你今天答错或答不出的，优先背；带 <span class="tag hot">高频</span> 的是每年的常客。<br>
+④ 背诵时<b>只盯加粗的词</b>，把这些词按顺序串一遍就算过；串不出来再看全文。</div>
+
+<div class="ok"><b>题型已按 10-26 老师录音更正（重要）</b>
+第一题叫「<b>案例分析</b>」，就是简答，<b>5 小题 × 6 分 = 30 分</b>，覆盖第 1~8 章；
+第二题是「<b>编程选择题</b>」，<b>15 空 × 2 分 = 30 分</b>，<b>主要</b>考<b>玩家控制 / 声音 / 刚体 / 动画</b>（原话「……等等」，地形没代码、UI 很少讲代码，但不能理解成只考这四块）；
+第三题是「<b>游戏综合设计</b>」，<b>10 + 15 + 15 = 40 分</b>，不考手写代码，考<b>代码的业务逻辑 + 游戏设计能力</b>。<br>
+<b>对你最重要的一条评分标准</b>：老师原话「我主要看你的思想……我能知道你想表达啥，我就觉得这个就 OK 了」——<br>
+所以案例分析和设计题<b>一定要写满。写得少比写得不准更致命。</b></div>
+
+<div class="warn"><b>今天最容易再错的三条（先背这三个）</b><br>
+1. <b>叉乘公式</b>三个分量，中间那个是 <code>z1x2 − x1z2</code>，顺序和首尾两个不一样。<br>
+2. <b>碰撞必要条件</b>分两句话，第一句是「一个刚体 + 一个碰撞体」，第二句才要求「两个都刚体」。<br>
+3. <b>Collision 与 Trigger 的区别</b>四条，一条都不能少。</div>
+
+<div class="ok" style="margin-top:20px"><b>背诵方法（三轮，别跳）</b><br>
+<b>第 1 轮（只看加粗）：</b>把每条里加粗的词按顺序读一遍，读顺了就过。约 40 分钟。<br>
+<b>第 2 轮（遮住默写）：</b>点开会变成灰条，看着问题默写关键词，写不出来再看。重点过带 <span class="tag miss">今天错</span> 的。<br>
+<b>第 3 轮（只看目录）：</b>只看章标题和问题，回想答案的关键词。想不起来的回查。<br>
+<span class="bad">不要做的</span>：从头到尾"看一遍"——那是第 0 轮，不算数。</div>
+
+<h2>第 1 章 概述<span class="cnt">8 条</span></h2>
+
+<div class="card hot">
+<div class="q">1. 什么是游戏？它的两个基本特性是什么？<span class="tag hot">高频</span></div>
+<div class="a">游戏是以<em>直接获得快感</em>为主要目的，且必须有<em>主体参与互动</em>的活动。<br>
+两个基本特性：① 以<b>直接获得快感</b>（包括<b>生理和心理愉悦</b>）为主要目的；② <b>主体参与互动</b>，指主体<b>动作、语言、表情</b>等变化与获得快感的<b>刺激方式及刺激程度</b>有直接联系。<br>
+<span class="bad">易错</span>：是「主<b>体</b>参与互动」，不是「主<b>动</b>参与互动」。</div>
+</div>
+
+<div class="card hot">
+<div class="q">2. 什么是游戏引擎？技术栈的层次是什么？<span class="tag hot">高频</span></div>
+<div class="a">游戏引擎是<b>已编写好的可编辑游戏系统</b>，或者一些<b>交互式实时图像应用程序的核心组件</b>。这些系统为游戏设计者提供编写游戏所需的各种工具，目的在于让设计者<b>容易、快速地做出游戏程序而不用从零开始</b>。<br>
+技术栈层次（背这条链）：<b>Game → Game Engine → SDK → DirectX/OpenGL → GPU</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">3. Unity 与 Unreal 的区别（六条）？</div>
+<div class="a">① Unity 用 <b>C#</b>，Unreal 用 <b>C++ 和 Blueprint</b>；② UE 在<b>光影、纹理、材质</b>等渲染效果上更好；③ Unity <b>社区更大、更易上手</b>；④ Unity 在 <b>2D 游戏与移动端</b>更有优势；⑤ <b>UE 的可定制性更高</b>；⑥ UE 更适合制作<b>大型 3A 游戏</b>（代价是三个"贵"：钱、资源、时间）。</div>
+</div>
+
+<div class="card">
+<div class="q">4. 三种渲染管线分别适合什么？<span class="tag hot">高频</span></div>
+<div class="a"><b>内置渲染管线（Built-in）</b>：默认渲染管线，适用于原型设计或对画质要求不高的游戏，适用于<b>低端设备</b>。<br>
+<b>通用渲染管线（URP）</b>：对<b>平台支持广泛</b>，性能表现较好，适合<b>移动端、桌面端、网页端</b>。<br>
+<b>高清渲染管线（HDRP）</b>：适合<b>大型 3A</b> 游戏，有高清渲染需求，适合<b>桌面和主机</b>项目。</div>
+</div>
+
+<div class="card">
+<div class="q">5. Unity 的坐标系是什么？三个轴指向哪里？</div>
+<div class="a"><b>左手坐标系</b>。设计角度和运行角度都是：<b>X 向右、Y 向上、Z 向前</b>。<br>
+对应常量：X → <code>Vector3.right</code> / <code>left</code>；Y → <code>up</code> / <code>down</code>；Z → <code>forward</code> / <code>back</code>。</div>
+</div>
+
+<div class="card">
+<div class="q">6. Scene 视图的 Persp 与 ISO 有什么区别？</div>
+<div class="a"><b>Persp（透视）</b>：近的物体显示得大，远的显示得小。<br>
+<b>ISO（平行视野）</b>：不论物体离摄像头远近，给人的感觉<b>一样大</b>。<br>
+<b>注意</b>：在 <b>Game 界面两种模式呈现效果是一样的</b>，区别只在<b>编辑场景界面</b>；开发时在 <b>Persp</b> 下比较好。</div>
+</div>
+
+<div class="card hot">
+<div class="q">7. 五个内置模型的尺寸是多少？<span class="tag hot">高频</span></div>
+<div class="a"><b>Sphere</b>：半径 r = 0.5（<b>直径 1</b>）　<b>Cube</b>：1 × 1 × 1<br>
+<b>Capsule</b>：h = 2 + 0.5 + 0.5 = <b>3</b>（中间圆柱 2，上下半球各 0.5）<br>
+<b>Cylinder</b>：h = <b>3</b>　<b>Plane</b>：边长 <b>10</b><br>
+<b>Quad</b>：<b>XY 平面</b>，只有 <b>2 个三角形</b></div>
+</div>
+
+<div class="card">
+<div class="q">8. 项目迁移要拷贝哪些文件夹？</div>
+<div class="a">只需拷贝 <b>Assets</b> 和 <b>ProjectSettings</b>，其他可以不拷贝。<br>
+ProjectSettings 文件夹对应 <b>Edit 菜单下的 Project Settings</b> 相关设置；它<b>在磁盘上</b>，Project 面板里看不到。</div>
+</div>
+
+<h2>第 2 章 C# 与 Unity 脚本基础<span class="cnt">10 条</span></h2>
+
+<div class="card miss hot">
+<div class="q">9. MonoBehaviour 生命周期方法的执行顺序？<span class="tag miss">今天错</span><span class="tag hot">高频</span></div>
+<div class="a"><b>Reset → Awake → OnEnable → Start → FixedUpdate → Update → LateUpdate → OnGUI → OnDisable → OnDestroy</b><br>
+各方法的作用（PPT 原话）：<br>
+<b>Reset</b>：重置函数，对象加载脚本时调用　<b>Awake</b>："唤醒"事件函数　<b>OnEnable</b>："脚本启用"事件函数<br>
+<b>Start</b>：开始函数　<b>FixedUpdate</b>：固定步长更新函数（<b>物理状态相关</b>的更新）<br>
+<b>Update</b>：更新函数　<b>LateUpdate</b>：延迟更新函数（<b>相机相关</b>的更新；但实验二代码写的是 Update，见第 11 题）<br>
+<b>OnGUI</b>：界面绘制函数　<b>OnDisable</b>：禁用脚本函数　<b>OnDestroy</b>：销毁函数</div>
+</div>
+
+<div class="card miss">
+<div class="q">10. Awake 与 Start 的区别？<span class="tag miss">今天错</span></div>
+<div class="a">① <b>时机</b>：Awake 在<b>对象被加载（实例化）时</b>立即调用，早于<b>所有</b> Start；Start 在<b>第一次 Update 之前</b>调用。<br>
+② <b>受 enabled 影响</b>：Awake <b>不受影响</b>（脚本被禁用也执行）；Start <b>受影响</b>（脚本未启用则不执行）。<br>
+③ <b>用途</b>：Awake 初始化<b>自己身上</b>的引用；Start 使用<b>其他对象已初始化好</b>的数据。</div>
+</div>
+
+<div class="card hot">
+<div class="q">11. FixedUpdate、Update、LateUpdate 的区别？<span class="tag hot">高频</span></div>
+<div class="a">Update 和 FixedUpdate <b>都在每一帧被调用，但两者帧长不同</b>。Update <b>跟当前平台的帧数有关</b>。<br>
+<b>FixedUpdate 是真实时间</b>，处理<b>物理逻辑</b>（例如 Rigidbody）时要把代码放这里，例如给刚体加作用力。时间间隔在 <b>Edit → Project Settings → Time → Fixed Timestep</b> 中修改。<br>
+<b>LateUpdate 在所有 Update 函数调用之后</b>被调用。跟随物体的<b>相机</b>一般放在 LateUpdate 里实现。<br>
+<b>为什么能防抖</b>：两个脚本同时在 Update 里控制同一物体，方位会出现反复；跟随者在 Update 里跟就会抖动，放 LateUpdate 会等所有 Update 执行完再动。<br><span style="color:#b4530a"><b>⚠ 老师课件里两处出处不一致（必看）</b></span><br>① 课件 <b>02 slide 32</b>（讲原理）：「跟随物体的相机<b>可以在 LateUpdate 里实现</b>」；<br>② 课件 <b>03 slide 27</b>（相机 demo 代码）与<b>实验二</b>：写的是 <code>void Update()</code>。<br>→ 考<b>原理 / 为什么 / 更稳的做法</b>：答 <code>LateUpdate</code>（等所有 Update 跑完再跟，不会永远差一帧）。<br>→ 考<b>代码挖空</b>：照代码原文填 <code>Update</code>。<b>两个都记住，别只背一个。</b></div>
+</div>
+
+<div class="card hot">
+<div class="q">12. 什么是协程？为什么需要它？<span class="tag hot">高频</span></div>
+<div class="a">Unity 脚本<b>只支持单线程</b>，所以引入 C# 的协程概念。协程在<b>协调多帧中执行的操作</b>时有用处，并且<b>性能开销小</b>。<br>
+<b>StartCoroutine()</b>：开启协同程序函数，协程结束返回。<br>
+<b>yield return</b>：是迭代器返回调用迭代的地方，一个协程的执行可以在任何地方用 yield 语句暂停，<b>yield return 的值决定了什么时候协程恢复执行</b>。<br>
+<b>注意</b>：协程<b>不是线程</b>，它是在主线程上分帧执行的。</div>
+</div>
+
+<div class="card">
+<div class="q">13. yield return 的几种写法各是什么含义？</div>
+<div class="a"><code>yield return null;</code> → 暂停，<b>下一帧</b>再继续往下执行<br>
+<code>yield return new WaitForFixedUpdate();</code> → 等到<b>下一次调用 FixedUpdate</b> 时继续<br>
+<code>yield return new WaitForSeconds(k);</code> → <b>k 秒后</b>再继续<br>
+<code>yield return StartCoroutine("Other");</code> → 暂停，<b>直到另一个协程结束</b><br>
+<code>yield return new WaitForEndOfFrame();</code> → 等到<b>这一帧渲染结束</b></div>
+</div>
+
+<div class="card hot">
+<div class="q">14. GameObject 的常用方法有哪些？<span class="tag hot">高频</span></div>
+<div class="a">继承自 <b>Object</b>。<br>
+<b>AddComponent&lt;T&gt;()</b> 加组件　<b>GetComponent&lt;T&gt;()</b> 取组件（不带前缀 = 查<b>自己这个物体</b>）<br>
+<b>CreatePrimitive()</b>：<b>静态方法</b>，创建原始类型游戏对象<br>
+<b>Find()</b> 查找游戏对象　<b>FindGameObjectsWithTag()</b> 查找游戏对象（多个）<br>
+<b>Destroy()</b> 销毁　<b>Instantiate()</b> <b>克隆对象</b></div>
+</div>
+
+<div class="card hot">
+<div class="q">15. Transform 的三个核心方法与旋转方向规则？<span class="tag hot">高频</span></div>
+<div class="a">属性：<b>position</b>、<b>eulerAngles</b>、<b>localScale</b>（每个游戏对象都有 Transform）。<br>
+<b>RotateAround(point, axis, angle)</b>：point 是要围绕的点，axis 是围绕的轴，angle 是角度。<br>
+<b>Rotate(eulerAngles, Space)</b>：第二参数 <b>World / Self</b>。<br>
+<b>Translate(translation, Space.Self)</b>：第二参数<b>默认是 Space.Self</b>。<br>
+<b>方向规则</b>：若旋转轴是 X，则<b>从 X 轴正方向看，物体顺时针旋转</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">16. 场景加载的同步与异步有什么区别？</div>
+<div class="a"><b>Application.LoadLevel()</b> 同步加载：读取速度<b>最快</b>，但<b>不更新界面</b>，因为同步执行时程序在等待读取结束。读取时间过长会让用户以为卡死。<br>
+<b>LoadLevelAsync()</b> 异步加载：读取时界面<b>可以有动画</b>，Update 每帧都执行。<br>
+属性：<b>isDone</b> 查询是否加载完成；<b>progress</b> 是 <b>0~1</b> 之间的加载进度。<br>
+<b>注意</b>：加载前要在 <b>Build 中把场景添加进去</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">17. 跨场景传数据有哪两种方式？</div>
+<div class="a">① <b>静态变量</b>：<code>public static int age = 20;</code>，在另一个场景里直接 <code>Scene1.age</code> 读取。<br>
+② <b>DontDestroyOnLoad</b>：在 <b>Start 函数</b>中写 <code>GameObject.DontDestroyOnLoad(gameObject);</code>，让该物体切场景时不被销毁。</div>
+</div>
+
+<div class="card">
+<div class="q">18. 建立脚本有哪些注意事项？</div>
+<div class="a">① <b>文件名与类名要一致</b>；② 脚本<b>依附游戏对象</b>或被其他脚本调用；③ <b>初始化放在 Start 方法</b>中；④ 可在 <b>Inspector 窗口修改 public 属性</b>，但<b>运行中修改不会保存</b>；⑤ 工程要分层设计（<code>_Scripts</code>、<code>_Scenes</code> 等）。</div>
+</div>
+
+<h2>第 3 章 Unity 资源系统<span class="cnt">11 条</span></h2>
+
+<div class="card hot">
+<div class="q">19. 设置天空盒的三种方式？<span class="tag hot">高频</span></div>
+<div class="a"><b>方法 1 静态添加</b>：为 <b>Camera 添加 Skybox 组件</b>，设置新材质。<br>
+<b>方法 2 脚本赋值</b>（<b>不能</b>给相机加 Skybox 组件）：材质要放到 <b>Resources 文件夹</b>下，否则找不到。<br>
+<code>RenderSettings.skybox = (Material)Resources.Load("skybox1");</code><br>
+<b>方法 3 脚本赋值</b>（<b>必须</b>给相机加 Skybox 组件）：<br>
+<code>GetComponent&lt;Skybox&gt;().material = (Material)Resources.Load("skybox1");</code><br>
+<span class="bad">易错</span>：方法 2 如果多加了 Skybox 组件，<b>空材质会覆盖全局设置</b>，天空盒反而不显示。另：<code>Resources.Load</code> <b>不带扩展名</b>。</div>
+</div>
+
+<div class="card hot">
+<div class="q">20. 相机的 Clear Flags 有哪几种？<span class="tag hot">高频</span></div>
+<div class="a">Clear Flags 确定<b>屏幕哪些部分将被清除</b>。<br>
+<b>Skybox</b>：屏幕上任何空的部分将显示当前相机的<b>天空盒</b>。<br>
+<b>Solid Color</b>：任何空部分显示为当前相机的<b>背景色</b>（Background）。<br>
+<b>Depth only</b>：只清深度，保留颜色（多相机叠加用）。<br>
+<b>Don't Clear</b>：什么都不清。</div>
+</div>
+
+<div class="card">
+<div class="q">21. 正交与透视投影分别有什么参数？</div>
+<div class="a"><b>Orthographic（正交）</b>：相机<b>均匀地渲染物体，没有透视感</b>；参数是 <b>Size</b>，表示摄影机<b>视口的大小</b>。<br>
+<b>Perspective（透视）</b>：使物体和透视完好无损；参数是 <b>Field of view</b>，相机的视野，<b>沿着本地 Y 轴测量</b>。<br>
+<b>Clipping Planes</b>：<b>Near</b> 是绘制的最近点，<b>Far</b> 是最远点，<b>过大会造成精度下降</b>。</div>
+</div>
+
+<div class="card miss hot">
+<div class="q">22. Unity 有哪四种光源？哪一种不能实时？<span class="tag miss">今天要答案</span><span class="tag hot">高频</span></div>
+<div class="a"><b>Directional Light（方向光）</b>：类似<b>太阳</b>的日照效果。<br>
+<b>Point Light（点光源）</b>：类似<b>电灯泡</b>、爆炸效果。<br>
+<b>Spot Light（聚光灯）</b>：类似<b>手电筒</b>，模拟路灯壁灯。<br>
+<b>Area Light（区域光）</b>：<b>无法用作实时光照</b>，一般用于<b>光照贴图烘焙</b>，<em>必须烘焙，物体必须静态</em>。用于建立<b>柔和的照明效果</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">23. 光源的关键属性（Range / Cookie / Cookie Size / Bias）？</div>
+<div class="a"><b>Range</b>：光源范围大小，<b>Point 和 Spot 必须调整</b>该参数。<br>
+<b>Cookie</b>：为光源设置<b>拥有 alpha 通道的纹理</b>，使光线在不同地方有不同亮度。<b>Spot 和 Directional 指定 2D 纹理</b>；<b>Point 须指定 Cubemap</b>。Cookie 图片的 <b>Alpha Source 要设置成 From Gray Scale</b>。<br>
+<b>Cookie Size</b>：控制缩放 Cookie 投影，<b>只有 Directional Light 有</b>该参数。<br>
+<b>Bias</b>：灯光控件像素位置与阴影贴图值比较的<b>偏移量</b>，取值 <b>0 ~ 0.5</b>。值<b>过小</b>对象表面会产生 <b>self-shadow</b>；值<b>过大</b>阴影会较大程度<b>偏离投影的对象</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">24. 光源的 Shadow Type 与 Render Mode 有哪些？</div>
+<div class="a"><b>Shadow Type</b>：<b>No Shadows</b> 关闭；<b>Hard Shadows</b> 硬阴影（<b>次要光源</b>）；<b>Soft Shadows</b> 软阴影（<b>主要光源，耗计算</b>）。<br>
+<b>Render Mode</b>：<b>Auto</b> 根据光源亮度与 Quality Settings 自动确定；<b>Important</b> <b>逐像素</b>渲染，用于非常重要的光源；<b>Not Important</b> 总是以最快的速度渲染。<br>
+<b>Culling Mask</b>：选中层所关联的对象将受到光源照射。</div>
+</div>
+
+<div class="card">
+<div class="q">25. 音频格式与加载类型（Load Type）怎么选？<span class="tag hot">高频</span></div>
+<div class="a"><b>格式</b>：<b>mp3 / ogg</b> 用于<b>较长的背景音乐</b>；<b>wav / aiff</b> 用于<b>较短的音效</b>。<br>
+<b>Decompress on load（加载时解压缩）</b>：加载后解压缩声音，适用于<b>较小的压缩声音</b>。<br>
+<b>Compressed in memory（内存中压缩）</b>：保持压缩在内存中，<b>播放时解压缩</b>，<b>大文件</b>使用。<br>
+<b>Stream from disc（磁盘流）</b>：<b>直接从磁盘流读取</b>音频数据，适用于<b>很长的音乐</b>。<br>
+<span class="bad">易错</span>：是 <b>Disc</b> 不是 Disk。</div>
+</div>
+
+<div class="card">
+<div class="q">26. Audio Listener 有几个？在哪？</div>
+<div class="a">由<b>摄像机的 Audio Listener 组件</b>进行监听，相当于"<b>耳朵</b>"，<b>一般一个场景只有一个</b> Listener。</div>
+</div>
+
+<div class="card">
+<div class="q">27. 地形（Terrain）的几个关键设置？</div>
+<div class="a"><b>Detail Distance（细节距离）</b>：当地形细节花草离镜头超过这个距离时，就不会被绘制在屏幕上。<br>
+<b>Detail Density（细节密度）</b>：默认 1，调小则过密的地形细节不被绘制。<br>
+<b>Tree Distance（树木距离）</b>：超过这个距离的树木不会被绘制。<br>
+<b>Max Mash Trees</b>：可种植的树木<b>上限</b>。<br>
+<b>Pixel Error（像素容差）</b>：容差<b>越小，地形越逼真</b>。<br>
+<b>Base Map Dist</b>：为了减少性能消耗，镜头远处的贴图会<b>看起来不清晰</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">28. 地形笔刷的操作规律？</div>
+<div class="a">抬升（<b>单击</b>）、下陷（<b>单击 + Shift</b>，需先 SetHeight）；<br>
+放置树木 / 花草（<b>单击</b>）、清除（<b>单击 + Shift</b>）、<b>清除指定</b>（<b>单击 + Ctrl</b>）；<br>
+<b>Brush Size</b> 是绘制的<b>面积</b>，<b>Opacity</b> 是绘制的<b>高度</b>，<b>Target Strength</b> 是绘制的<b>密度</b>。<br>
+湖泊做法：SetHeight 设置高度 → Flatten 整体抬升 → Raise/Lower，Shift 降低。</div>
+</div>
+
+<div class="card">
+<div class="q">29. WindZone 的两种模式？</div>
+<div class="a"><b>Spherical（球形）</b>：风区<b>仅影响半径内</b>，从中心朝向边缘衰减。<br>
+<b>Directional（方向）</b>：风区会影响<b>整个场景</b>的一个方向。<br>
+另：<b>Wind Main</b> 主风产生风压柔和变化；<b>Turbulence</b> 紊流产生瞬息万变的风压；<b>Pulse Magnitude / Frequency</b> 是脉冲幅度与频率。</div>
+</div>
+
+<h2>第 4 章 3D 数学与 3D 图形学<span class="cnt">14 条</span></h2>
+
+<div class="card miss hot">
+<div class="q">30. 点乘的公式与三个判定区间？<span class="tag miss">今天忘写过程</span><span class="tag hot">高频</span></div>
+<div class="a"><b>坐标公式</b>：<code>v1·v2 = x1x2 + y1y2 + z1z2</code>，用 <code>Vector3.Dot(v1, v2)</code> 完成。<br>
+<b>几何公式</b>：<code>v1·v2 = ||v1|| ||v2|| cosθ</code>，<code>θ = arccos(v1·v2)</code>（单位向量时）。<br>
+<b>判定</b>：<code>v1·v2 &gt; 0</code> 时 <b>0 ≤ θ &lt; 90°</b>（<b>前方</b>）；<code>= 0</code> 时 <b>θ = 90°</b>（<b>垂直</b>）；<code>&lt; 0</code> 时 <b>90° &lt; θ ≤ 180°</b>（<b>后方</b>）。<br>
+<b>判方位的写法（必须写全三步）</b>：</div>
+</div>
+
+<pre><code>// ① 两个对象间的向量（从 obj1 指向 obj2）
+Vector3 v = obj2.transform.position - obj1.transform.position;
+// ② obj1 自己的前方（自身坐标转世界坐标）
+Vector3 wforward = obj1.transform.TransformDirection(Vector3.forward);
+// ③ 点乘判符号
+if (Vector3.Dot(wforward, v) &lt; 0) print("obj2 在 obj1 后方");
+else                              print("obj2 不在 obj1 后方");</code></pre>
+
+<div class="card miss hot">
+<div class="q">31. 叉乘的公式、反交换律与用途？<span class="tag miss">今天完全不会</span><span class="tag hot">高频</span></div>
+<div class="a"><b>公式（三个分量，注意中间那个顺序不同）</b>：<br>
+<code>v1 × v2 = v3 ( y1z2 − z1y2 , <em>z1x2 − x1z2</em> , x1y2 − y1x2 )</code><br>
+<b>反交换律</b>：<code>v1 × v2 = −(v2 × v1)</code>。<br>
+<b>几何意义</b>：v3 <b>同时垂直于</b> v1 和 v2，用于<b>计算一个平面的正面朝向</b>。<br>
+<b>长度</b>：<code>|v1 × v2| = ||v1|| ||v2|| sinθ</code>，所以求法线后<b>必须单位化</b>。</div>
+</div>
+
+<pre><code>// 求三角面的法线：两条边必须从同一个顶点出发
+Vector3 side1  = objc.transform.position - obja.transform.position;
+Vector3 side2  = objb.transform.position - obja.transform.position;
+Vector3 normal = Vector3.Cross(side1, side2);
+normal.Normalize();   // 单位化</code></pre>
+
+<div class="card miss">
+<div class="q">32. magnitude 与 sqrMagnitude 的区别？<span class="tag miss">今天答一半</span></div>
+<div class="a"><b>magnitude</b> 是向量的<b>模（长度）</b>；<b>sqrMagnitude</b> 是<b>不开方的值</b>（长度的平方）。<br>
+<b>常用</b>：计算两个对象之间的距离 <code>(v1 - v2).magnitude</code>。<br>
+<b>只用平方的场景</b>：只做<b>大小比较</b>时（长度与它的平方同增同减），省一次开方。<br>
+<span class="bad">坑</span>：用 <code>sqrMagnitude</code> 比阈值时，<b>阈值也要平方</b>——<code>dir.sqrMagnitude &lt; 9f</code> 才等于 3 米，写成 <code>&lt; 3f</code> 实际只剩 1.73 米。</div>
+</div>
+
+<div class="card">
+<div class="q">33. 向量的单位化是什么？有什么用？</div>
+<div class="a"><b>单位化</b>：<code>vNormal = v / ||v||</code>，化为<b>大小为 1</b> 的向量，用 <code>Vector3.Normalize(v1)</code> 或 <code>.normalized</code>。<br>
+<b>用途</b>：<b>关注方向信息，忽略大小</b>。<br>
+向量运算还要记：<b>标量与向量相乘</b> <code>v1*k = (x*k, y*k, z*k)</code>，常用于<b>缩放</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">34. 向量加法和减法在位置上分别代表什么？</div>
+<div class="a">如果 v1 代表<b>点的位置</b>：<br>
+<b>加法</b> <code>v1 + v2</code> 表达<b>从一个点，根据 v2 的方向和大小进行移动</b>；<br>
+<b>减法</b> <code>v1 − v2</code> 表达<b>一个对象到另一个对象的方向和距离</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">35. 自身坐标与世界坐标如何互相转换？</div>
+<div class="a"><b>自身 → 世界</b>：<code>transform.TransformDirection(Vector3.forward)</code><br>
+<b>世界 → 自身</b>：<code>transform.InverseTransformDirection(Vector3.forward)</code><br>
+用途：拿物体<b>自己的前方</b>去和世界坐标下的方向做点乘，判断前后。</div>
+</div>
+
+<div class="card">
+<div class="q">36. 模型由什么组成？为什么不能无限加面？</div>
+<div class="a">模型由<b>三边面（三角形）</b>组成，<b>边由两个顶点组成</b>。<br>
+<b>多边形的数量和顶点数决定渲染效果</b>，需要在<b>效率和效果之间平衡</b>。</div>
+</div>
+
+<div class="card miss hot">
+<div class="q">37. Mesh Filter 与 Mesh Renderer 各负责什么？<span class="tag miss">今天 (2) 不会</span><span class="tag hot">高频</span></div>
+<div class="a"><b>网格过滤器（Mesh Filter）</b>：从<b>资源中拿出网格</b>，并将其<b>传递给网格渲染器</b>用于屏幕渲染。<br>
+<b>网格渲染器（Mesh Renderer）</b>：负责把网格<b>绘制到屏幕上</b>。<br>
+另外两个渲染器：<b>文本渲染器（Text Mesh Renderer）</b>、<b>蒙皮网格渲染器（Skinned Mesh Renderer）</b>。<br>
+<b>推论</b>：删掉任一个物体都看不见——<b>网格渲染器不存在时，网格仍存在于场景中，但不能进行绘制</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">38. 蒙皮模型导入时 Unity 会自动创建什么组件？</div>
+<div class="a">在导入网格资源时，<b>如果该网格是蒙皮的，Unity 会自动创建一个蒙皮网格渲染器</b>；<b>如果不是，则创建一个带网格渲染器的网格过滤器</b>。<br>
+如需在场景中查看网格，要将网格渲染器添加到游戏对象上；它是<b>自动添加</b>的，<b>删除后需手动添加</b>。</div>
+</div>
+
+<div class="card miss hot">
+<div class="q">39. 纹理、贴图、材质三者的关系？<span class="tag miss">今天漏功能说明</span><span class="tag hot">高频</span></div>
+<div class="a"><b>层次</b>：<b>材质 Material 包含贴图(Map)，贴图包含纹理(Texture)</b>。<br>
+<b>纹理</b>：<b>最基本的数据输入单位</b>，游戏领域基本上都用的是<b>位图</b>，此外还有<b>程序化生成的纹理 Procedural Texture</b>。<br>
+<b>贴图</b>：包含了另一层含义就是"<b>映射</b>"——把纹理通过 <b>UV 坐标映射到 3D 物体表面</b>。贴图包含了除纹理以外<b>其他信息（UV 坐标、贴图输入输出控制等）</b>。<br>
+<b>材质</b>：是一个<b>数据集</b>，是给<b>渲染器提供数据和光照算法</b>。贴图就是其中数据的一部分，<b>根据用途不同贴图会被分成不同类型</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">40. 贴图的大小、类型与三种特殊贴图？</div>
+<div class="a"><b>大小</b>：Unity 对导入的图<b>默认缩放为 2 的幂次方</b>。<br>
+<b>格式</b>：psd、tiff、tga、jpg、png、bmp。<br>
+<b>类型</b>：Texture（普通）、Normal Map（法线）、GUI、Sprite 2D and UI、Cursor、Cookie、Lightmap、<b>Cubemap</b>。<br>
+<b>Cubemap（立方体贴图）</b>：类似 Skybox，用于<b>模拟物体对环境的反射效果</b>。<br>
+<b>Render Texture（渲染贴图）</b>：用于<b>实时监控录像、导航地图</b>等（类似小窗口预览），贴图是<b>动态</b>的，内容由<b>场景中的摄像机</b>获取。<br>
+<b>视频贴图</b>：Plane 加 <b>Video Player</b> 组件，用于过关画面。</div>
+</div>
+
+<div class="card">
+<div class="q">41. 材质丢失会怎样？材质有哪些分类？</div>
+<div class="a"><b>若丢失材质，物体显示紫色</b>。<br>
+Unity <b>内置对象的默认材质无法修改</b>。<br>
+分类：<b>漫反射（Diffuse）</b>光线沿各个方向反射回去；<b>凹凸漫反射</b>加一张 normalmap 法线贴图模拟凹凸；<b>高光（Specular）</b>加高光颜色使表面更光滑；<b>凹凸高光</b>；<b>视差漫反射</b>深度模拟更真实；<b>视差高光</b>；<b>透明</b>模拟水或玻璃，用带 Alpha 通道的 Base Trans 控制；<b>自发光</b>通过 Illumin 贴图设置。<br>
+<b>Shader</b>：材质由<b>着色器</b>实现，<b>ShaderLab</b>（CG 的二次简化）调用 <b>Direct3D 或 OpenGL</b> 实现 GPU 控制。</div>
+</div>
+
+<div class="card">
+<div class="q">42. 网格合并要注意什么？</div>
+<div class="a">用 <b>GetComponentsInChildren&lt;MeshRenderer&gt;()</b> 取材质（用 <b>sharedMaterial</b>），用 <b>GetComponentsInChildren&lt;MeshFilter&gt;()</b> 取网格（用 <b>sharedMesh</b> + <b>localToWorldMatrix</b> 把自身坐标转世界坐标），再用 <b>CombineMeshes(combine, false)</b> 合并。<br>
+<b>比例失真</b>：如果以某个组件为<b>根物体</b>，它的<b>缩放比例直接影响合并后生成的新物体</b>，各个部件的缩放比都会按它走——<b>所以根物体 Scale 要为 1</b>。</div>
+</div>
+
+<div class="card miss hot">
+<div class="q">43. 平滑转向的四个步骤（Quaternion 四方法）？<span class="tag miss">今天填空不会</span><span class="tag hot">高频</span></div>
+<div class="a"><b>① 算方向</b>：<code>Vector3 dir = target.position - transform.position;</code><br>
+<b>② 方向 → 目标旋转</b>：<code>Quaternion.LookRotation(dir)</code>（参数是<b>方向向量</b>，不是目标位置）<br>
+<b>③ 平滑过渡</b>：<code>Quaternion.Slerp(当前, 目标, 进度)</code>，<b>Slerp 是球面线性插值，转角均匀</b>；<code>Quaternion.Lerp</code> 走直弦，<b>两端慢中间快</b><br>
+<b>④ 位置插值</b>：<code>Vector3.Lerp(当前位置, 目标位置, 速度 * Time.deltaTime)</code><br>
+另两个：<code>Quaternion.Euler(x,y,z)</code> 欧拉角转旋转；<code>Quaternion.identity</code> 无旋转。<br>
+<span class="bad">易错</span>：<code>Slerp</code> 的第三参数是<b>比例</b>（0~1），要乘 <code>Time.deltaTime</code>；要严格匀速得用 <code>Quaternion.RotateTowards</code>（第三参数是<b>角度</b>）。</div>
+</div>
+
+<h2>第 5 章 物理系统<span class="cnt">13 条</span></h2>
+
+<div class="card">
+<div class="q">44. Unity 用的是什么物理引擎？能模拟什么？</div>
+<div class="a">Unity 内置 <b>NVIDIA 公司的 PhysX</b> 物理引擎，采用<b>硬件加速</b>进行模拟物理运算。<br>
+可模拟<b>刚体碰撞、车辆驾驶、布料、重力</b>等物理效果。Unity 内置 <b>3D 物理引擎和 2D 物理引擎</b>。</div>
+</div>
+
+<div class="card hot">
+<div class="q">45. Rigidbody 的核心属性？<span class="tag hot">高频</span></div>
+<div class="a"><b>Mass</b> 质量　<b>Drag</b> 空气阻力（0 没有阻力，极大时对象会停止）<br>
+<b>Angular Drag</b> 受扭矩力旋转时受到的阻力　<b>Use Gravity</b> 使用重力<br>
+<b>Constraints</b>：用于<b>约束物理引擎对于刚体运动的控制</b>（如 FreezePositionY）。</div>
+</div>
+
+<div class="card miss">
+<div class="q">46. Is Kinematic 是什么？<span class="tag miss">今天用反了</span></div>
+<div class="a"><b>是否受物理引擎驱动</b>——<b>受 transform 影响，不受 force 影响</b>。勾选后表示<b>只受脚本和动画影响，不能调用物理计算</b>。<br>
+含义：<b>它会推动别的刚体，但自己不会被推</b>；<b>仍然能检测碰撞/触发</b>。<br>
+用途：移动平台、铰链门（常勾选 Is Kinematic 固定位置）。</div>
+</div>
+
+<div class="card">
+<div class="q">47. Interpolate 三种模式分别是什么？</div>
+<div class="a">插值用于<b>控制运动抖动、达到平滑</b>，一般用于<b>主要对象</b>。<br>
+<b>None</b>：没有插值。<br>
+<b>Interpolate</b>：内插值，基于<b>前一帧</b>的 Transform 来平滑此次的 Transform。<br>
+<b>Extrapolate</b>：外插值，基于<b>下一帧</b>的 Transform 来平滑此次的 Transform。</div>
+</div>
+
+<div class="card hot">
+<div class="q">48. Collision Detection 三种模式怎么匹配？<span class="tag hot">高频</span></div>
+<div class="a"><b>Discrete（离散）</b>：与场景中其他所有碰撞体进行碰撞检测，用于<b>慢速和静止对象</b>。<br>
+<b>Continuous（连续）</b>：用于<b>可能与高速对象碰撞的对象</b>（<b>被撞的一方</b>）。<br>
+<b>Continuous Dynamic（连续动态）</b>：用于<b>可能发生碰撞的高速对象</b>（<b>自己高速</b>）。<br>
+目的：<b>防止物体嵌入其他物体</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">49. Rigidbody 的常用方法？</div>
+<div class="a"><b>Sleep()</b> 刚体休眠　<b>WakeUp()</b> 唤醒刚体<br>
+<b>AddForce()</b> 给刚体一个<b>力</b>，使其运动<br>
+<b>AddTorque()</b> 给刚体一个<b>力矩</b>，使其旋转（围绕 vector3 旋转）<br>
+<b>AddForceAtPosition()</b> 在刚体上应用<b>点力</b>（同时产生力矩和力）<br>
+属性：<b>velocity</b> 速度、<b>detectCollisions</b> 碰撞检测开关。</div>
+</div>
+
+<div class="card miss hot">
+<div class="q">50. 碰撞发生的必要条件是什么？（两个层次）<span class="tag miss">今天只答一半</span><span class="tag hot">极高频</span></div>
+<div class="a"><b>前提</b>：碰撞体<b>要与刚体一起添加到游戏对象上</b>才能触发碰撞。<b>没有碰撞体的刚体会彼此相互穿过</b>。<br>
+<em>① 发生碰撞的必要条件：必须一个为刚体，另一个为碰撞体。</em><br>
+<em>② 不但有碰撞、且存在力的相互作用：必须两个对象都有刚体。</em><br>
+<b>推论</b>：地面可以<b>不设置刚体</b>（它永远不动），只给人物设刚体就能实现真实物理碰撞——<b>减少刚体可以降低资源消耗</b>。<br>
+<span class="bad">易错</span>：第一句说的是"一个刚体 + 一个碰撞体"，不是"两个都要刚体"；那是第二句的要求。</div>
+</div>
+
+<div class="card miss hot">
+<div class="q">51. Collision 与 Trigger 的区别（四条）？<span class="tag miss">今天 0 分</span><span class="tag hot">极高频</span></div>
+<div class="a"><em>① 前提</em>：<b>OnCollisionEnter 必须是在碰撞物体不勾选 IsTrigger 的前提下才能进入</b>；<b>勾选 IsTrigger 就能进入 OnTriggerEnter</b>。<b>两者冲突，不能同时存在</b>。<br>
+<em>② 刚体要求</em>：<b>OnCollisionEnter 要求碰撞的发起方必须拥有刚体，而被碰撞方有没有刚体并不重要</b>；<b>OnTriggerEnter 只需要碰撞双方有一个具有刚体即可触发</b>。<br>
+<em>③ 回调</em>：Collision 用 <code>OnCollisionEnter/Stay/Exit(Collision other)</code>；Trigger 用 <code>OnTriggerEnter/Stay/Exit(Collider other)</code>。<br>
+<em>④ 物理反应</em>：Collision <b>有阻挡、反弹</b>；Trigger <b>取消碰撞的阻挡作用</b>，只检测对象是否进入区域。<br>
+<b>参数区别</b>：<b>Collision 类包含接触点、碰撞速度等信息</b>；Collider 只有碰撞体本身。</div>
+</div>
+
+<div class="card">
+<div class="q">52. Is Trigger 的副作用与透明墙技巧？</div>
+<div class="a"><b>Is Trigger 后刚体物体会下坠穿透物体</b>，可<b>约束 Y 方向</b>防止下坠。<br>
+<b>技巧</b>：空对象 + <b>BoxCollider</b> + Mesh 实现<b>透明墙</b>。<br>
+代码要点：<code>col.gameObject.name.Equals("Player")</code>、<code>GetComponent&lt;MeshCollider&gt;().enabled = true</code>。</div>
+</div>
+
+<div class="card miss hot">
+<div class="q">53. 物理材质（Physic Material）是组件还是资源？<span class="tag miss">易与材质混</span><span class="tag hot">高频</span></div>
+<div class="a">物理材质是<b>控制游戏对象的摩擦力和反弹系数等属性的一种资源</b>，<em>不是组件</em>。<br>
+使用时<b>赋值给碰撞体组件的 Material 属性</b>。<br>
+<b>Dynamic Friction（动态摩擦力）</b>：物体移动时的摩擦力，通常 <b>0~1</b>。<b>值为 0 的效果像冰，设为 1 时物体运动将很快停止</b>。<br>
+<b>Static Friction（静态摩擦力）</b>：物体静止克服的摩擦力，<b>0~1</b>。<br>
+<b>Bouncyness（弹力）</b>：<b>0 时不发生反弹，1 时反弹不损耗能量</b>。<br>
+<b>Friction Combine</b>：Average（平均）/ Min / Max / Multiply；<b>Bounce Combine</b> 同理。</div>
+</div>
+
+<div class="card hot">
+<div class="q">54. 冰面、橡胶、金属、蹦床分别怎么配？<span class="tag hot">高频</span></div>
+<div class="a"><b>冰面</b>：低摩擦，低弹性　　<b>橡胶</b>：高摩擦，高弹性<br>
+<b>金属</b>：中等摩擦，低弹性　<b>蹦床</b>：中等摩擦，高弹性</div>
+</div>
+
+<div class="card hot">
+<div class="q">55. 五种关节分别用于什么？<span class="tag hot">高频</span></div>
+<div class="a">关节组件在<b>线框模式下可见黄色标记</b>。<br>
+<b>铰链关节（Hinge Joint）</b>：用于制作<b>铰链门、钟摆</b>等。<br>
+<b>弹簧关节（Spring Joint）</b>：模拟两个刚体的<b>松散链接</b>关系。<br>
+<b>固定关节（Fixed Joint）</b>：模拟两个刚体<b>相互附着</b>，如墙上的钉子与粘贴物，<b>类似游戏中的父子对象</b>。<br>
+<b>角色关节（Character Joint）</b>：主要用于表现<b>布娃娃</b>效果，是扩展的球关节，可限制每个轴向上的关节。<br>
+<b>可配置关节（Configurable Joint）</b>：自定义。<br>
+另：<b>折断力 Break Force</b> / <b>折断扭矩 Break Torque</b> 是使关节折断需要的力/扭矩。</div>
+</div>
+
+<div class="card">
+<div class="q">56. Cloth 组件有什么要注意的？</div>
+<div class="a">物理模拟包含<b>刚体和柔体</b>，<b>柔体的运动会影响物体的自身形状</b>，例如<b>衣服、旗帜</b>。<br>
+添加 Cloth 组件时<b>会自动添加 Skinned Mesh Renderer</b>。<br>
+固定方式：Cloth 中的 <b>Edit Constraints</b> → 单击 Select → 单击固定点（Shift 多选）→ 勾选 <b>Max Distance</b> 并输入距离。</div>
+</div>
+
+<h2>第 6 章 粒子系统<span class="cnt">5 条</span></h2>
+
+<div class="card">
+<div class="q">57. 什么是粒子系统？</div>
+<div class="a">粒子系统是<b>由大量且微小的游戏对象组成的组合体</b>，可模拟<b>火焰、烟尘、瀑布</b>。</div>
+</div>
+
+<div class="card hot">
+<div class="q">58. 粒子系统三种数值设置？<span class="tag hot">高频</span></div>
+<div class="a">① <b>权重</b>：范围 <b>0~1</b>，例如 Attraction 的范围。<br>
+② <b>固定参数</b>：固定一个参数，例如粒子发射器的持续时间。<br>
+③ <b>参数曲线</b>：这是粒子系统<b>可以千变万化的根源</b>，通过对曲线的调变可以变化出各式各样的粒子效果。</div>
+</div>
+
+<div class="card hot">
+<div class="q">59. 粒子模块分成哪六组？<span class="tag hot">高频</span></div>
+<div class="a">① <b>基础模块</b> + <b>Renderer 渲染模块</b><br>
+② <b>发射器模块</b>：Emission 发射、Shape 形状、Sub Emitters 添加发射器<br>
+③ <b>粒子生命周期特效控制</b>：Velocity / Limit Velocity / Force / Color / Size / Rotation <b>over Lifetime</b><br>
+④ <b>粒子自身特效控制</b>：Color / Size / Rotation <b>by Speed</b>、Texture Sheet Animation、Trails、Noise<br>
+⑤ <b>粒子与外界交互</b>：Inherit Velocity、External Forces、Collision、Triggers、Lights<br>
+⑥ <b>自定义模块</b>：Custom Data</div>
+</div>
+
+<div class="card hot">
+<div class="q">60. over Lifetime 与 by Speed 的区别？<span class="tag hot">高频</span></div>
+<div class="a"><b>over LifeTime 模块</b>：类似<b>花开花落的一生</b>（贯穿整个生命周期连续变化）。<br>
+<b>by Speed 模块</b>：类似<b>跑龙套</b>，<b>当满足条件则执行</b>（由速度触发）。</div>
+</div>
+
+<div class="card">
+<div class="q">61. Shape 形状模块有哪些形状？Force Field 怎么用？</div>
+<div class="a"><b>Shape</b> 定义发射器的形状：<b>球体 Sphere、半球体 Hemisphere、圆锥 Cone、立方体 Box、网格 Mesh</b>。可沿着<b>表面法线或随机方向</b>施加初始力。<br>
+<b>Particle System Force Field</b>：粒子可通过其中指定的力（如<b>风或吸引力</b>）加速。<b>要使用这个组件，需要开启粒子系统中的 External Forces（外力模块）</b>。<br>
+包含：<b>Shape</b>（Start Range / End Range）、<b>Direction</b>(x,y,z)、<b>Gravity</b>（Strength 强度 / Focus 焦点）、<b>Rotation</b>（Speed / Attraction / Randomness）、<b>Drag</b>（拖拽）、<b>Vector Field</b>。<br>
+<b>控制方式</b>：基本粒子 <code>ParticleSystem</code> 用 <b>Play + Stop</b>；复合粒子 <code>GameObject</code> 用 <b>SetActive(true/false)</b>。</div>
+</div>
+
+<h2>第 7 章 动画系统<span class="cnt">7 条</span></h2>
+
+<div class="card hot">
+<div class="q">62. Mecanim 是什么？有什么特性？<span class="tag hot">高频</span></div>
+<div class="a">Mecanim 是 Unity 推出的<b>全新的动画系统</b>，具有<b>重定向、可融合</b>等新特性。特性六条：<br>
+① 为<b>类人角色</b>设计简单的工作流；② <b>动画重定向</b>能够把<b>一个动画应用到多个不同模型</b>；③ 用于<b>对齐影片剪辑</b>，简化工作流；④ 方便的影片剪辑<b>预览、变换和交互</b>；⑤ 使用<b>可视化编程工具</b>管理动画之间复杂的交互；⑥ 对<b>身体不同地方使用不同的逻辑</b>进行动画控制。</div>
+</div>
+
+<div class="card">
+<div class="q">63. 两种角色配置有什么区别？模型有什么要求？</div>
+<div class="a"><b>类人角色配置</b>：Mecanim 对于类人角色有<b>特别的工作流</b>，使用扩展后的 GUI 和<b>重定向</b>，配置包含创建和设定 <b>Avatar</b>、调整<b>肌肉定义</b>等。<br>
+<b>通用角色配置</b>：为<b>任何类人、四足动物</b>之类设计的，<b>不支持重定向</b>。<br>
+<b>模型要求</b>：<b>FBX</b> 格式；尺寸 <b>1.7~1.8</b>；角色<b>最底部与世界坐标的中心点对齐</b>；模型要求 <b>T Pose</b>；<b>骨盆位置的骨骼关节为所有骨骼的父层级</b>；<b>至少 15 个骨骼</b>；<b>烘焙后输出</b>。</div>
+</div>
+
+<div class="card hot">
+<div class="q">64. Avatar 是什么？有什么用？<span class="tag hot">高频</span></div>
+<div class="a"><b>Avatar 的创建过程就是分析导入的角色资源的骨骼结构</b>，其过程是与 Mecanim 中已有的<b>简化的标准人类骨骼进行对比</b>，最后将其<b>自动转化或标识为 Mecanim 可以识别的骨骼结构</b>。<br>
+<b>通过 Avatar 的创建，可以实现角色之间的 Retargeting</b>。<br>
+<b>组成</b>：<b>装配 + 肌肉</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">65. 基本动画系统的四个制作步骤？</div>
+<div class="a">① <b>制作 Avatar 替身</b>；② <b>设置动画状态机（Animator Controller）</b>；③ <b>设置动画循环</b>；④ <b>使用代码控制角色动画</b>。<br>
+<b>循环设置</b>：start 改为 <b>1</b>，确保四个属性 <b>LoopMatch 显示为绿色</b>，勾选 <b>Loop Time 和 Loop Pose、Bake Into Pose</b>。<br>
+<b>代码</b>：<code>animator.SetFloat("Speed", 1)</code>、<code>SetBool("IsRun", true)</code>、<code>SetLayerWeight(1, 1)</code>。</div>
+</div>
+
+<div class="card hot">
+<div class="q">66. 融合树（Blend Tree）是什么？<span class="tag hot">高频</span></div>
+<div class="a"><b>通过使用不同的角度将角色不同的部分混合，达到平滑动画的目的</b>。<b>为了使混合过后的动作起作用，必须混合造型和时间相近的动作</b>。<b>动画混合树在动画状态机中是一个特殊类型的状态</b>。<br>
+做法要点：参数 <b>Speed（Float）</b> 和 <b>Direction（Float）</b>；子节点要加<b>临界点 Threshold</b>（先取消 Automate Threshold 勾选，设完再勾回来）。</div>
+</div>
+
+<div class="card hot">
+<div class="q">67. 动画层与身体遮罩分别解决什么问题？<span class="tag hot">高频</span></div>
+<div class="a"><b>动画层</b>：<b>管理身体不同部分的复杂状态机</b>，将不同部位的动画组合起来成为最后全身的动画效果。例如<b>下半身层管走动/跑动，上半身层管投掷/射击</b>。<br>
+<b>身体遮罩（Avatar Mask）</b>：对动画里面<b>特定的身体部位进行激活或禁止</b>，根据角色精确裁剪动画。例如双手举着物体时，<b>手臂不能来回摆动</b>，就做手臂遮罩。<br>
+<b>权重</b>：<code>SetLayerWeight(1, 1)</code>，<b>权重 1 表示未被遮罩屏蔽的部分由该层骨骼动画控制，权重 0 表示不受该层影响</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">68. 动画重定向（Retargeting）的原理？</div>
+<div class="a"><b>Avatar 已配置模型的骨骼结构之间的对应关系，可以把相同的动画应用到各种角色模型上</b>。<br>
+步骤：导入角色模型并附带 <b>Avatar</b> → 动画设计组件<b>引用动画控制器资源</b> → 为角色<b>编写脚本</b>。</div>
+</div>
+
+<h2>第 8 章 UGUI 界面<span class="cnt">9 条</span></h2>
+
+<div class="card hot">
+<div class="q">69. uGUI 是什么时候推出的？有什么特点？<span class="tag hot">高频</span></div>
+<div class="a">Unity <b>4.6</b> 推出新的 UI——<b>uGUI</b>。特点：<br>
+① 与 Unity <b>无缝结合</b>；② 强大易用的<b>屏幕自适应</b>；③ 简单的<b>深度处理机制</b>；④ 自动化的<b>图集打包</b>功能；⑤ 强大的<b>布局系统</b>，简单 UI 控件；⑥ 强大的<b>事件处理系统</b>。<br>
+命名空间：<code>using UnityEngine.UI;</code></div>
+</div>
+
+<div class="card hot">
+<div class="q">70. Canvas 的作用与两条注意点？<span class="tag hot">高频</span></div>
+<div class="a"><b>基础容器类控件，所有的 UI 控件必须位于画布之内，即必须是容器的子对象</b>。<br>
+<b>不能修改 XY 值</b>，若需要修改，<b>先设 RenderMode → World Space</b>。<br>
+<b>Pixel Perfect</b>：像素更清晰。<br>
+<b>注意 ①</b>：UI 绘制顺序——<b>如果两个 UI 元素位置重叠，后添加的元素会出现在新添加的元素前面</b>。<br>
+<b>注意 ②</b>：<b>默认会添加一个 EventSystem</b>。</div>
+</div>
+
+<div class="card hot">
+<div class="q">71. Canvas 的三种 Render Mode？<span class="tag hot">高频</span></div>
+<div class="a"><b>Screen Space – Overlay</b>：UI 被渲染在屏幕上，<b>一直显示在前面</b>；屏幕大小或分辨率更改，画布<b>自动更改以适配</b>。<br>
+<b>Screen Space – Camera</b>：为 UI <b>指定一个相机</b>，通过该相机呈现；<b>可为 UI 增加粒子系统提升特效</b>，Camera setting 会影响 UI 显示；<b>Plane Distance</b> 设置 UI 和 Camera 之间的距离；<b>游戏相机 depth 是 −1，UI 相机 depth 是 0</b>。<br>
+<b>World Space</b>：<b>3D UI 模式</b>，UI 类似一个 plane 对象，但 <b>UI 不随相机移动而移动</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">72. EventSystem 的作用与限制？</div>
+<div class="a"><b>Event System</b>：负责处理<b>输入、射线投射以及发送事件</b>，<b>一个场景中只能有一个 EventSystem 组件</b>。<br>
+<b>Standalone Input Module</b>：用于<b>鼠标、键盘和控制器</b>，被配置为查看 InputManager，基于 InputManager 的状态发送事件。</div>
+</div>
+
+<div class="card">
+<div class="q">73. uGUI 的常用控件有哪些？</div>
+<div class="a"><b>Canvas</b> 画布、<b>EventSystem</b>、<b>Panel</b> 面板、<b>Text</b> 文本、<b>Image</b> 图像、<b>RawImage</b> 原始图像、<b>Button</b> 按钮、<b>InputField</b> 输入框、<b>Slider</b> 滑动条、<b>Toggle</b> 开关。<br>
+<b>Panel</b>：容器类控件，用于<b>对一组控件的整体移动与管理</b>。</div>
+</div>
+
+<div class="card hot">
+<div class="q">74. Image 与 RawImage 的区别？<span class="tag hot">高频</span></div>
+<div class="a"><b>Raw Image 控件可以显示任何纹理，Image 只能显示一个精灵（Sprite）</b>。<br>
+Image 导入图片后要<b>设置图片属性为 Sprite</b>（支持 PNG 透明）；<b>SetNativeSize</b> 设置原始大小；<b>Preserve Aspect</b> 保持原始比例。<br>
+<b>ImageType</b>：普通、切片、平铺、<b>过滤填充</b>。<br>
+RawImage 向用户显示<b>非交互式</b>图像，<b>不能进行动画控制和填充控制</b>。</div>
+</div>
+
+<div class="card">
+<div class="q">75. Button 的可交互属性与事件怎么绑？</div>
+<div class="a"><b>Interactable</b>：是否可以交互（Click）。<b>Transition</b>：按钮按下等状态，<b>Color Tint</b> 多颜色覆盖、<b>Sprite Swap</b> 多图片、<b>Animation</b> 动画。<br>
+<b>事件处理</b>：① 将含<b>公有方法</b>的脚本添加到游戏对象 A 上；② 选择按钮，编辑 <b>OnClick</b>；③ 选择对象 A → 选择脚本中的处理方法。</div>
+</div>
+
+<div class="card hot">
+<div class="q">76. 锚点（Anchor）与中心点（Pivot）分别是什么？<span class="tag hot">高频</span></div>
+<div class="a"><b>锚点</b>：是相对于<b>父容器</b>的一种<b>相对定位技术</b>，是<b>屏幕自适应</b>的一种解决方案（<b>雪花符号</b>）。<br>
+<b>中心点 Pivot</b>：是<b>控件本身进行各种旋转的位置依据</b>（<b>蓝色圆点</b>）。修改方式：选中控件 → 选二维缩放工具 → 设置 Pivot，直接拖拽蓝色圆点（X、Y 值代表两个方向的比例）。<br>
+<b>Rect Transform</b>：用于 UI 空间的变换。</div>
+</div>
+
+<div class="card">
+<div class="q">77. Slider 与 Toggle 怎么取值和做单选？</div>
+<div class="a"><b>Slider</b>：<b>Value</b> 属性；<b>OnValueChanged</b> 事件（处理函数带 <b>float 参数</b>表示 Value）；<b>删除 Handle 后可以制作血条</b>。<br>
+<b>Toggle</b>：<b>Is On</b> 属性表示是否选中；<b>Group</b> 属性做单选——<b>创建空对象 G，为其添加 Toggle Group 组件，把多个 Toggle 的 Group 属性设为 G</b>。<br>
+取值：<code>GameObject.Find("Slider1").GetComponent&lt;Slider&gt;().value = 0.5f;</code></div>
+</div>
+
+<h2>附一、今天错过的 12 个点（考前优先过）</h2>
+<table>
+<thead><tr><th class="c">#</th><th>知识点</th><th class="c">章</th><th>当时的错法</th></tr></thead>
+<tbody>
+<tr><td class="c">1</td><td><b>叉乘公式与法线</b></td><td class="c">4</td><td class="bad">完全不会</td></tr>
+<tr><td class="c">2</td><td><b>碰撞必要条件（两层）</b></td><td class="c">5</td><td class="bad">只答第一层</td></tr>
+<tr><td class="c">3</td><td><b>Collision 与 Trigger 区别</b></td><td class="c">5</td><td class="bad">一条都说不出</td></tr>
+<tr><td class="c">4</td><td>magnitude / sqrMagnitude</td><td class="c">4</td><td>只答"开不开方"，漏"何时必须用"</td></tr>
+<tr><td class="c">5</td><td>点乘判方位</td><td class="c">4</td><td>结论对，<b>过程没写</b></td></tr>
+<tr><td class="c">6</td><td>Mesh Filter / Renderer 删除后果</td><td class="c">4</td><td>答不出</td></tr>
+<tr><td class="c">7</td><td>纹理 / 贴图 / 材质</td><td class="c">4</td><td>层次对，<b>功能说明全缺</b></td></tr>
+<tr><td class="c">8</td><td>Quaternion.LookRotation / Slerp</td><td class="c">4</td><td class="bad">填空写错</td></tr>
+<tr><td class="c">9</td><td>四种光源 + Area 限制</td><td class="c">3</td><td>当时没答</td></tr>
+<tr><td class="c">10</td><td>生命周期顺序 + Awake/Start</td><td class="c">2</td><td>当时没答</td></tr>
+<tr><td class="c">11</td><td>触发器填空填 <code>tag</code></td><td class="c">5</td><td class="bad">填了 gameObject</td></tr>
+<tr><td class="c">12</td><td><code>Is Kinematic</code> 的方向</td><td class="c">5</td><td class="bad">想成"要被推动"</td></tr>
+</tbody>
+</table>
+
+<h2>附二、必须能默写的 43 个拼写</h2>
+<pre><code>GetComponent    AddComponent    Instantiate     Destroy
+Translate       Rotate          RotateAround    LookAt
+StartCoroutine  StopCoroutine   InvokeRepeating CancelInvoke
+LoadScene       DontDestroyOnLoad   SetActive    FindGameObjectsWithTag
+
+Vector3.Dot     Vector3.Cross   Vector3.Lerp    Vector3.Angle
+Vector3.Normalize               TransformDirection
+InverseTransformDirection
+Quaternion.Euler    Quaternion.LookRotation
+Quaternion.Slerp    Quaternion.identity
+
+Rigidbody       isKinematic     AddForce        AddTorque
+OnCollisionEnter(Collision)     OnTriggerEnter(Collider)
+OnCollisionEnter2D(Collider2D)  OnTriggerEnter2D(Collider2D)
+sqrMagnitude    Constraints     Physic Material  Bouncyness
+DecompressOnLoad   CompressedInMemory   StreamFromDisc
+RenderSettings.skybox</code></pre>
+
+<h2>附三、最后 3 小时只看这 15 条</h2>
+<ol>
+<li><b>游戏定义</b>：直接获得快感（生理 + 心理）+ 主体参与互动（动作/语言/表情 + 刺激方式和程度）。</li>
+<li><b>游戏引擎</b>：已编写好的可编辑游戏系统 / 核心组件；技术栈 Game → Engine → SDK → DirectX/OpenGL → GPU。</li>
+<li><b>三种管线</b>：Built-in 低端原型 / URP 跨平台 / HDRP 3A 高清。</li>
+<li><b>生命周期</b>：Reset → Awake → OnEnable → Start → FixedUpdate → Update → LateUpdate → OnGUI → OnDisable → OnDestroy。</li>
+<li><b>LateUpdate 的原因</b>：Update 顺序不可控，跟随者要等所有 Update 执行完再动，否则抖动。<b>（但实验二代码写的是 Update——填空按原文，问原理才答 LateUpdate）</b></li>
+<li><b>协程</b>：不是线程；解决多帧协调；yield return 的值决定何时恢复。</li>
+<li><b>天空盒三种</b>：加相机组件 / RenderSettings.skybox（不能加组件）/ GetComponent&lt;Skybox&gt;.material（必须加组件）。</li>
+<li><b>四种光源</b>：Directional 太阳 / Point 灯泡 / Spot 手电 / Area 面光，<b>Area 不能实时、只烘焙、物体必须静态</b>。</li>
+<li><b>Bias</b>：0~0.5；过小 self-shadow，过大阴影偏离物体。</li>
+<li><b>叉乘</b>：(y1z2−z1y2, <b>z1x2−x1z2</b>, x1y2−y1x2)；反交换律；求平面法线。</li>
+<li><b>纹理 ⊂ 贴图 ⊂ 材质</b>：纹理是数据，贴图是映射（UV），材质是数据集给渲染器用。</li>
+<li><b>碰撞两层</b>：检测 = 一个刚体 + 一个碰撞体；力作用 = 两个都刚体。</li>
+<li><b>Collision vs Trigger</b>：Is Trigger 决定进哪个回调；发起方要有刚体；参数 Collision / Collider；阻挡 / 穿过。</li>
+<li><b>物理材质是资源不是组件</b>，赋给碰撞体的 Material 属性。</li>
+<li><b>五种关节</b>：Hinge 门 / Spring 松链接 / Fixed 附着 / Character 布娃娃 / Configurable 自定义。</li>
+</ol>
+
+</main>
+
+<script>
+document.querySelectorAll('.a').forEach(function(el){
+  el.addEventListener('click', function(){ el.classList.toggle('hide'); });
+});
+document.getElementById('allHide').addEventListener('click', function(){
+  document.querySelectorAll('.a').forEach(function(el){ el.classList.add('hide'); });
+});
+document.getElementById('allShow').addEventListener('click', function(){
+  document.querySelectorAll('.a').forEach(function(el){ el.classList.remove('hide'); });
+});
+</script>
+</body>
+</html>
