@@ -1,0 +1,236 @@
+数媒 24-1 · 第七组 · 虚数星区（Imaginary Sector）
+《游戏开发技术》课程设计 —— 赛博朋克风太空射击游戏
+
+这份文件记录工程里每一张图片的来源与授权，以及哪些"看起来像贴图"的东西其实
+是代码画出来的。核对方式：所有路径都相对于 Assets/_Project/。
+
+
+============================  总览  ============================
+
+工程里一共 15 张贴图，分两类来源：
+
+  第三方 CC0 素材 ..... 9 张（Kenney 6 + Rawdanitsu 3）
+  自己绘制 ........... 6 张（Python + Pillow 离屏渲染）
+
+另有大量素材不落地为文件，由 C# 在运行时生成——战机、陨石、全部界面底板、
+全部音效、字体都在这一类，见第 3 节。这一节是重点，因为最容易误以为"也下载了"。
+
+音频：工程里只有 1 个音频文件 bgm_main.ogg（第三方 CC0，见第一节第 3 条）。
+音效仍然是代码合成的，没有一个 wav/mp3。工程里没有任何 ttf / otf。
+
+
+============================  一、第三方素材  ============================
+
+授权均为 CC0 1.0 Universal（公有领域贡献）。CC0 的含义见第 4 节。
+
+--------------------------------------------------------------------------
+1. Space Shooter Redux
+   作者：Kenney Vleugels（www.kenney.nl）
+   授权：CC0 1.0
+   来源：GitHub 镜像的 SpaceShooterRedux.zip（官网当时那条页面 404）
+
+   使用的 3 张，以及各自在原包里的文件名：
+
+   Resources/Sprites/enemy_rusher.png   <- PNG/Enemies/enemyRed1.png
+       冲锋型敌机。红色小机身，直线下压，负责逼玩家横向移动。
+
+   Resources/Sprites/enemy_turret.png   <- PNG/Enemies/enemyBlack2.png
+       炮台型敌机。深色方机身，停在原地放子弹，负责封走位。
+
+   Resources/Sprites/player_ship.png    <- PNG/playerShip2_blue.png
+       只在编辑模式的预览层里当占位图用，运行时一张都不加载。
+       原因是战机已经改成代码绘制（见第 3 节第 1 条）。
+
+   更正记录（2026-11-13）：这里原来还列了 bullet_laser / bullet_spread /
+   bullet_enemy 三张，署名为 Kenney 的 laserBlue01 / laserGreen01 / laserRed09。
+   核对后三张都不是 Kenney 的图：尺寸 14×64、30×68、44×44，而且都带
+   「白热核 + 彩色包络」结构，和原包那几条细线激光对不上，实际是自己画的
+   （见第 2 节）。三条署名已删除。
+
+--------------------------------------------------------------------------
+2. Space Backgrounds
+   作者：Rawdanitsu
+   授权：CC0 1.0
+   来源：OpenGameArt
+
+   使用的 3 张：
+
+   Resources/Sprites/bg_nebula_01.png
+   Resources/Sprites/bg_nebula_02.png
+   Resources/Sprites/bg_nebula_03.png
+       三张 1600×900 星云照片，对应三个星区的天幕。
+       由 FX/Starfield.cs 按关卡序号轮换（取图那行是
+       ArtLibrary.Get("bg_nebula_0" + (index + 1))，所以文件名不能改）。
+
+       原图尺寸不统一，用过一次离线处理：16:9 居中裁切 + 压暗 + 四边渐隐。
+       处理脚本在工程外的 _tools/gen_bg_set.py。
+
+       照片本身已经带行星和云气，所以取到照片时**不再叠程序化行星和薄雾**，
+       否则两套景深打架、画面又脏又分不清层次。这一条写在 Starfield.cs 的注释里。
+
+
+--------------------------------------------------------------------------
+3. Space Music: Out There（背景音乐）
+   作者：yd（OpenGameArt 用户名）
+   授权：CC0 1.0
+   来源：https://opengameart.org/content/space-music-out-there
+   原文件：OutThere.ogg（3.9 MB / 242 秒 / 44.1 kHz 立体声）
+
+   Audio/bgm_main.ogg
+       背景音乐，原样使用，未做剪辑、变速或调音。
+
+       导入设置：Load Type = Streaming（流式），Compression = Vorbis，
+       质量 0.7 —— 4 分钟的曲子按流式加载，常驻内存只有几十 KB，
+       不会像 DecompressOnLoad 那样在内存里展开成 40 MB 的 PCM。
+
+       挂载方式：场景 Game.unity 里的 BGM 节点。AudioSource 组件的
+       AudioClip 直接指向这个文件，Loop 打勾、Play On Awake 取消，
+       由 AudioManager 在设完音量后调 Play()。换曲子只要把另一个 ogg
+       拖进这个槽，不用改一行代码。
+
+       原来的 BGM 是 SfxSynth.Music() 合成的（110 BPM 方波琶音 + 底鼓），
+       改成音乐文件后那段合成代码已删除；七个音效仍是合成的。
+
+
+============================  二、自己绘制的贴图  ============================
+
+9 张，全部自己画，没有第三方来源。生成脚本放在工程外 _tools/ 下，
+不随 Unity 工程提交——进版本库的是结果图，不是生成器。
+
+  Resources/Sprites/bullet_laser.png   14×64
+      玩家激光弹：白热核 + 青色包络的胶囊。竖着画（v=+1 是弹头），运行时靠
+      transform.rotation 转到飞行方向。生成脚本 _tools/gen_bullets.py，
+      4 倍超采样后降采样，避免程序化边缘出现锯齿。
+
+  Resources/Sprites/bullet_spread.png  30×68
+      玩家双轨机炮弹：直线锥弹头 + 等宽弹体 + 压暗的弹壳段 + 底缘亮线。
+      和 Core/SpriteFactory.cs 的 BulletStream() 是同一套分段参数
+      （shoulder 0.30 / tip 0.96 / caseTop −0.35 / caseBottom −0.78 / baseY −0.95），
+      这张图就是它的离屏导出——所以运行时贴图丢失也不怕，代码能现算一张同款。
+
+      2026-11-13 改色：绿色 → 金 / 琥珀。改的原因不是好看不好看：
+      绿色在游戏语义里容易被读成「治疗 / 回复」，叠加敌人那套橙红弹之后，
+      高速交叉时玩家第一反应是「这颗是谁打的」。现在三色分工是
+      玩家光束=青、玩家机炮=金、敌人=暗橙红，色相和明度都拉开。
+      改色脚本 _tools/recolor_bullet.py：只做「亮度 → 色带」映射，
+      不动形状、不动 alpha、不动尺寸（重跑 gen_bullets.py 会把它缩成 24×34，
+      体积会跟着变）。原图备份在 _tools/_backup_bulletcolor_20261113/。
+
+  Resources/Sprites/bullet_enemy.png   44×44
+      敌方能量弹：白热核心 + 亮边 + 六瓣短尖刺 + 外围柔光。
+      尖刺负责辨识度（四向十字在 26px 下会被读成 UI 加号），光晕负责在暗背景上发亮。
+
+  Resources/Sprites/bg_planet.png     512×512
+      远景行星：球面光照 + 气态条带 + 边缘光。
+      用处：编辑模式预览层的行星节点。运行时改用 FX/BackdropArt.cs 的
+      Planet() 现算，两者视觉一致。
+
+  Resources/Sprites/bg_title.png      1920×1080
+      标题屏的关键帧：一架战机 + 一颗紫行星的构图。
+      从游戏实机画面截取后裁切，非第三方素材。
+      用处：UI/TitleScreen.cs 的背景，以及预览层的 backdrop 节点。
+
+  Resources/Sprites/enemy_boss.png    512×512
+      Boss「守卫者」主体贴图：深色装甲 + 霓虹描边 + 发光核心。
+      尺寸约定：512px、PPU=512，贴图在世界里恒为 1 单位高；
+      屏幕上的最终大小交给 transform 的 2.6 倍，约 240px。
+
+      一处修正：前一版直接放 Kenney 的 enemyBlack4.png（82×84），但 Boss 要
+      放大 2.6 倍显示成 213×218，等于把小图硬拉，边缘发糊。这张是重画的，
+      和 Kenney 素材包没有衍生关系，不占第三方授权。
+
+  Resources/Sprites/enemy_seeker.png  112×320
+      追踪型敌人的贴图，竖向长条导弹形。敌人图鉴里也用同一张
+      （映射写在 Core/ArtLibrary.cs 的 EnemySpriteName 里，只此一份）。
+
+  Resources/Sprites/fx_star.png       128×128
+      星点。三层视差星点、流星、预览层的 56 个星尘全部取这一张。
+
+  Resources/Sprites/ui_logo.png       1174×354
+      中文标题字标「虚数星区」。出处是小组自己的标题设计稿。
+
+      抠字形的大致做法（留给以后复用）：按亮度把字形从设计稿里分离出来 →
+      形态学开运算去掉环绕的霓虹星环 → 连通域筛选留下笔画 → 补一层薄辉光。
+      所以背景是透明的，能直接叠在运行时的星空上。
+
+      它不是贴一整张设计稿，那样会把设计稿里的深色底一起带进来，
+      既压住背景又盖住文字。
+
+
+============================  三、代码运行时生成的  ============================
+
+下面这些"看起来像贴图"的东西，工程里一张文件都没有，全是 C# 算出来的。
+
+  1. 战机本体 —— Core/ShipArt.cs
+     512×512 逐像素生成：多边形剪影 + SDF 倒角光照 + 显式刻线 / 座舱 / 喷口
+     + 机身到翼展的双色调渐变。首次 Get() 时才画，按 callsign 缓存。
+
+     所以 player_ship.png 运行时不参与渲染，只有编辑模式预览层拿它占位。
+     想换战机外观改这个文件，不是换图。
+
+  2. 陨石 —— Core/SpriteFactory.cs 的 Meteor()
+     8 种轮廓随机取一个，对象池里 8 个实例同屏也不会撞脸，再叠上出生时的
+     随机旋转角度。
+
+  3. 全部界面底板 —— UI/UISprites.cs
+     45° 切角九宫格（这套界面的核心形状语言：科幻界面没有真正的圆角，转角都被削掉）、
+     同形状的描边环、竖向渐变、可平铺网格、危险斜纹。
+     全部是白色蒙版，靠 Image.color 染色，一次生成永久缓存。
+     工程里没有一张按钮图或面板底图。
+
+  4. 光效 —— Core/SpriteFactory.cs
+     辉光、星云、粒子贴图、引擎尾焰。
+
+  5. 音效 —— Core/SfxSynth.cs
+     振荡器 + 噪声合成，每个方法返回一个 AudioClip，共 7 个。
+     所以音效没有任何音频文件，也不存在授权问题。
+     （BGM 不在此列，它是一张真实的音乐文件 ogg，见第一节第 3 条。）
+
+  6. 中文字体 —— UI/UIFactory.cs
+     用 Font.CreateDynamicFontFromOSFont 读系统字体。
+     工程里 0 个字体文件，不涉及字体授权。
+
+  7. 天幕后备 —— FX/BackdropArt.cs
+     星云照片缺失或导入设置坏掉时，回退到程序化渐变天幕 + 程序化行星，
+     保证单张图丢失只是那一关变回渐变，而不是整片黑屏。
+     把 Starfield 里的 UsePhotoBackdrop 置 false，可以整体切回纯程序化天幕。
+
+
+============================  四、授权说明  ============================
+
+CC0 = Creative Commons Zero。作者主动放弃全部著作权，作品进入公有领域。
+
+  · 允许商用、允许修改、允许再分发。
+  · 不强制署名——本项目仍然注明出处，是对原作者的尊重。
+  · 基于 CC0 作品改出来的版本（调色、裁切、重绘）不受原授权约束，
+    因为原作已经不再保留权利。本项目仍把它记在来源里，方便回溯。
+
+三张星云照片和 Kenney 的素材包，在 OpenGameArt / Kenney 官网上的 License 字段
+都是 CC0。注意它和网上常见的 CC-BY（要求署名）、CC-BY-NC（禁止商用）是两回事。
+
+
+============================  五、变更记录  ============================
+
+2026-11-13（晚）
+    新增 Audio/bgm_main.ogg（CC0，Out There / yd），BGM 从"代码合成"改为
+    "音乐文件 + 场景 BGM 节点挂载"。同时删掉 Core/SfxSynth.cs 里的 Music()
+    方法（45 行）；音效不受影响，仍为合成。
+
+2026-11-13
+    清理 12 张零引用贴图，工程从 27 张减到 15 张。
+    删除清单：bg_menu、bg_nebula_04、bg_space、star、enemy_tracker、
+              ship_02、ship_03、ship_04、ui_scanlines、ui_title_overlay、
+              ui_title_scrim、ui_vignette。
+
+    原因分别是：
+      · ship_02/03/04  —— 战机改为代码绘制、且只保留一架「重锤」，四张船图都不再需要
+      · enemy_tracker  —— 追踪型敌人用的是 enemy_seeker，这张是早期取错的 key
+      · bg_menu        —— 主菜单改用程序化天幕（BackdropArt.Sky），不再用整张照片
+      · bg_nebula_04   —— 第 4 张星云处理出来后没有排进关卡，也不必留在包里
+      · bg_space/star  —— 早期底图和星点的备用图，已被 bg_nebula 与 fx_star 取代
+      · ui_scanlines / ui_vignette / ui_title_scrim / ui_title_overlay
+                       —— 标题屏改版后不再引用，界面质感改由 UISprites 现算
+
+    核对方式：逐张读 .png.meta 里的 guid，在 Assets 下所有 .unity / .asset / .mat /
+    .prefab 里搜引用次数，再在全部 .cs 里搜文件名字符串，两项都是 0 才删。
+    删除前的原件备份在工程外 _tools/_backup_arts_20261113/。
